@@ -16,7 +16,7 @@ class MinifotbalQuery extends ATxtQuery
 
     public function resolveFiles(){
         foreach($this->files as $file){
-            $this
+            //$this
         }
     }
 
@@ -31,5 +31,10 @@ class MinifotbalQuery extends ATxtQuery
     public function delete()
     {
         // TODO: Implement delete() method.
+    }
+
+    public function loadFormFile()
+    {
+        // TODO: Implement loadFormFile() method.
     }
 }

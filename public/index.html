@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="assets/libs/angular-material/angular-material.css">
+        <link rel="stylesheet" href="css/style.css">
+        <title>Grafica MdSport</title>
+    </head>
+    <body ng-app="startPage" ng-cloak>
+        <div ng-controller="StartPageController as startCtrl" layout layout-align="center center">
+            <md-content class="content" flex="50">
+                <div layout layout-wrap layout-align="space-around center">
+                    <md-card ng-repeat="match in startCtrl.matches" class="match-box">
+                        <img ng-src="/img/{{match}}-{{startCtrl.image()}}.jpg" class="md-card-image" alt="{{match}}">
+                        <md-card-title>
+                            <md-card-title-text>
+                                <span class="md-headline">{{match | ucfirst}}</span>
+                            </md-card-title-text>
+                        </md-card-title>
+                    </md-card>
+                </div>
+            </md-content>
+        </div>
+
+        <script src="assets/libs/angular/angular.js"></script>
+        <script src="assets/libs/angular-animate/angular-animate.js"></script>
+        <script src="assets/libs/angular-aria/angular-aria.js"></script>
+        <script src="assets/libs/angular-messages/angular-messages.js"></script>
+        <script src="assets/libs/angular-material/angular-material.js"></script>
+        <script src="js/app.js"></script>
+    </body>
+</html>

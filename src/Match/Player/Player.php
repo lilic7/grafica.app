@@ -37,7 +37,6 @@ class Player
         return preg_match($pattern, $this->number);
     }
 
-
     public function getName(){
         return $this->name;
     }
@@ -53,5 +52,9 @@ class Player
     public function getFullPlayer(){
         $space = $this->number < 10 ? "  " : " ";
         return ($this->number ? $this->number.$space : "").$this->name;
+    }
+
+    public function changeWith(Player $player){
+
     }
 }
