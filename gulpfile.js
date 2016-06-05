@@ -30,7 +30,8 @@ gulp.task('browserSync', ['sass', 'js'], function(){
 gulp.task('coffee', function(){
     return gulp.src(['coffee/*.coffee', 'coffee/**/*.coffee'])
         .pipe(coffee({bare: true}).on('error', gutil.log))
-        .pipe(gulp.dest('scripts'));
+        .pipe(gulp.dest('scripts'))
+        .pipe(browserSync.stream());
 });
 
 gulp.task('js', ['coffee'], function() {
