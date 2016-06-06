@@ -1,0 +1,16 @@
+<div layout layout-align="center center">
+    <md-content class="content" flex="80">
+        <div layout layout-wrap layout-align="space-around center">
+            <a ng-repeat="match in homeCtrl.matches" href="/match/{{match}}" class="match-box">
+                <md-card>
+                    <img ng-src="/img/{{match}}-1.jpg" class="md-card-image" alt="{{match}}">
+                    <md-card-title>
+                        <md-card-title-text>
+                            <span class="md-headline">{{match | ucfirst}}</span>
+                        </md-card-title-text>
+                    </md-card-title>
+                </md-card>
+            </a>
+        </div>
+    </md-content>
+</div>

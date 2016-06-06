@@ -8,40 +8,41 @@ var browserSync = require('browser-sync').create();
 
 gulp.task('default', ['browserSync']);
 
-gulp.task('browserSync', ['sass', 'js'], function(){
+gulp.task('browserSync', ['sass', 'js', 'appHtml'], function(){
     browserSync.init(null, {
         proxy: 'grafica.app',
         files: [
-            'public/*.php',
-            'public/**/*.php',
             'public/*.html',
             'public/**/*.html'
         ],
         port: 7000
     });
 
-    gulp.watch("coffee/*.coffee", ['js']).on('error', gutil.log);
-    gulp.watch("coffee/**/*.coffee", ['js']).on('error', gutil.log);
+    gulp.watch("app/*.coffee", ['js']).on('error', gutil.log);
+    gulp.watch("app/**/*.coffee", ['js']).on('error', gutil.log);
+    gulp.watch("app/**/*.html", ['appHtml']);
     gulp.watch("sass/*.sass", ['sass']);
     gulp.watch("public/js/*.js").on('change', browserSync.reload);
 });
 
+gulp.task('appHtml', function () {
+    return gulp.src(['app/**/*.html'])
+        .pipe(gulp.dest('public/app'));
+});
 
 gulp.task('coffee', function(){
-    return gulp.src(['coffee/*.coffee', 'coffee/**/*.coffee'])
+    return gulp.src(['app/*.coffee', 'app/**/*.coffee'])
         .pipe(coffee({bare: true}).on('error', gutil.log))
-        .pipe(gulp.dest('scripts'))
-        .pipe(browserSync.stream());
+        .pipe(gulp.dest('public/app'));
 });
 
 gulp.task('js', ['coffee'], function() {
-    return gulp.src(['scripts/*.js', 'scripts/**/*.js'])
+    return gulp.src(['public/app/*.js', 'public/app/**/*.js'])
         .pipe(ngAnnotate())
         .pipe(concat('app.js'))
         .pipe(gulp.dest('public/js'))
         .pipe(browserSync.stream());
 });
-
 
 gulp.task('sass', function(){
     return gulp.src('sass/*.sass')

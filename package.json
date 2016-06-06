@@ -5,9 +5,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Lilic",
   "license": "ISC",
-  "description": "",
+  "description": "Grafica app for Moldova Sport",
   "devDependencies": {
     "browser-sync": "^2.12.10",
     "gulp": "^3.9.1",
