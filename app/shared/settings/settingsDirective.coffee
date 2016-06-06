@@ -1,6 +1,6 @@
 angular.module "settings.directive", ['settings.controller']
 
-.directive "matchSettings", ()->
+.directive "settings", ()->
   {
     restrict: "E",
     templateUrl: "app/shared/settings/settingsView.html",

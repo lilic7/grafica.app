@@ -1,4 +1,4 @@
-angular.module("settings.directive", ['settings.controller']).directive("matchSettings", function() {
+angular.module("settings.directive", ['settings.controller']).directive("settings", function() {
   return {
     restrict: "E",
     templateUrl: "app/shared/settings/settingsView.html",

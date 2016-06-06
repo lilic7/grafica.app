@@ -1,0 +1,34 @@
+<div flex="60" layout="column">
+    <div layout layout-align="center center">
+        <div flex="20">
+            <md-button class="md-raised md-warn" ng-click="timerCtrl.timer.resetTimer(); timerCtrl.repriza = 1">Reset timer</md-button>
+        </div>
+    </div>
+</div>
+<div>
+    <div>
+        <div>
+            <md-button ng-click="timerCtrl.setRepriza(1)" class="md-raised md-primary">Repr.1</md-button>
+            <md-button  ng-click="timerCtrl.setRepriza(2)" class="md-raised md-primary">Repr.2</md-button>
+        </div>
+    </div>
+</div>
+<div layout="column">
+    <div layout layout-align="center center" flex="50">
+        <div flex="10">
+            <md-button ng-click="timerCtrl.timer.startTimer()" ng-disabled="timerCtrl.timer.timerIsRunning" class="md-raised md-primary">Start</md-button>
+        </div>
+        <div flex="25">
+            {{timerCtrl.timer.time}} ({{timerCtrl.timer.markMinute}}) <span>Repriza {{timerCtrl.repriza}}</span>
+        </div>
+        <div flex="10">
+            <md-button ng-click="timerCtrl.timer.stopTimer()" ng-disabled="!timerCtrl.timer.timerIsRunning" class="md-raised md-primary">Stop</md-button>
+        </div>
+    </div>
+    <div layout="column"><span>Adauga minute</span>
+        <md-slider-container ng-disabled="timerCtrl.sliderDisabled">
+            <md-slider md-discrete min="0" max="{{timerCtrl.durataRepriza}}" ng-readonly="readonly"></md-slider>
+        </md-slider-container>
+        <md-checkbox ng-model="timerCtrl.sliderDisabled">Blocheaza</md-checkbox>
+    </div>
+</div>

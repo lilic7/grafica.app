@@ -1,7 +1,28 @@
-<div layout="column">
-    <div>
-        <md-checkbox ng-model="settingsCtrl.settings.rezerve" aria-label="Rezerve">
-            Foloseste rezerve
-        </md-checkbox>
+<div layout>
+    <div flex="50">
+        <fieldset class="standard"
+        <legend>Fotbal</legend>
+        <div>
+            <md-checkbox ng-model="settingsCtrl.settings.rezerve" aria-label="Rezerve">
+                Foloseste rezerve
+            </md-checkbox>
+        </div>
+        <div>
+            <md-checkbox aria-label="Offside-uri">
+                Offside-uri
+            </md-checkbox>
+        </div>
+        <div>
+            <md-checkbox aria-label="Cornere">
+                Cornere
+            </md-checkbox>
+        </div>
+        <div>
+            <md-input-container>
+                <label>Durata repriza</label>
+                <input ng-model="timerCtrl.durataRepriza">
+            </md-input-container>
+        </div>
+        </fieldset>
     </div>
 </div>
