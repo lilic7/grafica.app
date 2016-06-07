@@ -1,37 +1,41 @@
 angular.module("timer.service", []).factory('TimerService', function($interval) {
-  var factory, setMarkMinute, timer;
+  var factory, setMarkMinute, startTime, timer, totalSeconds;
+  startTime = 15;
+  totalSeconds = 10;
   factory = {};
-  factory.totalSeconds = 10;
   factory.time = "00:10";
   factory.markMinute = "00";
-  factory.suplimentarTime = 0;
   factory.timerIsRunning = false;
   factory.changeTotalSeconds = function(minutes) {
-    factory.totalSeconds = minutes * 60 + 5;
+    totalSeconds = minutes * 60 + startTime;
     factory.calculateTime();
   };
   factory.resetTimer = function() {
-    factory.totalSeconds = 5;
+    totalSeconds = startTime;
+    factory.calculateTime();
+  };
+  factory.modifyMinutes = function(minutes) {
+    totalSeconds = minutes * 60;
     factory.calculateTime();
   };
   factory.addMinutes = function(minutes) {
-    factory.totalSeconds += 60 * minutes;
+    totalSeconds += 60 * minutes;
     factory.calculateTime();
   };
   factory.subMinutes = function(minutes) {
     var seconds;
     seconds = minutes * 60;
-    if (factory.totalSeconds > seconds) {
-      factory.totalSeconds -= seconds;
+    if (totalSeconds > seconds) {
+      totalSeconds -= seconds;
       return factory.calculateTime();
     }
   };
   factory.calculateTime = function() {
     var hour, minute, seconds;
-    hour = Math.floor(factory.totalSeconds / 3600);
-    minute = Math.floor((factory.totalSeconds - hour * 3600) / 60);
-    seconds = factory.totalSeconds - (hour * 3600 + minute * 60);
-    factory.markMinute = setMarkMinute(factory.totalSeconds);
+    hour = Math.floor(totalSeconds / 3600);
+    minute = Math.floor((totalSeconds - hour * 3600) / 60);
+    seconds = totalSeconds - (hour * 3600 + minute * 60);
+    factory.markMinute = setMarkMinute(totalSeconds);
     factory.time = (hour > 0 ? hour + ":" : "") + (minute < 10 ? '0' + minute : minute) + ":" + (seconds < 10 ? '0' + seconds : seconds);
   };
   factory.startTimer = function() {
@@ -44,7 +48,7 @@ angular.module("timer.service", []).factory('TimerService', function($interval) 
     factory.timerIsRunning = false;
   };
   timer = function() {
-    ++factory.totalSeconds;
+    ++totalSeconds;
     factory.calculateTime();
     factory.timerIsRunning = true;
   };
