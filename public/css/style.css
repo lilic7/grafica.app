@@ -19,3 +19,38 @@ body {
 .flex-b {
   background-color: lightgreen;
   height: 350px; }
+
+.startTimer {
+  background-color: forestgreen !important; }
+
+.stopTimer {
+  background-color: red !important; }
+
+.group_button {
+  margin: 5px 0;
+  color: #312e2e;
+  background-color: rgba(224, 224, 224, 0.96);
+  text-transform: none;
+  font-weight: 400;
+  min-width: 100px; }
+
+.md-button.left {
+  border-radius: 10px 0 0 10px; }
+
+.md-button.right {
+  border-radius: 0 10px 10px 0; }
+
+.md-button.middle {
+  border-radius: 0; }
+
+.padded {
+  background: #F2FCE2;
+  margin: 5px 0;
+  padding: 5px;
+  height: 35px;
+  min-width: 100px;
+  text-transform: uppercase; }
+  .padded.left {
+    border-radius: 10px 0 0 10px; }
+  .padded.right {
+    border-radius: 0 10px 10px 0; }
