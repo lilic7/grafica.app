@@ -1,8 +1,9 @@
-angular.module "match.controller", ['teamInfo.directive', 'settings.directive', 'game.directive']
+angular.module "match.controller", ['team.directive', 'game.directive', 'settings.directive']
 
 .controller 'MatchController', ($routeParams)->
   vm = this
   vm.matchType = $routeParams.matchType
-  vm.team1 = {name: "The team 1"}
-  vm.team2 = {name: "The team 2"}
+  vm.team1 = {name: "Stanga"}
+  vm.team2 = {name: "Dreapta"}
+
   return

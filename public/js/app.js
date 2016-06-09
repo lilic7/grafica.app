@@ -25,28 +25,29 @@ angular.module("ucfirstFilter", []).filter('ucfirst', function() {
   };
 });
 
+angular.module("match.controller", ['team.directive', 'game.directive', 'settings.directive']).controller('MatchController', ["$routeParams", function($routeParams) {
+  var vm;
+  vm = this;
+  vm.matchType = $routeParams.matchType;
+  vm.team1 = {
+    name: "Stanga"
+  };
+  vm.team2 = {
+    name: "Dreapta"
+  };
+}]);
+
 angular.module("home.controller", []).controller("HomeController", function() {
   var vm;
   vm = this;
   vm.matches = ['minifotbal', 'fotbal', 'futsal', 'handbal', 'baschet', 'volei', 'tenis'];
 });
 
-angular.module("match.controller", ['teamInfo.directive', 'settings.directive', 'game.directive']).controller('MatchController', ["$routeParams", function($routeParams) {
+angular.module("game.controller", ['game.service']).controller("GameController", ["GameService", function(GameService) {
   var vm;
   vm = this;
-  vm.matchType = $routeParams.matchType;
-  vm.team1 = {
-    name: "The team 1"
-  };
-  vm.team2 = {
-    name: "The team 2"
-  };
+  vm.gameService = GameService;
 }]);
-
-angular.module("game.controller", []).controller("GameController", function() {
-  var vm;
-  return vm = this;
-});
 
 angular.module("game.directive", ['game.controller', 'timer.directive']).directive("game", function() {
   return {
@@ -57,10 +58,24 @@ angular.module("game.directive", ['game.controller', 'timer.directive']).directi
   };
 });
 
-angular.module("settings.controller", ['settings.service']).controller("SettingsController", ["SettingsFactory", function(SettingsFactory) {
+angular.module("game.service", []).factory("GameService", function() {
+  var factory, penalty, score;
+  factory = {};
+  score = "0 : 0";
+  penalty = "0 : 01";
+  factory.getScore = function() {
+    return score;
+  };
+  factory.getPenaltyScore = function() {
+    return penalty;
+  };
+  return factory;
+});
+
+angular.module("settings.controller", ['settings.service']).controller("SettingsController", ["SettingsService", function(SettingsService) {
   var vm;
   vm = this;
-  vm.settings = SettingsFactory;
+  vm.settingsService = SettingsService;
 }]);
 
 angular.module("settings.directive", ['settings.controller']).directive("settings", function() {
@@ -72,29 +87,37 @@ angular.module("settings.directive", ['settings.controller']).directive("setting
   };
 });
 
-angular.module("settings.service", []).factory("SettingsFactory", function() {
+angular.module("settings.service", []).factory("SettingsService", function() {
   var settings;
   settings = {};
   settings.rezerve = true;
   return settings;
 });
 
-angular.module("teamInfo.controller", ['settings.service']).controller("TeamInfoController", ["SettingsFactory", function(SettingsFactory) {
+angular.module("team.controller", ['settings.service', 'team.service']).controller("TeamController", ["SettingsService", "TeamService", function(SettingsService, TeamService) {
   var vm;
   vm = this;
-  vm.settings = SettingsFactory;
+  vm.settingsService = SettingsService;
+  vm.teamService = TeamService;
 }]);
 
-angular.module("teamInfo.directive", ['teamInfo.controller']).directive("teamInfo", function() {
+angular.module("team.directive", ['team.controller']).directive("team", function() {
   return {
     restrict: "E",
     scope: {
       team: "="
     },
-    templateUrl: "app/shared/teamInfo/teamInfoView.html",
-    controller: "TeamInfoController",
-    controllerAs: "teamInfoCtrl"
+    templateUrl: "app/shared/team/teamView.html",
+    controller: "TeamController",
+    controllerAs: "teamCtrl"
   };
+});
+
+angular.module("team.service", []).factory("TeamService", function() {
+  var factory;
+  factory = {};
+  factory.teams = [];
+  return factory;
 });
 
 angular.module("timer.controller", ['timer.service']).controller("TimerController", ["TimerService", function(TimerService) {
@@ -103,12 +126,8 @@ angular.module("timer.controller", ['timer.service']).controller("TimerControlle
   vm.repriza = 1;
   vm.durataRepriza = 45;
   vm.timerService = TimerService;
-  vm.reset = function() {
-    vm.timerService.reset();
-    vm.repriza = 1;
-  };
   vm.setRepriza = function(repriza) {
-    vm.timerService.changeTotalSeconds((repriza - 1) * vm.durataRepriza);
+    TimerService.modify((repriza - 1) * vm.durataRepriza);
     vm.repriza = repriza;
   };
 }]);
@@ -123,13 +142,14 @@ angular.module("timer.directive", ['timer.controller']).directive("timer", funct
 });
 
 angular.module("timer.service", []).factory('TimerService', ["$interval", function($interval) {
-  var calculateMinutes, calculateTime, factory, playMinutes, startTime, time, timer, timerIsRunning, totalMinutes, totalSeconds;
+  var calculateTime, factory, playMinutes, startTime, time, timer, timerInterval, timerIsRunning, toMinutes, totalMinutes, totalSeconds;
   startTime = 10;
-  totalSeconds = 3600;
-  playMinutes = "01";
+  totalSeconds = 10;
   totalMinutes = "00";
+  playMinutes = "01";
   timerIsRunning = false;
   time = "00:10";
+  timerInterval = null;
   factory = {};
   factory.isOn = function() {
     return timerIsRunning;
@@ -138,7 +158,6 @@ angular.module("timer.service", []).factory('TimerService', ["$interval", functi
     return totalMinutes;
   };
   factory.getPlayMinutes = function() {
-    calculateTime();
     return playMinutes;
   };
   factory.getTime = function() {
@@ -146,47 +165,54 @@ angular.module("timer.service", []).factory('TimerService', ["$interval", functi
   };
   factory.start = function() {
     if (!timerIsRunning) {
-      factory.timerInterval = $interval(timer, 1000);
+      timerInterval = $interval(timer, 1000);
     }
   };
   factory.stop = function() {
-    $interval.cancel(factory.timerInterval);
+    $interval.cancel(timerInterval);
     timerIsRunning = false;
   };
-  factory.reset = function() {
-    totalSeconds = startTime;
-    factory.stop();
+  factory.modify = function(minutes) {
+    var seconds;
+    seconds = minutes * 60;
+    totalSeconds = seconds + startTime;
     calculateTime();
   };
-  factory.changeTotalSeconds = function(minutes) {
-    totalSeconds = minutes * 60 + startTime;
+  factory.add = function(minutes) {
+    totalSeconds += minutes * 60;
     calculateTime();
   };
-  factory.modifyMinutes = function(minutes) {
-    totalSeconds = minutes * 60 + 55;
-    calculateTime();
+  factory.sub = function(minutes) {
+    var seconds;
+    seconds = minutes * 60;
+    if (totalSeconds > seconds) {
+      totalSeconds -= seconds;
+      calculateTime();
+    }
+  };
+  factory.addSeconds = function(seconds) {
+    totalSeconds += seconds;
+    return calculateTime();
   };
   timer = function() {
     ++totalSeconds;
     calculateTime();
     timerIsRunning = true;
   };
-  calculateMinutes = function(seconds) {
-    var minute;
-    minute = Math.floor(seconds / 60);
-    if (minute < 10) {
-      return '0' + minute;
+  toMinutes = function(seconds) {
+    var minutes;
+    minutes = Math.floor(seconds / 60);
+    if (minutes < 10) {
+      return '0' + minutes;
     } else {
-      return minute;
+      return minutes;
     }
   };
   calculateTime = function() {
-    var hour, minute, seconds;
-    hour = Math.floor(totalSeconds / 3600);
-    minute = Math.floor((totalSeconds - hour * 3600) / 60);
-    seconds = totalSeconds - (hour * 3600 + minute * 60);
-    totalMinutes = calculateMinutes(totalSeconds);
-    playMinutes = calculateMinutes(totalSeconds + 60);
+    var seconds;
+    seconds = totalSeconds % 60;
+    totalMinutes = toMinutes(totalSeconds);
+    playMinutes = toMinutes(totalSeconds + 60);
     time = totalMinutes + ":" + (seconds < 10 ? '0' + seconds : seconds);
   };
   return factory;

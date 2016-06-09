@@ -1,6 +1,6 @@
 angular.module "settings.controller", ['settings.service']
 
-.controller "SettingsController", (SettingsFactory)->
+.controller "SettingsController", (SettingsService)->
   vm = this
-  vm.settings = SettingsFactory
+  vm.settingsService = SettingsService
   return

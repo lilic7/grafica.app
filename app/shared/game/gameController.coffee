@@ -1,4 +1,8 @@
-angular.module "game.controller", []
+angular.module "game.controller", ['game.service']
 
-.controller "GameController", ()->
+.controller "GameController", (GameService)->
   vm = this
+  
+  vm.gameService = GameService
+
+  return

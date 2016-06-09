@@ -4,11 +4,12 @@ angular.module "timer.service", []
 
   #private elements
   startTime = 10 #seconds
-  totalSeconds = 3600
-  playMinutes = "01"
+  totalSeconds = 10
   totalMinutes = "00"
+  playMinutes = "01"
   timerIsRunning = false
   time = "00:10"
+  timerInterval = null
   
   factory = {}
 
@@ -19,37 +20,42 @@ angular.module "timer.service", []
     totalMinutes
 
   factory.getPlayMinutes = ()->
-    calculateTime()
     playMinutes
     
   factory.getTime = ()->
     time
 
   factory.start = ()->
-    if(not timerIsRunning)
-      factory.timerInterval = $interval timer, 1000
+    if not timerIsRunning
+      timerInterval = $interval timer, 1000
     return
 
   factory.stop = ()->
-    $interval.cancel factory.timerInterval
+    $interval.cancel timerInterval
     timerIsRunning = false
     return
 
-  factory.reset = ()->
-    totalSeconds = startTime
-    factory.stop()
+  factory.modify = (minutes)->
+    seconds = minutes * 60
+    totalSeconds = seconds + startTime
     calculateTime()
     return
 
-  factory.changeTotalSeconds = (minutes)->
-    totalSeconds = minutes * 60 + startTime
+  factory.add = (minutes)->
+    totalSeconds += minutes * 60
     calculateTime()
     return
 
-  factory.modifyMinutes = (minutes)->
-    totalSeconds = minutes * 60 + 55
-    calculateTime()
+  factory.sub = (minutes)->
+    seconds = minutes * 60
+    if totalSeconds > seconds
+      totalSeconds -= seconds
+      calculateTime()
     return
+
+  factory.addSeconds = (seconds)->
+    totalSeconds += seconds
+    calculateTime()
 
   timer = ()->
     ++totalSeconds
@@ -57,16 +63,14 @@ angular.module "timer.service", []
     timerIsRunning = true
     return
 
-  calculateMinutes = (seconds)->
-    minute = Math.floor(seconds / 60)
-    if minute < 10 then '0' + minute else minute
+  toMinutes = (seconds)->
+    minutes = Math.floor seconds / 60
+    if minutes < 10 then '0' + minutes else minutes
 
   calculateTime = ()->
-    hour = Math.floor totalSeconds / 3600
-    minute = Math.floor ( totalSeconds - hour * 3600 ) / 60
-    seconds = totalSeconds - ( hour * 3600 + minute * 60 )
-    totalMinutes = calculateMinutes totalSeconds
-    playMinutes = calculateMinutes totalSeconds + 60
+    seconds = totalSeconds % 60
+    totalMinutes = toMinutes totalSeconds
+    playMinutes = toMinutes totalSeconds + 60
     time = totalMinutes + ":" + (if seconds < 10 then '0' + seconds else seconds)
     return
 

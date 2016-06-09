@@ -1,5 +1,5 @@
-angular.module("settings.controller", ['settings.service']).controller("SettingsController", function(SettingsFactory) {
+angular.module("settings.controller", ['settings.service']).controller("SettingsController", function(SettingsService) {
   var vm;
   vm = this;
-  vm.settings = SettingsFactory;
+  vm.settingsService = SettingsService;
 });

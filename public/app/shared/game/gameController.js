@@ -1,4 +1,5 @@
-angular.module("game.controller", []).controller("GameController", function() {
+angular.module("game.controller", ['game.service']).controller("GameController", function(GameService) {
   var vm;
-  return vm = this;
+  vm = this;
+  vm.gameService = GameService;
 });

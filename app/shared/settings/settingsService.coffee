@@ -1,6 +1,6 @@
 angular.module "settings.service", []
 
-.factory "SettingsFactory", ()->
+.factory "SettingsService", ()->
   settings = {}
 
   settings.rezerve = true

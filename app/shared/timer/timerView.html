@@ -1,16 +1,5 @@
 <div layout="column">
-    <div layout layout-align="center end">
-        <md-button class="md-warn" ng-click="timerCtrl.reset()">Reset timer</md-button>
-    </div>
-
     <section layout layout-align="end center">
-        <md-button class="md-raised group_button left" ng-click="timerCtrl.setRepriza(1)">Repriza 1</md-button>
-        <md-button class="md-raised group_button right" ng-click="timerCtrl.setRepriza(2)">Repriza 2</md-button>
-    </section>
-
-    <section layout layout-align="end center">
-
-        <div layout layout-align="end center">
             <div md-whiteframe class="padded left" layout layout-align="center center">
                 <span>{{timerCtrl.timerService.getTime()}}</span>
             </div>
@@ -23,34 +12,15 @@
 
             <md-button class="md-raised md-warn stopTimer group_button middle" ng-show="timerCtrl.timerService.isOn()" ng-click="timerCtrl.timerService.stop()">Stop</md-button>
 
-            <div md-whiteframe class="padded" layout layout-align="center center">
-                <span>Repriza</span>
-            </div>
-
-            <div md-whiteframe class="padded right" layout layout-align="center center">
-                <span>{{timerCtrl.repriza}}</span>
-            </div>
-        </div>
-
+            <md-button class="md-raised group_button middle repriza" ng-class="{active: timerCtrl.repriza == 1}" ng-click="timerCtrl.setRepriza(1)">Repriza 1</md-button>
+            <md-button class="md-raised group_button right repriza" ng-class="{active: timerCtrl.repriza == 2}"  ng-click="timerCtrl.setRepriza(2)">Repriza 2</md-button>
+    </section>
+    <section layout layout-align="end center">
+            <md-button class="md-raised md-primary group_button left controls" ng-click="timerCtrl.timerService.sub(5)">- 5</md-button>
+            <md-button class="md-raised md-primary group_button middle controls" ng-click="timerCtrl.timerService.sub(1)">- 1</md-button>
+            <md-button class="md-raised md-primary group_button middle controls" ng-click="timerCtrl.timerService.add(1)">+ 1</md-button>
+            <md-button class="md-raised md-primary group_button middle controls" ng-click="timerCtrl.timerService.add(5)">+ 5</md-button>
+            <md-button class="md-raised md-primary group_button right controls" ng-click="timerCtrl.timerService.addSeconds(10)">+ 10 sec</md-button>
     </section>
 
-    <div>
-
-        <div flex="100">
-            <span>Modifica minute</span>
-            <md-slider-container>
-                <md-slider md-discrete min="0" ng-model="timerCtrl.totalMinutes" ng-change="timerCtrl.modify()" max="{{timerCtrl.durataRepriza}}" aria-label="slider-min"></md-slider>
-            </md-slider-container>
-        </div>
-
-        <div>
-            <span>Modifica secunde</span>
-            <md-slider-container>
-                <md-slider md-discrete min="0" max="59" aria-label="slider-sec"></md-slider>
-            </md-slider-container>
-        </div>
-
-    </div>
-
 </div>
-{{timerCtrl.temo}}
