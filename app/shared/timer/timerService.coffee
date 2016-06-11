@@ -1,6 +1,6 @@
-angular.module "timer.service", []
+angular.module "timer.service", ['error.service']
 
-.factory 'TimerService', ($interval)->
+.factory 'TimerService', ($interval, ErrorService)->
 
   #private elements
   startTime = 10 #seconds
@@ -42,6 +42,8 @@ angular.module "timer.service", []
     return
 
   factory.add = (minutes)->
+    if(totalSeconds > 600 and timerIsRunning)
+      ErrorService.setMessage "MATCH_TOO_LONG"
     totalSeconds += minutes * 60
     calculateTime()
     return
@@ -51,6 +53,8 @@ angular.module "timer.service", []
     if totalSeconds > seconds
       totalSeconds -= seconds
       calculateTime()
+    else
+      ErrorService.setMessage "NEGATIVE_TIME"
     return
 
   factory.addSeconds = (seconds)->

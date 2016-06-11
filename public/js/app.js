@@ -25,23 +25,65 @@ angular.module("ucfirstFilter", []).filter('ucfirst', function() {
   };
 });
 
-angular.module("match.controller", ['team.directive', 'game.directive', 'settings.directive']).controller('MatchController', ["$routeParams", function($routeParams) {
+angular.module("home.controller", []).controller("HomeController", function() {
   var vm;
   vm = this;
-  vm.matchType = $routeParams.matchType;
+  vm.matches = ['minifotbal', 'fotbal', 'futsal', 'handbal', 'baschet', 'volei', 'tenis'];
+});
+
+angular.module("match.controller", ['team.directive', 'game.directive', 'settings.directive']).controller('MatchController', function() {
+  var vm;
+  vm = this;
   vm.team1 = {
     name: "Stanga"
   };
   vm.team2 = {
     name: "Dreapta"
   };
-}]);
-
-angular.module("home.controller", []).controller("HomeController", function() {
-  var vm;
-  vm = this;
-  vm.matches = ['minifotbal', 'fotbal', 'futsal', 'handbal', 'baschet', 'volei', 'tenis'];
 });
+
+angular.module("error.service", ['error.toast.controller']).factory("ErrorService", ["$mdToast", "$location", function($mdToast, $location) {
+  var factory, messages, showMessage;
+  showMessage = '';
+  messages = {
+    WRONG_MATCH_NAME: {
+      message: "Acest tip de meci nu exista",
+      redirect: true
+    },
+    MATCH_TOO_LONG: {
+      message: "Durata meciului a trecut de limitele normale",
+      redirect: false
+    },
+    NEGATIVE_TIME: {
+      message: "SFAT: Reseteaza contorul!",
+      redirect: false
+    }
+  };
+  factory = {};
+  factory.showToast = false;
+  factory.getMessage = function() {
+    return showMessage;
+  };
+  factory.setMessage = function(msgCode) {
+    if (!factory.showToast) {
+      factory.showToast = true;
+      showMessage = messages[msgCode].message;
+      $mdToast.show({
+        hideDelay: 3000,
+        position: 'top right',
+        controller: "ToastController",
+        controllerAs: "toastCtrl",
+        templateUrl: 'app/shared/error/toast/toastView.html'
+      }).then(function() {
+        factory.showToast = false;
+        if (messages[msgCode].redirect) {
+          return $location.url("/");
+        }
+      });
+    }
+  };
+  return factory;
+}]);
 
 angular.module("game.controller", ['game.service']).controller("GameController", ["GameService", function(GameService) {
   var vm;
@@ -62,7 +104,7 @@ angular.module("game.service", []).factory("GameService", function() {
   var factory, penalty, score;
   factory = {};
   score = "0 : 0";
-  penalty = "0 : 01";
+  penalty = "0 : 1";
   factory.getScore = function() {
     return score;
   };
@@ -72,10 +114,15 @@ angular.module("game.service", []).factory("GameService", function() {
   return factory;
 });
 
-angular.module("settings.controller", ['settings.service']).controller("SettingsController", ["SettingsService", function(SettingsService) {
+angular.module("settings.controller", ['settings.service']).controller("SettingsController", ["$routeParams", "SettingsService", function($routeParams, SettingsService) {
   var vm;
   vm = this;
+  vm.matchType = $routeParams.matchType;
   vm.settingsService = SettingsService;
+  SettingsService.setCurrent(vm.matchType);
+  vm.showSection = function() {
+    return vm.match = SettingsService.matchSettings();
+  };
 }]);
 
 angular.module("settings.directive", ['settings.controller']).directive("settings", function() {
@@ -87,12 +134,45 @@ angular.module("settings.directive", ['settings.controller']).directive("setting
   };
 });
 
-angular.module("settings.service", []).factory("SettingsService", function() {
-  var settings;
+angular.module("settings.service", ['error.service']).factory("SettingsService", ["ErrorService", function(ErrorService) {
+  var all, checkMatchType, settings;
   settings = {};
-  settings.rezerve = true;
+  all = {
+    matches: ['minifotbal', 'fotbal', 'futsal', 'handbal', 'baschet', 'volei', 'tenis'],
+    match: '',
+    minifotbal: {
+      team: "Best Team",
+      rezerve: false,
+      offside: false,
+      corner: false,
+      repriza: 25
+    },
+    fotbal: {
+      rezerve: true,
+      offside: false,
+      corner: false,
+      repriza: 45
+    }
+  };
+  settings.getMatch = function() {
+    return all.match;
+  };
+  settings.matchSettings = function() {
+    return all[all.match];
+  };
+  settings.setCurrent = function(matchType) {
+    if (checkMatchType(matchType) !== -1) {
+      all.match = matchType;
+    } else {
+      ErrorService.setMessage("WRONG_MATCH_NAME");
+    }
+  };
+  checkMatchType = function(matchType) {
+    matchType = matchType.toLowerCase();
+    return all.matches.indexOf(matchType);
+  };
   return settings;
-});
+}]);
 
 angular.module("team.controller", ['settings.service', 'team.service']).controller("TeamController", ["SettingsService", "TeamService", function(SettingsService, TeamService) {
   var vm;
@@ -141,7 +221,7 @@ angular.module("timer.directive", ['timer.controller']).directive("timer", funct
   };
 });
 
-angular.module("timer.service", []).factory('TimerService', ["$interval", function($interval) {
+angular.module("timer.service", ['error.service']).factory('TimerService', ["$interval", "ErrorService", function($interval, ErrorService) {
   var calculateTime, factory, playMinutes, startTime, time, timer, timerInterval, timerIsRunning, toMinutes, totalMinutes, totalSeconds;
   startTime = 10;
   totalSeconds = 10;
@@ -179,6 +259,9 @@ angular.module("timer.service", []).factory('TimerService', ["$interval", functi
     calculateTime();
   };
   factory.add = function(minutes) {
+    if (totalSeconds > 600 && timerIsRunning) {
+      ErrorService.setMessage("MATCH_TOO_LONG");
+    }
     totalSeconds += minutes * 60;
     calculateTime();
   };
@@ -188,6 +271,8 @@ angular.module("timer.service", []).factory('TimerService', ["$interval", functi
     if (totalSeconds > seconds) {
       totalSeconds -= seconds;
       calculateTime();
+    } else {
+      ErrorService.setMessage("NEGATIVE_TIME");
     }
   };
   factory.addSeconds = function(seconds) {
@@ -216,4 +301,13 @@ angular.module("timer.service", []).factory('TimerService', ["$interval", functi
     time = totalMinutes + ":" + (seconds < 10 ? '0' + seconds : seconds);
   };
   return factory;
+}]);
+
+angular.module("error.toast.controller", ['error.service']).controller("ToastController", ["ErrorService", function(ErrorService) {
+  var vm;
+  vm = this;
+  vm.message = ErrorService.getMessage();
+  vm.hide = function() {
+    return ErrorService.hide();
+  };
 }]);

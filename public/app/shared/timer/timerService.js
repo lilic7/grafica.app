@@ -1,4 +1,4 @@
-angular.module("timer.service", []).factory('TimerService', function($interval) {
+angular.module("timer.service", ['error.service']).factory('TimerService', function($interval, ErrorService) {
   var calculateTime, factory, playMinutes, startTime, time, timer, timerInterval, timerIsRunning, toMinutes, totalMinutes, totalSeconds;
   startTime = 10;
   totalSeconds = 10;
@@ -36,6 +36,9 @@ angular.module("timer.service", []).factory('TimerService', function($interval) 
     calculateTime();
   };
   factory.add = function(minutes) {
+    if (totalSeconds > 600 && timerIsRunning) {
+      ErrorService.setMessage("MATCH_TOO_LONG");
+    }
     totalSeconds += minutes * 60;
     calculateTime();
   };
@@ -45,6 +48,8 @@ angular.module("timer.service", []).factory('TimerService', function($interval) 
     if (totalSeconds > seconds) {
       totalSeconds -= seconds;
       calculateTime();
+    } else {
+      ErrorService.setMessage("NEGATIVE_TIME");
     }
   };
   factory.addSeconds = function(seconds) {

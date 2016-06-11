@@ -1,36 +1,9 @@
-<div layout>
-    <div flex="50">
-        <fieldset class="standard">
-        <legend>Fotbal</legend>
-        <div>
-            <md-checkbox ng-model="settingsCtrl.settingsService.rezerve" aria-label="Rezerve">
-                Foloseste rezerve
-            </md-checkbox>
-        </div>
-        <div>
-            <md-checkbox aria-label="Offside-uri">
-                Offside-uri
-            </md-checkbox>
-        </div>
-        <div>
-            <md-checkbox aria-label="Cornere">
-                Cornere
-            </md-checkbox>
-        </div>
-        <div>
-            <md-input-container>
-                <label>Durata repriza</label>
-                <input ng-model="timerCtrl.durataRepriza">
-            </md-input-container>
-        </div>
-        </fieldset>
-    </div>
-
-    <div flex="50">
-        <fieldset class="standard">
-            <legend>Minifotbal</legend>
+    <div layout>
+        <div flex="50" ng-show="settingsCtrl.matchType === 'fotbal'">
+            <fieldset class="standard">
+            <legend>Fotbal</legend>
             <div>
-                <md-checkbox ng-model="settingsCtrl.settingsService.rezerve" aria-label="Rezerve">
+                <md-checkbox ng-model="settingsCtrl.settingsService.rezerve" aria-label="Rezerve Fotbal">
                     Foloseste rezerve
                 </md-checkbox>
             </div>
@@ -47,10 +20,26 @@
             <div>
                 <md-input-container>
                     <label>Durata repriza</label>
-                    <input ng-model="timerCtrl.durataRepriza">
+                    <input>
                 </md-input-container>
             </div>
-        </fieldset>
-    </div>
+            </fieldset>
+        </div>
 
-</div>
+        <div flex="50" ng-show="settingsCtrl.matchType === 'minifotbal'">
+            <fieldset class="standard">
+                <legend>Minifotbal</legend>
+                <div>
+                    <md-checkbox ng-model="settingsCtrl.settingsService.match" aria-label="Rezerve Minifotbal">
+                        Foloseste rezerve
+                    </md-checkbox>
+                </div>
+                <div>
+                    <md-input-container>
+                        <label>Durata repriza</label>
+                        <input >
+                    </md-input-container>
+                </div>
+            </fieldset>
+        </div>
+    </div>
