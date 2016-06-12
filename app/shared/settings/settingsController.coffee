@@ -1,15 +1,12 @@
 angular.module "settings.controller", ['settings.service']
 
 .controller "SettingsController", ($routeParams, SettingsService)->
+
   vm = this
 
-  vm.matchType = $routeParams.matchType
-  
-  vm.settingsService = SettingsService
+  vm.matchType = SettingsService.getMatchType()
+  vm.settings = SettingsService.all
 
-  SettingsService.setCurrent vm.matchType
-
-  vm.showSection = ()->
-    vm.match = SettingsService.matchSettings()
+  vm.rezerve = { on: SettingsService.all.rezerve }
   
   return

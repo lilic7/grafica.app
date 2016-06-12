@@ -2,22 +2,26 @@
 <div ng-cloak layout layout-align="center">
     <md-content flex="90" class="content">
         <md-tabs md-dynamic-height md-border-bottom>
+<!--Echipe-->
             <md-tab label="Echipe">
                 <md-content class="md-padding content" layout layout-align="space-between">
                     <team flex="40" team="matchCtrl.team1"></team>
                     <team flex="40" team="matchCtrl.team2"></team>
                 </md-content>
             </md-tab>
+<!--Joc-->
             <md-tab label="Joc">
                 <md-content class="md-padding content">
                     <game layout></game>
                 </md-content>
             </md-tab>
+<!--Setari-->
             <md-tab label="Setari">
                 <md-content class="md-padding content">
                     <settings></settings>
                 </md-content>
             </md-tab>
+
         </md-tabs>
     </md-content>
 </div>

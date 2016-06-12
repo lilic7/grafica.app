@@ -1,39 +1,25 @@
-angular.module("settings.service", ['error.service']).factory("SettingsService", function(ErrorService) {
-  var all, checkMatchType, settings;
+angular.module("settings.service", ['error.service']).factory("SettingsService", function($http, ErrorService) {
+  var checkMatchType, settings, type;
+  type = '';
   settings = {};
-  all = {
-    matches: ['minifotbal', 'fotbal', 'futsal', 'handbal', 'baschet', 'volei', 'tenis'],
-    match: '',
-    minifotbal: {
-      team: "Best Team",
-      rezerve: false,
-      offside: false,
-      corner: false,
-      repriza: 25
-    },
-    fotbal: {
-      rezerve: true,
-      offside: false,
-      corner: false,
-      repriza: 45
-    }
+  settings.sports = ['minifotbal', 'fotbal', 'futsal', 'handbal', 'baschet', 'volei', 'tenis'];
+  settings.all = {};
+  settings.getMatchType = function() {
+    return type;
   };
-  settings.getMatch = function() {
-    return all.match;
+  settings.setMatchSettings = function(settingsFromJson) {
+    return settings.all = settingsFromJson;
   };
-  settings.matchSettings = function() {
-    return all[all.match];
-  };
-  settings.setCurrent = function(matchType) {
+  settings.setMatchType = function(matchType) {
     if (checkMatchType(matchType) !== -1) {
-      all.match = matchType;
+      type = matchType;
     } else {
       ErrorService.setMessage("WRONG_MATCH_NAME");
     }
   };
   checkMatchType = function(matchType) {
     matchType = matchType.toLowerCase();
-    return all.matches.indexOf(matchType);
+    return settings.sports.indexOf(matchType);
   };
   return settings;
 });

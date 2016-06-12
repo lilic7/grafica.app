@@ -1,4 +1,4 @@
-angular.module "settings.directive", ['settings.controller']
+angular.module "settings.directive", ['settings.controller', 'settings.rezerve.directive']
 
 .directive "settings", ()->
   {

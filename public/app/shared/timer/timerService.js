@@ -1,4 +1,4 @@
-angular.module("timer.service", ['error.service']).factory('TimerService', function($interval, ErrorService) {
+angular.module("timer.service", []).factory('TimerService', function($interval, ErrorService, SettingsService) {
   var calculateTime, factory, playMinutes, startTime, time, timer, timerInterval, timerIsRunning, toMinutes, totalMinutes, totalSeconds;
   startTime = 10;
   totalSeconds = 10;

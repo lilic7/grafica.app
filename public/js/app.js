@@ -1,6 +1,6 @@
 angular.module("app", ['ngMaterial', 'routes', 'ucfirstFilter']);
 
-angular.module("routes", ['ngRoute', 'home.controller', 'match.controller']).config(["$routeProvider", "$locationProvider", function($routeProvider, $locationProvider) {
+angular.module("routes", ['ngRoute', 'home.controller', 'match.controller', 'settings.service']).config(["$routeProvider", "$locationProvider", function($routeProvider, $locationProvider) {
   $routeProvider.when('/', {
     templateUrl: 'app/components/home/homeView.html',
     controller: 'HomeController',
@@ -8,9 +8,17 @@ angular.module("routes", ['ngRoute', 'home.controller', 'match.controller']).con
   }).when('/match/:matchType', {
     templateUrl: 'app/components/match/matchView.html',
     controller: 'MatchController',
-    controllerAs: 'matchCtrl'
-  }).otherwise({
-    redirectTo: "/"
+    controllerAs: 'matchCtrl',
+    resolve: {
+      settings: ["$route", "$http", "SettingsService", function($route, $http, SettingsService) {
+        var matchType;
+        matchType = $route.current.params.matchType;
+        SettingsService.setMatchType(matchType);
+        return $http.get('json/' + matchType + '.json').then(function(result) {
+          return SettingsService.setMatchSettings(result.data);
+        });
+      }]
+    }
   });
   $locationProvider.html5Mode(true);
 }]);
@@ -25,11 +33,11 @@ angular.module("ucfirstFilter", []).filter('ucfirst', function() {
   };
 });
 
-angular.module("home.controller", []).controller("HomeController", function() {
+angular.module("home.controller", ['settings.service']).controller("HomeController", ["SettingsService", function(SettingsService) {
   var vm;
   vm = this;
-  vm.matches = ['minifotbal', 'fotbal', 'futsal', 'handbal', 'baschet', 'volei', 'tenis'];
-});
+  vm.matches = SettingsService.sports;
+}]);
 
 angular.module("match.controller", ['team.directive', 'game.directive', 'settings.directive']).controller('MatchController', function() {
   var vm;
@@ -85,9 +93,10 @@ angular.module("error.service", ['error.toast.controller']).factory("ErrorServic
   return factory;
 }]);
 
-angular.module("game.controller", ['game.service']).controller("GameController", ["GameService", function(GameService) {
+angular.module("game.controller", ['game.service']).controller("GameController", ["GameService", "SettingsService", function(GameService, SettingsService) {
   var vm;
   vm = this;
+  vm.settings = SettingsService.all;
   vm.gameService = GameService;
 }]);
 
@@ -117,15 +126,14 @@ angular.module("game.service", []).factory("GameService", function() {
 angular.module("settings.controller", ['settings.service']).controller("SettingsController", ["$routeParams", "SettingsService", function($routeParams, SettingsService) {
   var vm;
   vm = this;
-  vm.matchType = $routeParams.matchType;
-  vm.settingsService = SettingsService;
-  SettingsService.setCurrent(vm.matchType);
-  vm.showSection = function() {
-    return vm.match = SettingsService.matchSettings();
+  vm.matchType = SettingsService.getMatchType();
+  vm.settings = SettingsService.all;
+  vm.rezerve = {
+    on: SettingsService.all.rezerve
   };
 }]);
 
-angular.module("settings.directive", ['settings.controller']).directive("settings", function() {
+angular.module("settings.directive", ['settings.controller', 'settings.rezerve.directive']).directive("settings", function() {
   return {
     restrict: "E",
     templateUrl: "app/shared/settings/settingsView.html",
@@ -134,42 +142,28 @@ angular.module("settings.directive", ['settings.controller']).directive("setting
   };
 });
 
-angular.module("settings.service", ['error.service']).factory("SettingsService", ["ErrorService", function(ErrorService) {
-  var all, checkMatchType, settings;
+angular.module("settings.service", ['error.service']).factory("SettingsService", ["$http", "ErrorService", function($http, ErrorService) {
+  var checkMatchType, settings, type;
+  type = '';
   settings = {};
-  all = {
-    matches: ['minifotbal', 'fotbal', 'futsal', 'handbal', 'baschet', 'volei', 'tenis'],
-    match: '',
-    minifotbal: {
-      team: "Best Team",
-      rezerve: false,
-      offside: false,
-      corner: false,
-      repriza: 25
-    },
-    fotbal: {
-      rezerve: true,
-      offside: false,
-      corner: false,
-      repriza: 45
-    }
+  settings.sports = ['minifotbal', 'fotbal', 'futsal', 'handbal', 'baschet', 'volei', 'tenis'];
+  settings.all = {};
+  settings.getMatchType = function() {
+    return type;
   };
-  settings.getMatch = function() {
-    return all.match;
+  settings.setMatchSettings = function(settingsFromJson) {
+    return settings.all = settingsFromJson;
   };
-  settings.matchSettings = function() {
-    return all[all.match];
-  };
-  settings.setCurrent = function(matchType) {
+  settings.setMatchType = function(matchType) {
     if (checkMatchType(matchType) !== -1) {
-      all.match = matchType;
+      type = matchType;
     } else {
       ErrorService.setMessage("WRONG_MATCH_NAME");
     }
   };
   checkMatchType = function(matchType) {
     matchType = matchType.toLowerCase();
-    return all.matches.indexOf(matchType);
+    return settings.sports.indexOf(matchType);
   };
   return settings;
 }]);
@@ -178,6 +172,7 @@ angular.module("team.controller", ['settings.service', 'team.service']).controll
   var vm;
   vm = this;
   vm.settingsService = SettingsService;
+  vm.settings = SettingsService.all;
   vm.teamService = TeamService;
 }]);
 
@@ -200,14 +195,14 @@ angular.module("team.service", []).factory("TeamService", function() {
   return factory;
 });
 
-angular.module("timer.controller", ['timer.service']).controller("TimerController", ["TimerService", function(TimerService) {
+angular.module("timer.controller", ['timer.service', 'settings.service']).controller("TimerController", ["TimerService", "SettingsService", function(TimerService, SettingsService) {
   var vm;
   vm = this;
   vm.repriza = 1;
-  vm.durataRepriza = 45;
+  vm.settings = SettingsService.all;
   vm.timerService = TimerService;
   vm.setRepriza = function(repriza) {
-    TimerService.modify((repriza - 1) * vm.durataRepriza);
+    TimerService.modify((repriza - 1) * vm.settings.durata_repriza);
     vm.repriza = repriza;
   };
 }]);
@@ -221,7 +216,7 @@ angular.module("timer.directive", ['timer.controller']).directive("timer", funct
   };
 });
 
-angular.module("timer.service", ['error.service']).factory('TimerService', ["$interval", "ErrorService", function($interval, ErrorService) {
+angular.module("timer.service", []).factory('TimerService', ["$interval", "ErrorService", "SettingsService", function($interval, ErrorService, SettingsService) {
   var calculateTime, factory, playMinutes, startTime, time, timer, timerInterval, timerIsRunning, toMinutes, totalMinutes, totalSeconds;
   startTime = 10;
   totalSeconds = 10;
@@ -311,3 +306,19 @@ angular.module("error.toast.controller", ['error.service']).controller("ToastCon
     return ErrorService.hide();
   };
 }]);
+
+angular.module("settings.rezerve.controller", ['settings.service']).controller("RezerveController", ["SettingsService", function(SettingsService) {
+  var vm;
+  vm = this;
+  vm.rezerve = SettingsService.all;
+}]);
+
+angular.module("settings.rezerve.directive", []).directive("rezerve", function() {
+  return {
+    restrict: "E",
+    scope: {
+      rezerve: "="
+    },
+    templateUrl: 'app/shared/settings/components/rezerve/rezerveView.html'
+  };
+});

@@ -1,5 +1,5 @@
-angular.module("home.controller", []).controller("HomeController", function() {
+angular.module("home.controller", ['settings.service']).controller("HomeController", function(SettingsService) {
   var vm;
   vm = this;
-  vm.matches = ['minifotbal', 'fotbal', 'futsal', 'handbal', 'baschet', 'volei', 'tenis'];
+  vm.matches = SettingsService.sports;
 });

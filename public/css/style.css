@@ -55,8 +55,7 @@ body {
   margin: 5px 0;
   padding: 5px;
   height: 35px;
-  min-width: 100px;
-  text-transform: uppercase; }
+  min-width: 100px; }
   .padded.left {
     border-radius: 10px 0 0 10px; }
   .padded.right {

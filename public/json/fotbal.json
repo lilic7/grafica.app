@@ -1,0 +1,12 @@
+{
+  "reprize": 2,
+  "timer": true,
+  "durata_repriza": 45,
+  "pauza": 15,
+
+
+  "rezerve": true,
+  "offside": false,
+  "cornere": false,
+  "departajari": true
+}

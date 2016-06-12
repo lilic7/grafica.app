@@ -1,26 +1,43 @@
 <div layout="column">
     <section layout layout-align="end center">
-            <div md-whiteframe class="padded left" layout layout-align="center center">
-                <span>{{timerCtrl.timerService.getTime()}}</span>
-            </div>
-
-            <div md-whiteframe class="padded" layout layout-align="center center">
-                <span>({{timerCtrl.timerService.getPlayMinutes()}})</span>
-            </div>
-
-            <md-button class="md-raised md-primary startTimer group_button middle" ng-hide="timerCtrl.timerService.isOn()" ng-click="timerCtrl.timerService.start()">Start</md-button>
-
-            <md-button class="md-raised md-warn stopTimer group_button middle" ng-show="timerCtrl.timerService.isOn()" ng-click="timerCtrl.timerService.stop()">Stop</md-button>
-
-            <md-button class="md-raised group_button middle repriza" ng-class="{active: timerCtrl.repriza == 1}" ng-click="timerCtrl.setRepriza(1)">Repriza 1</md-button>
-            <md-button class="md-raised group_button right repriza" ng-class="{active: timerCtrl.repriza == 2}"  ng-click="timerCtrl.setRepriza(2)">Repriza 2</md-button>
+        <div md-whiteframe class="padded left" layout layout-align="center center">
+            <span>Durate</span>
+        </div>
+        <div md-whiteframe class="padded" layout layout-align="center center">
+            <span>Repriza</span>
+        </div>
+        <div md-whiteframe class="padded" layout layout-align="center center">
+            <span>{{timerCtrl.settings.durata_repriza}} min</span>
+        </div>
+        <div md-whiteframe class="padded" layout layout-align="center center">
+            <span>Pauza</span>
+        </div>
+        <div md-whiteframe class="padded right" layout layout-align="center center">
+            <span>{{timerCtrl.settings.pauza}} min</span>
+        </div>
     </section>
     <section layout layout-align="end center">
-            <md-button class="md-raised md-primary group_button left controls" ng-click="timerCtrl.timerService.sub(5)">- 5</md-button>
-            <md-button class="md-raised md-primary group_button middle controls" ng-click="timerCtrl.timerService.sub(1)">- 1</md-button>
-            <md-button class="md-raised md-primary group_button middle controls" ng-click="timerCtrl.timerService.add(1)">+ 1</md-button>
-            <md-button class="md-raised md-primary group_button middle controls" ng-click="timerCtrl.timerService.add(5)">+ 5</md-button>
-            <md-button class="md-raised md-primary group_button right controls" ng-click="timerCtrl.timerService.addSeconds(10)">+ 10 sec</md-button>
+        <div md-whiteframe class="padded left" layout layout-align="center center">
+            <span>{{timerCtrl.timerService.getTime()}}</span>
+        </div>
+
+        <div md-whiteframe class="padded" layout layout-align="center center">
+            <span>({{timerCtrl.timerService.getPlayMinutes()}})</span>
+        </div>
+
+        <md-button class="md-raised md-primary startTimer group_button middle" ng-hide="timerCtrl.timerService.isOn()" ng-click="timerCtrl.timerService.start()">Start</md-button>
+
+        <md-button class="md-raised md-warn stopTimer group_button middle" ng-show="timerCtrl.timerService.isOn()" ng-click="timerCtrl.timerService.stop()">Stop</md-button>
+
+        <md-button class="md-raised group_button middle repriza" ng-class="{active: timerCtrl.repriza == 1}" ng-click="timerCtrl.setRepriza(1)">Repriza 1</md-button>
+        <md-button class="md-raised group_button right repriza" ng-class="{active: timerCtrl.repriza == 2}"  ng-click="timerCtrl.setRepriza(2)">Repriza 2</md-button>
+    </section>
+    <section layout layout-align="end center">
+        <md-button class="md-raised md-primary group_button left controls" ng-click="timerCtrl.timerService.sub(5)">- 5</md-button>
+        <md-button class="md-raised md-primary group_button middle controls" ng-click="timerCtrl.timerService.sub(1)">- 1</md-button>
+        <md-button class="md-raised md-primary group_button middle controls" ng-click="timerCtrl.timerService.add(1)">+ 1</md-button>
+        <md-button class="md-raised md-primary group_button middle controls" ng-click="timerCtrl.timerService.add(5)">+ 5</md-button>
+        <md-button class="md-raised md-primary group_button right controls" ng-click="timerCtrl.timerService.addSeconds(10)">+ 10 sec</md-button>
     </section>
 
 </div>

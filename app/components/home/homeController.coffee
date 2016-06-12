@@ -1,14 +1,7 @@
-angular.module "home.controller", []
+angular.module "home.controller", ['settings.service']
 
-.controller "HomeController", ()->
+.controller "HomeController", (SettingsService)->
   vm = this
-  vm.matches = [
-    'minifotbal'
-    'fotbal',
-    'futsal',
-    'handbal',
-    'baschet',
-    'volei',
-    'tenis'
-  ]
+  vm.matches = SettingsService.sports
+
   return

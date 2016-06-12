@@ -1,6 +1,6 @@
-angular.module "timer.service", ['error.service']
+angular.module "timer.service", []
 
-.factory 'TimerService', ($interval, ErrorService)->
+.factory 'TimerService', ($interval, ErrorService, SettingsService)->
 
   #private elements
   startTime = 10 #seconds

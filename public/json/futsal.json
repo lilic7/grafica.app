@@ -1,0 +1,8 @@
+{
+  "reprize": 2,
+  "timer": false,
+  "durata_repriza": 30,
+  "pauza": 10,
+
+  "eliminare": true
+}

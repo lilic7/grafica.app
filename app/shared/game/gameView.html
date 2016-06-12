@@ -1,6 +1,6 @@
 <div flex="50">{{gameCtrl.gameService.getScore()}}</div>
 <div flex="50">{{gameCtrl.gameService.getPenaltyScore()}}</div>
-<timer flex="50"></timer>
+<timer flex="50" ng-show="gameCtrl.settings.timer"></timer>
 <div layout>
     <div>{{gameCtrl.team1.name}}</div>
 </div>
