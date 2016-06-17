@@ -1,6 +1,11 @@
-<div flex="50">{{gameCtrl.gameService.getScore()}}</div>
-<div flex="50">{{gameCtrl.gameService.getPenaltyScore()}}</div>
-<timer flex="50" ng-show="gameCtrl.settings.timer"></timer>
-<div layout>
-    <div>{{gameCtrl.team1.name}}</div>
+<div layout="column" layout-align="space-around center">
+    <timer flex ng-show="gameCtrl.settings.timer"></timer>
+    <div layout layout-align="space-between">
+        <div flex="50">
+            {{gameCtrl.team1.name}}
+        </div>
+        <div flex>
+            {{gameCtrl.team2.name}}
+        </div>
+    </div>
 </div>

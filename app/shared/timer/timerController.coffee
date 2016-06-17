@@ -8,7 +8,7 @@ angular.module "timer.controller", ['timer.service', 'settings.service']
   vm.timerService = TimerService
 
   vm.setRepriza = (repriza)->
-    TimerService.modify (repriza-1) * vm.settings.durata_repriza
+    TimerService.modify (repriza-1) * vm.settings.repriza
     vm.repriza = repriza
     return
     

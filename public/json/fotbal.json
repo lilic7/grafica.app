@@ -1,7 +1,7 @@
 {
   "reprize": 2,
   "timer": true,
-  "durata_repriza": 45,
+  "repriza": 45,
   "pauza": 15,
 
 

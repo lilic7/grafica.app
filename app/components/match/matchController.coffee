@@ -1,8 +1,9 @@
-angular.module "match.controller", ['team.directive', 'game.directive', 'settings.directive']
+angular.module "match.controller", ['team.directive', 'game.directive', 'settings.directive', 'game.service']
 
-.controller 'MatchController', ()->
+.controller 'MatchController', (GameService)->
   vm = this
-  vm.team1 = {name: "Stanga"}
-  vm.team2 = {name: "Dreapta"}
+  vm.team1 = GameService.team1
+  
+  vm.team2 = GameService.team2
 
   return

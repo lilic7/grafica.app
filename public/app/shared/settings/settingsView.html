@@ -1,31 +1,15 @@
 <div layout>
 
 <!--Fotbal-->
-    <rezerve flex="50" ng-show="settingsCtrl.matchType === 'fotbal'">
+    <div flex="50" ng-show="settingsCtrl.matchType === 'fotbal'">
         <fieldset class="standard">
             <legend>Fotbal</legend>
-            <rezerve rezerve="settingsCtrl.rezerve"></rezerve>
-            <div>
-                <md-checkbox aria-label="Offside-uri" ng-model="settingsCtrl.settings.offside">
-                    Offside-uri
-                </md-checkbox>
-            </div>
-            <div>
-                <md-checkbox aria-label="Cornere" ng-model="settingsCtrl.settings.cornere">
-                    Cornere
-                </md-checkbox>
-            </div>
-            <div>
-                <md-checkbox aria-label="Cornere" ng-model="settingsCtrl.settings.departajari">
-                    Departajari
-                </md-checkbox>
-            </div>
-            <div>
-                <md-input-container>
-                    <label>Durata repriza</label>
-                    <input type="text" ng-model="settingsCtrl.settings.durata_repriza">
-                </md-input-container>
-            </div>
+            <settings-rezerve rezerve="settingsCtrl.settings.rezerve"></settings-rezerve>
+            <settings-offside offside="settingsCtrl.settings.offside"></settings-offside>
+            <settings-corner cornere="settingsCtrl.settings.cornere"></settings-corner>
+            <settings-departajari departajari="settingsCtrl.settings.departajari"></settings-departajari>
+            <settings-repriza repriza="settingsCtrl.settings.repriza"></settings-repriza>
+            <settings-pauza pauza="settingsCtrl.settings.pauza"></settings-pauza>
         </fieldset>
     </div>
 
@@ -33,17 +17,9 @@
     <div flex="50" ng-show="settingsCtrl.matchType === 'minifotbal'">
         <fieldset class="standard">
             <legend>Minifotbal</legend>
-            <div>
-                <md-checkbox ng-model="settingsCtrl.settings.rezerve" aria-label="Rezerve Minifotbal">
-                    Foloseste rezerve
-                </md-checkbox>
-            </div>
-            <div>
-                <md-input-container>
-                    <label>Durata repriza</label>
-                    <input type="text" ng-model="settingsCtrl.settings.durata_repriza">
-                </md-input-container>
-            </div>
+            <settings-rezerve rezerve="settingsCtrl.settings.rezerve"></settings-rezerve>
+            <settings-repriza repriza="settingsCtrl.settings.repriza"></settings-repriza>
+            <settings-pauza pauza="settingsCtrl.settings.pauza"></settings-pauza>
         </fieldset>
     </div>
 
@@ -51,17 +27,9 @@
     <div flex="50" ng-show="settingsCtrl.matchType === 'futsal'">
         <fieldset class="standard">
             <legend>Futsal</legend>
-            <div>
-                <md-checkbox ng-model="settingsCtrl.settings.timer" aria-label="Timer">
-                    Timer
-                </md-checkbox>
-            </div>
-            <div ng-show="settingsCtrl.settings.timer">
-                <md-input-container>
-                    <label>Durata repriza</label>
-                    <input type="text" ng-model="settingsCtrl.settings.durata_repriza">
-                </md-input-container>
-            </div>
+            <settings-timer timer="settingsCtrl.settings.timer"></settings-timer>
+            <settings-repriza repriza="settingsCtrl.settings.repriza" ng-show="settingsCtrl.settings.timer"></settings-repriza>
+            <settings-pauza pauza="settingsCtrl.settings.pauza" ng-show="settingsCtrl.settings.timer"></settings-pauza>
         </fieldset>
     </div>
 

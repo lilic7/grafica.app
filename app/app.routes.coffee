@@ -1,4 +1,4 @@
-angular.module "routes", ['ngRoute', 'home.controller', 'match.controller', 'settings.service']
+angular.module "routes", ['ngRoute', 'home.controller', 'match.controller', 'settings.service', 'error.service']
 
 .config ($routeProvider, $locationProvider)->
   $routeProvider
@@ -17,8 +17,11 @@ angular.module "routes", ['ngRoute', 'home.controller', 'match.controller', 'set
         settings: ($route, $http, SettingsService)->
           matchType = $route.current.params.matchType
           SettingsService.setMatchType matchType
-          $http.get('json/'+matchType+'.json').then (result)->
-            SettingsService.setMatchSettings result.data
+          $http.get('json/'+matchType+'.json').then (result, error)->
+            if error
+              ErrorService.setMessage "WRONG_MATCH_NAME"
+            else
+              SettingsService.setMatchSettings result.data
       }
     }
   $locationProvider.html5Mode true

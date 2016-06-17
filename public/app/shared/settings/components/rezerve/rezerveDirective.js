@@ -1,4 +1,4 @@
-angular.module("settings.rezerve.directive", []).directive("rezerve", function() {
+angular.module("settings.rezerve.directive", []).directive("settingsRezerve", function() {
   return {
     restrict: "E",
     scope: {

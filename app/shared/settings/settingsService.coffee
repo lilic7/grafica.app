@@ -24,7 +24,7 @@ angular.module "settings.service", ['error.service']
   settings.setMatchSettings = (settingsFromJson)->
     settings.all = settingsFromJson
 
-  settings.setMatchType = (matchType)->                 #initializare in MatchView - functia setRoute()
+  settings.setMatchType = (matchType)->
     if checkMatchType(matchType) isnt -1
       type = matchType
     else

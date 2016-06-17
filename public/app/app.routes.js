@@ -1,4 +1,4 @@
-angular.module("routes", ['ngRoute', 'home.controller', 'match.controller', 'settings.service']).config(function($routeProvider, $locationProvider) {
+angular.module("routes", ['ngRoute', 'home.controller', 'match.controller', 'settings.service', 'error.service']).config(function($routeProvider, $locationProvider) {
   $routeProvider.when('/', {
     templateUrl: 'app/components/home/homeView.html',
     controller: 'HomeController',
@@ -12,8 +12,12 @@ angular.module("routes", ['ngRoute', 'home.controller', 'match.controller', 'set
         var matchType;
         matchType = $route.current.params.matchType;
         SettingsService.setMatchType(matchType);
-        return $http.get('json/' + matchType + '.json').then(function(result) {
-          return SettingsService.setMatchSettings(result.data);
+        return $http.get('json/' + matchType + '.json').then(function(result, error) {
+          if (error) {
+            return ErrorService.setMessage("WRONG_MATCH_NAME");
+          } else {
+            return SettingsService.setMatchSettings(result.data);
+          }
         });
       }
     }

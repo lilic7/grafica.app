@@ -1,6 +1,6 @@
 angular.module("app", ['ngMaterial', 'routes', 'ucfirstFilter']);
 
-angular.module("routes", ['ngRoute', 'home.controller', 'match.controller', 'settings.service']).config(["$routeProvider", "$locationProvider", function($routeProvider, $locationProvider) {
+angular.module("routes", ['ngRoute', 'home.controller', 'match.controller', 'settings.service', 'error.service']).config(["$routeProvider", "$locationProvider", function($routeProvider, $locationProvider) {
   $routeProvider.when('/', {
     templateUrl: 'app/components/home/homeView.html',
     controller: 'HomeController',
@@ -14,8 +14,12 @@ angular.module("routes", ['ngRoute', 'home.controller', 'match.controller', 'set
         var matchType;
         matchType = $route.current.params.matchType;
         SettingsService.setMatchType(matchType);
-        return $http.get('json/' + matchType + '.json').then(function(result) {
-          return SettingsService.setMatchSettings(result.data);
+        return $http.get('json/' + matchType + '.json').then(function(result, error) {
+          if (error) {
+            return ErrorService.setMessage("WRONG_MATCH_NAME");
+          } else {
+            return SettingsService.setMatchSettings(result.data);
+          }
         });
       }]
     }
@@ -39,16 +43,12 @@ angular.module("home.controller", ['settings.service']).controller("HomeControll
   vm.matches = SettingsService.sports;
 }]);
 
-angular.module("match.controller", ['team.directive', 'game.directive', 'settings.directive']).controller('MatchController', function() {
+angular.module("match.controller", ['team.directive', 'game.directive', 'settings.directive', 'game.service']).controller('MatchController', ["GameService", function(GameService) {
   var vm;
   vm = this;
-  vm.team1 = {
-    name: "Stanga"
-  };
-  vm.team2 = {
-    name: "Dreapta"
-  };
-});
+  vm.team1 = GameService.team1;
+  vm.team2 = GameService.team2;
+}]);
 
 angular.module("error.service", ['error.toast.controller']).factory("ErrorService", ["$mdToast", "$location", function($mdToast, $location) {
   var factory, messages, showMessage;
@@ -98,6 +98,8 @@ angular.module("game.controller", ['game.service']).controller("GameController",
   vm = this;
   vm.settings = SettingsService.all;
   vm.gameService = GameService;
+  vm.team1 = GameService.team1;
+  vm.team2 = GameService.team2;
 }]);
 
 angular.module("game.directive", ['game.controller', 'timer.directive']).directive("game", function() {
@@ -110,16 +112,19 @@ angular.module("game.directive", ['game.controller', 'timer.directive']).directi
 });
 
 angular.module("game.service", []).factory("GameService", function() {
-  var factory, penalty, score;
+  var factory;
   factory = {};
-  score = "0 : 0";
-  penalty = "0 : 1";
-  factory.getScore = function() {
-    return score;
+  factory.team1 = {
+    name: "LEx Garant",
+    player_txt: "",
+    reserve_txt: ""
   };
-  factory.getPenaltyScore = function() {
-    return penalty;
+  factory.team2 = {
+    name: "Cojusna",
+    player_txt: "",
+    reserve_txt: ""
   };
+  factory.renderPlayers = function(players_txt) {};
   return factory;
 });
 
@@ -128,12 +133,9 @@ angular.module("settings.controller", ['settings.service']).controller("Settings
   vm = this;
   vm.matchType = SettingsService.getMatchType();
   vm.settings = SettingsService.all;
-  vm.rezerve = {
-    on: SettingsService.all.rezerve
-  };
 }]);
 
-angular.module("settings.directive", ['settings.controller', 'settings.rezerve.directive']).directive("settings", function() {
+angular.module("settings.directive", ['settings.controller', 'settings.rezerve.directive', 'settings.offside.directive', 'settings.corner.directive', 'settings.departajari.directive', 'settings.repriza.directive', 'settings.pauza.directive', 'settings.timer.directive']).directive("settings", function() {
   return {
     restrict: "E",
     templateUrl: "app/shared/settings/settingsView.html",
@@ -202,7 +204,7 @@ angular.module("timer.controller", ['timer.service', 'settings.service']).contro
   vm.settings = SettingsService.all;
   vm.timerService = TimerService;
   vm.setRepriza = function(repriza) {
-    TimerService.modify((repriza - 1) * vm.settings.durata_repriza);
+    TimerService.modify((repriza - 1) * vm.settings.repriza);
     vm.repriza = repriza;
   };
 }]);
@@ -307,18 +309,72 @@ angular.module("error.toast.controller", ['error.service']).controller("ToastCon
   };
 }]);
 
-angular.module("settings.rezerve.controller", ['settings.service']).controller("RezerveController", ["SettingsService", function(SettingsService) {
-  var vm;
-  vm = this;
-  vm.rezerve = SettingsService.all;
-}]);
+angular.module("settings.corner.directive", []).directive("settingsCorner", function() {
+  return {
+    restrict: "E",
+    scope: {
+      cornere: "="
+    },
+    templateUrl: "app/shared/settings/components/corner/cornerView.html"
+  };
+});
 
-angular.module("settings.rezerve.directive", []).directive("rezerve", function() {
+angular.module("settings.departajari.directive", []).directive("settingsDepartajari", function() {
+  return {
+    restrict: "E",
+    scope: {
+      departajari: "="
+    },
+    templateUrl: "app/shared/settings/components/departajari/departajariView.html"
+  };
+});
+
+angular.module("settings.offside.directive", []).directive("settingsOffside", function() {
+  return {
+    restrict: "E",
+    scope: {
+      offside: "="
+    },
+    templateUrl: "app/shared/settings/components/offside/offsideView.html"
+  };
+});
+
+angular.module("settings.pauza.directive", []).directive("settingsPauza", function() {
+  return {
+    restrict: "E",
+    scope: {
+      pauza: "="
+    },
+    templateUrl: "app/shared/settings/components/pauza/pauzaView.html"
+  };
+});
+
+angular.module("settings.repriza.directive", []).directive("settingsRepriza", function() {
+  return {
+    restrict: "E",
+    scope: {
+      repriza: "="
+    },
+    templateUrl: "app/shared/settings/components/repriza/reprizaView.html"
+  };
+});
+
+angular.module("settings.rezerve.directive", []).directive("settingsRezerve", function() {
   return {
     restrict: "E",
     scope: {
       rezerve: "="
     },
     templateUrl: 'app/shared/settings/components/rezerve/rezerveView.html'
+  };
+});
+
+angular.module("settings.timer.directive", []).directive("settingsTimer", function() {
+  return {
+    restrict: "E",
+    scope: {
+      timer: "="
+    },
+    templateUrl: "app/shared/settings/components/timer/timerView.html"
   };
 });

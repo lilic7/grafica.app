@@ -1,6 +1,6 @@
 angular.module "settings.rezerve.directive", []
 
-.directive "rezerve", ()->
+.directive "settingsRezerve", ()->
   {
     restrict: "E"
     scope: {

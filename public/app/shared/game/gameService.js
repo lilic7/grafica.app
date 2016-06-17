@@ -1,13 +1,16 @@
 angular.module("game.service", []).factory("GameService", function() {
-  var factory, penalty, score;
+  var factory;
   factory = {};
-  score = "0 : 0";
-  penalty = "0 : 1";
-  factory.getScore = function() {
-    return score;
+  factory.team1 = {
+    name: "LEx Garant",
+    player_txt: "",
+    reserve_txt: ""
   };
-  factory.getPenaltyScore = function() {
-    return penalty;
+  factory.team2 = {
+    name: "Cojusna",
+    player_txt: "",
+    reserve_txt: ""
   };
+  factory.renderPlayers = function(players_txt) {};
   return factory;
 });

@@ -5,7 +5,7 @@ angular.module("timer.controller", ['timer.service', 'settings.service']).contro
   vm.settings = SettingsService.all;
   vm.timerService = TimerService;
   vm.setRepriza = function(repriza) {
-    TimerService.modify((repriza - 1) * vm.settings.durata_repriza);
+    TimerService.modify((repriza - 1) * vm.settings.repriza);
     vm.repriza = repriza;
   };
 });

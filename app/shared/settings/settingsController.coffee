@@ -7,6 +7,4 @@ angular.module "settings.controller", ['settings.service']
   vm.matchType = SettingsService.getMatchType()
   vm.settings = SettingsService.all
 
-  vm.rezerve = { on: SettingsService.all.rezerve }
-  
   return
