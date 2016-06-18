@@ -1,11 +1,16 @@
-angular.module "team.controller", ['settings.service', 'team.service']
+angular.module "team.controller", []
 
-.controller "TeamController", (SettingsService, TeamService)->
+.controller "TeamController", ()->
   vm = this
-  vm.settingsService = SettingsService
 
-  vm.settings = SettingsService.all
+  vm.team = {}
 
-  vm.teamService = TeamService
+  vm.setTeam = (team)->
+    vm.team = team
   
+  vm.render = ()->
+    vm.player_list = vm.team.player_list.split "\n"
+    vm.reserve_list = vm.team.reserve_list.split "\n"
+    return
+
   return

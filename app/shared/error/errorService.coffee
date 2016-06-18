@@ -1,4 +1,7 @@
-angular.module "error.service", ['error.toast.controller']
+angular.module "error.service",
+  [
+    'error.toast.controller'
+  ]
 
 .factory "ErrorService", ($mdToast, $location)->
   showMessage = ''

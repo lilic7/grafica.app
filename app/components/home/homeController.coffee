@@ -1,4 +1,5 @@
-angular.module "home.controller", ['settings.service']
+angular.module "home.controller",
+  ['settings.service']
 
 .controller "HomeController", (SettingsService)->
   vm = this

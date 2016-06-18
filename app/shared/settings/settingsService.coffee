@@ -1,4 +1,7 @@
-angular.module "settings.service", ['error.service']
+angular.module "settings.service",
+  [
+    'error.service'
+  ]
 
 .factory "SettingsService", ($http, ErrorService)->
 

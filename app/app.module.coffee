@@ -1,7 +1,8 @@
-angular.module "app", [
-  'ngMaterial',
-  'routes',
+angular.module "app",
+  [
+    'ngMaterial',
+    'routes',
 
-  #filters
-  'ucfirstFilter'
-]
+    #filters
+    'ucfirstFilter'
+  ]

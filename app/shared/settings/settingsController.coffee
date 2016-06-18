@@ -1,4 +1,7 @@
-angular.module "settings.controller", ['settings.service']
+angular.module "settings.controller",
+  [
+    'settings.service'
+  ]
 
 .controller "SettingsController", ($routeParams, SettingsService)->
 

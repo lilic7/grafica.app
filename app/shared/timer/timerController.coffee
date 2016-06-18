@@ -1,4 +1,8 @@
-angular.module "timer.controller", ['timer.service', 'settings.service']
+angular.module "timer.controller",
+  [
+    'timer.service'
+    'settings.service'
+  ]
 
 .controller "TimerController", (TimerService, SettingsService)->
   vm = this

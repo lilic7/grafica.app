@@ -5,6 +5,6 @@ angular.module "ucfirstFilter", []
     out = ""
 
     out = input.charAt 0
-    .toUpperCase()  + input.substr 1
+    .toUpperCase()  + input.substr(1).toLowerCase()
 
     out

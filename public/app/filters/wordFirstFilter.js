@@ -1,4 +1,4 @@
-angular.module("ucfirstFilter", []).filter('ucfirst', function() {
+angular.module("wordFirstFilter", []).filter('wordFirst', function() {
   return function(input) {
     var out;
     input = input || "";

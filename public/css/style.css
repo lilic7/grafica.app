@@ -60,3 +60,16 @@ body {
     border-radius: 10px 0 0 10px; }
   .padded.right {
     border-radius: 0 10px 10px 0; }
+
+team-list player-card md-card {
+  width: 200px;
+  height: 200px; }
+
+team-list player-card md-card md-card-title-text {
+  font-size: 50px; }
+
+team-list.green player-card md-card {
+  background: lightgreen; }
+
+team-list.blue player-card md-card {
+  background: lightcyan; }

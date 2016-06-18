@@ -1,4 +1,7 @@
-angular.module "timer.directive", ['timer.controller']
+angular.module "timer.directive",
+  [
+    'timer.controller'
+  ]
 
 .directive "timer", ()->
   {

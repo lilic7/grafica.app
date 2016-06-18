@@ -1,4 +1,5 @@
-angular.module "error.toast.controller", ['error.service']
+angular.module "error.toast.controller", 
+  ['error.service']
 
 .controller "ToastController", (ErrorService)->
 

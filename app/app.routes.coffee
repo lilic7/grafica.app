@@ -1,4 +1,11 @@
-angular.module "routes", ['ngRoute', 'home.controller', 'match.controller', 'settings.service', 'error.service']
+angular.module "routes",
+  [
+    'ngRoute'
+    'home.controller'
+    'match.controller'
+    'settings.service'
+    'error.service'
+  ]
 
 .config ($routeProvider, $locationProvider)->
   $routeProvider

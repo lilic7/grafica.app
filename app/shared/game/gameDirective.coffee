@@ -1,4 +1,8 @@
-angular.module "game.directive", ['game.controller', 'timer.directive']
+angular.module "game.directive",
+  [
+    'game.controller'
+    'timer.directive'
+  ]
 
 .directive "game", ()->
   {

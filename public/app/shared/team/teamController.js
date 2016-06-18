@@ -1,7 +1,12 @@
-angular.module("team.controller", ['settings.service', 'team.service']).controller("TeamController", function(SettingsService, TeamService) {
+angular.module("team.controller", []).controller("TeamController", function() {
   var vm;
   vm = this;
-  vm.settingsService = SettingsService;
-  vm.settings = SettingsService.all;
-  vm.teamService = TeamService;
+  vm.team = {};
+  vm.setTeam = function(team) {
+    return vm.team = team;
+  };
+  vm.render = function() {
+    vm.player_list = vm.team.player_list.split("\n");
+    vm.reserve_list = vm.team.reserve_list.split("\n");
+  };
 });

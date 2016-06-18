@@ -32,7 +32,17 @@ angular.module("ucfirstFilter", []).filter('ucfirst', function() {
     var out;
     input = input || "";
     out = "";
-    out = input.charAt(0).toUpperCase() + input.substr(1);
+    out = input.charAt(0).toUpperCase() + input.substr(1).toLowerCase();
+    return out;
+  };
+});
+
+angular.module("wordFirstFilter", []).filter('wordFirst', function() {
+  return function(input) {
+    var out;
+    input = input || "";
+    out = "";
+    out = input.charAt(0).toUpperCase() + input.substr(1).toLowerCase();
     return out;
   };
 });
@@ -43,11 +53,12 @@ angular.module("home.controller", ['settings.service']).controller("HomeControll
   vm.matches = SettingsService.sports;
 }]);
 
-angular.module("match.controller", ['team.directive', 'game.directive', 'settings.directive', 'game.service']).controller('MatchController', ["GameService", function(GameService) {
+angular.module("match.controller", ['team.form.directive', 'game.directive', 'settings.directive', 'game.service', 'settings.service']).controller('MatchController', ["GameService", "SettingsService", function(GameService, SettingsService) {
   var vm;
   vm = this;
   vm.team1 = GameService.team1;
   vm.team2 = GameService.team2;
+  vm.settings = SettingsService.all;
 }]);
 
 angular.module("error.service", ['error.toast.controller']).factory("ErrorService", ["$mdToast", "$location", function($mdToast, $location) {
@@ -93,11 +104,10 @@ angular.module("error.service", ['error.toast.controller']).factory("ErrorServic
   return factory;
 }]);
 
-angular.module("game.controller", ['game.service']).controller("GameController", ["GameService", "SettingsService", function(GameService, SettingsService) {
+angular.module("game.controller", ['game.service', 'team.directive']).controller("GameController", ["GameService", "SettingsService", function(GameService, SettingsService) {
   var vm;
   vm = this;
   vm.settings = SettingsService.all;
-  vm.gameService = GameService;
   vm.team1 = GameService.team1;
   vm.team2 = GameService.team2;
 }]);
@@ -112,20 +122,74 @@ angular.module("game.directive", ['game.controller', 'timer.directive']).directi
 });
 
 angular.module("game.service", []).factory("GameService", function() {
-  var factory;
+  var factory, prepare;
   factory = {};
   factory.team1 = {
-    name: "LEx Garant",
+    name: "",
     player_txt: "",
-    reserve_txt: ""
+    reserve_txt: "",
+    player_list: [],
+    reserve_list: [],
+    renderPlayer: function() {
+      return factory.team1.player_list = prepare(factory.team1.player_txt);
+    },
+    renderReserve: function() {
+      return factory.team1.reserve_list = prepare(factory.team1.reserve_txt);
+    }
   };
   factory.team2 = {
-    name: "Cojusna",
+    name: "",
     player_txt: "",
-    reserve_txt: ""
+    reserve_txt: "",
+    player_list: [],
+    reserve_list: [],
+    renderPlayer: function() {
+      return factory.team2.player_list = prepare(factory.team2.player_txt);
+    },
+    renderReserve: function() {
+      return factory.team2.reserve_list = prepare(factory.team2.reserve_txt);
+    }
   };
-  factory.renderPlayers = function(players_txt) {};
+  prepare = function(text) {
+    var text_arr;
+    text_arr = text.split("\n");
+    return text_arr.sort(function(a, b) {
+      a = a.split(" ");
+      b = b.split(" ");
+      return a[0] - b[0];
+    });
+  };
   return factory;
+});
+
+angular.module("player.controller", ['ucfirstFilter']).controller("PlayerController", function() {
+  var vm;
+  vm = this;
+  vm.player = {};
+  vm.preparePlayer = function(data) {
+    var parts;
+    data = data.replace(/( +)/g, " ");
+    parts = data.split(" ");
+    return vm.player = {
+      number: parts[0],
+      name: parts[1] + " " + parts[2]
+    };
+  };
+});
+
+angular.module("player.directive", ['player.controller', 'ucfirstFilter']).directive("playerCard", function() {
+  return {
+    restrict: "E",
+    scope: {
+      player: "="
+    },
+    link: function(scope, element, attrs, playerCtrl) {
+      return playerCtrl.preparePlayer(scope.player);
+    },
+    controller: "PlayerController",
+    controllerAs: "playerCtrl",
+    templateUrl: "app/shared/player/playerView.html"
+  };
 });
 
 angular.module("settings.controller", ['settings.service']).controller("SettingsController", ["$routeParams", "SettingsService", function($routeParams, SettingsService) {
@@ -170,31 +234,27 @@ angular.module("settings.service", ['error.service']).factory("SettingsService",
   return settings;
 }]);
 
-angular.module("team.controller", ['settings.service', 'team.service']).controller("TeamController", ["SettingsService", "TeamService", function(SettingsService, TeamService) {
+angular.module("team.controller", []).controller("TeamController", function() {
   var vm;
   vm = this;
-  vm.settingsService = SettingsService;
-  vm.settings = SettingsService.all;
-  vm.teamService = TeamService;
-}]);
+  vm.team = {};
+  vm.setTeam = function(team) {
+    return vm.team = team;
+  };
+  vm.render = function() {
+    vm.player_list = vm.team.player_list.split("\n");
+    vm.reserve_list = vm.team.reserve_list.split("\n");
+  };
+});
 
-angular.module("team.directive", ['team.controller']).directive("team", function() {
+angular.module("team.directive", ['player.directive']).directive("teamList", function() {
   return {
     restrict: "E",
     scope: {
       team: "="
     },
-    templateUrl: "app/shared/team/teamView.html",
-    controller: "TeamController",
-    controllerAs: "teamCtrl"
+    templateUrl: "app/shared/team/teamView.html"
   };
-});
-
-angular.module("team.service", []).factory("TeamService", function() {
-  var factory;
-  factory = {};
-  factory.teams = [];
-  return factory;
 });
 
 angular.module("timer.controller", ['timer.service', 'settings.service']).controller("TimerController", ["TimerService", "SettingsService", function(TimerService, SettingsService) {
@@ -308,6 +368,17 @@ angular.module("error.toast.controller", ['error.service']).controller("ToastCon
     return ErrorService.hide();
   };
 }]);
+
+angular.module("team.form.directive", []).directive("teamForm", function() {
+  return {
+    restrict: "E",
+    scope: {
+      team: "=",
+      settings: "="
+    },
+    templateUrl: "app/shared/team/form/formView.html"
+  };
+});
 
 angular.module("settings.corner.directive", []).directive("settingsCorner", function() {
   return {
