@@ -3,10 +3,10 @@ angular.module("game.service", []).factory("GameService", function() {
   factory = {};
   factory.team1 = {
     name: "",
-    player_txt: "",
-    reserve_txt: "",
-    player_list: [],
-    reserve_list: [],
+    player_txt: "7   SERGIU DONICĂ",
+    reserve_txt: "6   MIHAI MUSTEA (C)",
+    player_list: ["7   SERGIU DONICĂ"],
+    reserve_list: ["6   MIHAI MUSTEA (C)"],
     renderPlayer: function() {
       return factory.team1.player_list = prepare(factory.team1.player_txt);
     },
@@ -16,10 +16,10 @@ angular.module("game.service", []).factory("GameService", function() {
   };
   factory.team2 = {
     name: "",
-    player_txt: "",
-    reserve_txt: "",
-    player_list: [],
-    reserve_list: [],
+    player_txt: "11  ALEXANDRU OLEINIC",
+    reserve_txt: "8   VITALIE BUCȘAN",
+    player_list: ["11  ALEXANDRU OLEINIC"],
+    reserve_list: ["8   VITALIE BUCȘAN"],
     renderPlayer: function() {
       return factory.team2.player_list = prepare(factory.team2.player_txt);
     },

@@ -1,16 +1,24 @@
-angular.module "team.controller", []
+(->
+  TeamController = ()->
 
-.controller "TeamController", ()->
-  vm = this
+    vm = @
+    vm.team = {}
 
-  vm.team = {}
+    vm.setTeam = setTeam
+    vm.render = render
 
-  vm.setTeam = (team)->
-    vm.team = team
-  
-  vm.render = ()->
-    vm.player_list = vm.team.player_list.split "\n"
-    vm.reserve_list = vm.team.reserve_list.split "\n"
+    setTeam = (team)->
+      vm.team = team
+
+    render = ()->
+      vm.player_list = vm.team.player_list.split "\n"
+      vm.reserve_list = vm.team.reserve_list.split "\n"
+      return
+
     return
 
-  return
+  angular
+  .module "team.controller", []
+  .controller "TeamController", TeamController
+
+)()

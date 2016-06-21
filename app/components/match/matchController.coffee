@@ -1,15 +1,20 @@
-angular.module "match.controller",
-  ['team.form.directive'
-  'game.directive'
-  'settings.directive'
-  'game.service'
-  'settings.service']
+(->
+  MatchController = (GameService, SettingsService)->
+    vm = @
+    vm.team1 = GameService.team1
+    vm.team2 = GameService.team2
 
-.controller 'MatchController', (GameService, SettingsService)->
-  vm = this
-  vm.team1 = GameService.team1
-  vm.team2 = GameService.team2
+    vm.settings = SettingsService.all
 
-  vm.settings = SettingsService.all
+    return
 
-  return
+  angular
+  .module "match.controller",
+      ['team.form.directive'
+        'game.directive'
+        'settings.directive'
+        'game.service'
+        'settings.service']
+
+  .controller 'MatchController', MatchController
+)()

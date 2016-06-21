@@ -27,39 +27,62 @@ angular.module("routes", ['ngRoute', 'home.controller', 'match.controller', 'set
   $locationProvider.html5Mode(true);
 }]);
 
-angular.module("ucfirstFilter", []).filter('ucfirst', function() {
-  return function(input) {
-    var out;
-    input = input || "";
-    out = "";
-    out = input.charAt(0).toUpperCase() + input.substr(1).toLowerCase();
-    return out;
+(function() {
+  var ucfirst;
+  ucfirst = function() {
+    return function(input) {
+      var out;
+      input = input || "";
+      out = "";
+      out = input.charAt(0).toUpperCase() + input.substr(1).toLowerCase();
+      return out;
+    };
   };
-});
+  return angular.module("ucfirstFilter", []).filter('ucfirst', ucfirst);
+})();
 
-angular.module("wordFirstFilter", []).filter('wordFirst', function() {
-  return function(input) {
-    var out;
-    input = input || "";
-    out = "";
-    out = input.charAt(0).toUpperCase() + input.substr(1).toLowerCase();
-    return out;
+(function() {
+  var rewrite, wordFirst;
+  wordFirst = function() {
+    return function(input) {
+      var i, len, out, word, words;
+      input = input || "";
+      out = "";
+      words = input.split(' ');
+      for (i = 0, len = words.length; i < len; i++) {
+        word = words[i];
+        out += rewrite(word);
+      }
+      return out;
+    };
   };
-});
+  rewrite = function(word) {
+    return word.charAt(0).toUpperCase() + word.substr(1).toLowerCase() + " ";
+  };
+  return angular.module("wordFirstFilter", []).filter('wordFirst', wordFirst);
+})();
 
-angular.module("home.controller", ['settings.service']).controller("HomeController", ["SettingsService", function(SettingsService) {
-  var vm;
-  vm = this;
-  vm.matches = SettingsService.sports;
-}]);
+(function() {
+  var HomeController;
+  HomeController = function(SettingsService) {
+    var vm;
+    vm = this;
+    vm.matches = SettingsService.sports;
+  };
+  return angular.module("home.controller", ['settings.service']).controller("HomeController", HomeController);
+})();
 
-angular.module("match.controller", ['team.form.directive', 'game.directive', 'settings.directive', 'game.service', 'settings.service']).controller('MatchController', ["GameService", "SettingsService", function(GameService, SettingsService) {
-  var vm;
-  vm = this;
-  vm.team1 = GameService.team1;
-  vm.team2 = GameService.team2;
-  vm.settings = SettingsService.all;
-}]);
+(function() {
+  var MatchController;
+  MatchController = function(GameService, SettingsService) {
+    var vm;
+    vm = this;
+    vm.team1 = GameService.team1;
+    vm.team2 = GameService.team2;
+    vm.settings = SettingsService.all;
+  };
+  return angular.module("match.controller", ['team.form.directive', 'game.directive', 'settings.directive', 'game.service', 'settings.service']).controller('MatchController', MatchController);
+})();
 
 angular.module("error.service", ['error.toast.controller']).factory("ErrorService", ["$mdToast", "$location", function($mdToast, $location) {
   var factory, messages, showMessage;
@@ -126,10 +149,10 @@ angular.module("game.service", []).factory("GameService", function() {
   factory = {};
   factory.team1 = {
     name: "",
-    player_txt: "",
-    reserve_txt: "",
-    player_list: [],
-    reserve_list: [],
+    player_txt: "7   SERGIU DONICĂ",
+    reserve_txt: "6   MIHAI MUSTEA (C)",
+    player_list: ["7   SERGIU DONICĂ"],
+    reserve_list: ["6   MIHAI MUSTEA (C)"],
     renderPlayer: function() {
       return factory.team1.player_list = prepare(factory.team1.player_txt);
     },
@@ -139,10 +162,10 @@ angular.module("game.service", []).factory("GameService", function() {
   };
   factory.team2 = {
     name: "",
-    player_txt: "",
-    reserve_txt: "",
-    player_list: [],
-    reserve_list: [],
+    player_txt: "11  ALEXANDRU OLEINIC",
+    reserve_txt: "8   VITALIE BUCȘAN",
+    player_list: ["11  ALEXANDRU OLEINIC"],
+    reserve_list: ["8   VITALIE BUCȘAN"],
     renderPlayer: function() {
       return factory.team2.player_list = prepare(factory.team2.player_txt);
     },
@@ -162,9 +185,10 @@ angular.module("game.service", []).factory("GameService", function() {
   return factory;
 });
 
-angular.module("player.controller", ['ucfirstFilter']).controller("PlayerController", function() {
+angular.module("player.controller", ['wordFirstFilter', 'player.actions.controller']).controller("PlayerController", ["$mdDialog", function($mdDialog) {
   var vm;
   vm = this;
+  vm.status = "";
   vm.player = {};
   vm.preparePlayer = function(data) {
     var parts;
@@ -175,7 +199,21 @@ angular.module("player.controller", ['ucfirstFilter']).controller("PlayerControl
       name: parts[1] + " " + parts[2]
     };
   };
-});
+  vm.showAdvanced = function(ev) {
+    $mdDialog.show({
+      controller: 'PlayerActionsController',
+      controllerAs: 'actionsCtrl',
+      templateUrl: 'app/shared/player/actions/actionsView.html',
+      parent: angular.element(document.body),
+      targetEvent: ev,
+      clickOutsideToClose: true
+    }).then(function(answer) {
+      return vm.status = 'You said the information was "' + answer + '".';
+    }, function() {
+      return vm.status = 'You cancelled the dialog.';
+    });
+  };
+}]);
 
 angular.module("player.directive", ['player.controller', 'ucfirstFilter']).directive("playerCard", function() {
   return {
@@ -234,18 +272,24 @@ angular.module("settings.service", ['error.service']).factory("SettingsService",
   return settings;
 }]);
 
-angular.module("team.controller", []).controller("TeamController", function() {
-  var vm;
-  vm = this;
-  vm.team = {};
-  vm.setTeam = function(team) {
-    return vm.team = team;
+(function() {
+  var TeamController;
+  TeamController = function() {
+    var render, setTeam, vm;
+    vm = this;
+    vm.team = {};
+    vm.setTeam = setTeam;
+    vm.render = render;
+    setTeam = function(team) {
+      return vm.team = team;
+    };
+    render = function() {
+      vm.player_list = vm.team.player_list.split("\n");
+      vm.reserve_list = vm.team.reserve_list.split("\n");
+    };
   };
-  vm.render = function() {
-    vm.player_list = vm.team.player_list.split("\n");
-    vm.reserve_list = vm.team.reserve_list.split("\n");
-  };
-});
+  return angular.module("team.controller", []).controller("TeamController", TeamController);
+})();
 
 angular.module("team.directive", ['player.directive']).directive("teamList", function() {
   return {
@@ -369,6 +413,20 @@ angular.module("error.toast.controller", ['error.service']).controller("ToastCon
   };
 }]);
 
+angular.module("player.actions.controller", []).controller("PlayerActionsController", ["$mdDialog", function($mdDialog) {
+  var vm;
+  vm = this;
+  vm.hide = function() {
+    return $mdDialog.hide();
+  };
+  vm.cancel = function() {
+    return $mdDialog.cancel();
+  };
+  return vm.answer = function(answer) {
+    return $mdDialog.hide(answer);
+  };
+}]);
+
 angular.module("team.form.directive", []).directive("teamForm", function() {
   return {
     restrict: "E",
@@ -387,16 +445,6 @@ angular.module("settings.corner.directive", []).directive("settingsCorner", func
       cornere: "="
     },
     templateUrl: "app/shared/settings/components/corner/cornerView.html"
-  };
-});
-
-angular.module("settings.departajari.directive", []).directive("settingsDepartajari", function() {
-  return {
-    restrict: "E",
-    scope: {
-      departajari: "="
-    },
-    templateUrl: "app/shared/settings/components/departajari/departajariView.html"
   };
 });
 
@@ -447,5 +495,15 @@ angular.module("settings.timer.directive", []).directive("settingsTimer", functi
       timer: "="
     },
     templateUrl: "app/shared/settings/components/timer/timerView.html"
+  };
+});
+
+angular.module("settings.departajari.directive", []).directive("settingsDepartajari", function() {
+  return {
+    restrict: "E",
+    scope: {
+      departajari: "="
+    },
+    templateUrl: "app/shared/settings/components/departajari/departajariView.html"
   };
 });

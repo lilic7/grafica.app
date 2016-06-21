@@ -73,3 +73,19 @@ team-list.green player-card md-card {
 
 team-list.blue player-card md-card {
   background: lightcyan; }
+
+.dialogdemoBasicUsage #popupContainer {
+  position: relative; }
+  .dialogdemoBasicUsage #popupContainer .footer {
+    width: 100%;
+    text-align: center;
+    margin-left: 20px; }
+  .dialogdemoBasicUsage #popupContainer .footer, .dialogdemoBasicUsage #popupContainer .footer > code {
+    font-size: 0.8em;
+    margin-top: 50px; }
+  .dialogdemoBasicUsage #popupContainer button {
+    width: 200px; }
+  .dialogdemoBasicUsage #popupContainer div#status {
+    color: #c60008; }
+  .dialogdemoBasicUsage #popupContainer .dialog-demo-prerendered md-checkbox {
+    margin-bottom: 0; }

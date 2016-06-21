@@ -1,8 +1,15 @@
-angular.module "home.controller",
-  ['settings.service']
+(->
+  HomeController = (SettingsService)->
+    vm = @
+    vm.matches = SettingsService.sports
 
-.controller "HomeController", (SettingsService)->
-  vm = this
-  vm.matches = SettingsService.sports
+    return
 
-  return
+
+
+  angular
+  .module "home.controller",
+    ['settings.service']
+  .controller "HomeController", HomeController
+
+)()
