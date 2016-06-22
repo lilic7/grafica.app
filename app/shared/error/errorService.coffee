@@ -1,46 +1,57 @@
-angular.module "error.service",
-  [
-    'error.toast.controller'
-  ]
+(->
+  ErrorService = ($mdToast, $location)->
 
-.factory "ErrorService", ($mdToast, $location)->
-  showMessage = ''
+    message = ""
+    redirect = false
+    showToast = false
 
-  messages = {
-    WRONG_MATCH_NAME: {
-      message: "Acest tip de meci nu exista"
-      redirect: true
+    messages =
+      WRONG_MATCH_NAME:
+        message: "Acest tip de meci nu exista"
+        redirect: true
+      MATCH_TOO_LONG:
+        message: "Durata meciului a trecut de limitele normale"
+        redirect: false
+      NEGATIVE_TIME:
+        message: "SFAT: Reseteaza contorul!"
+        redirect: false
+
+    setMessage = (msgCode)->
+      message = messages[msgCode].message
+      redirect = messages[msgCode].redirect
+      showMessage $mdToast, $location
+      return
+
+    showMessage = ($mdToast, $location)->
+      if not showToast
+        showToast = true
+        $mdToast
+          .show
+            hideDelay: 3000
+            position: 'top right'
+            controller: "ToastController"
+            controllerAs: "toastCtrl"
+            templateUrl: 'app/shared/error/toast/toastView.html'
+          .then ->  
+            showToast = false
+            $location.url "/" if redirect
+            return
+      return
+
+    getMessage = ->
+      message
+
+    ###   Returned factory   ###
+
+    return {
+      getMessage: getMessage,
+      setMessage: setMessage
     }
-    MATCH_TOO_LONG: {
-      message: "Durata meciului a trecut de limitele normale"
-      redirect: false
-    }
-    NEGATIVE_TIME: {
-      message: "SFAT: Reseteaza contorul!"
-      redirect: false
-    }
-  }
 
-  factory = {}
+  ErrorService.$inject = ['$mdToast', '$location']
 
-  factory.showToast = false
-
-  factory.getMessage = ()->
-    showMessage
-
-  factory.setMessage = (msgCode)->
-    if not factory.showToast
-      factory.showToast = true
-      showMessage = messages[msgCode].message
-      $mdToast.show({
-        hideDelay: 3000
-        position: 'top right'
-        controller: "ToastController"
-        controllerAs: "toastCtrl"
-        templateUrl: 'app/shared/error/toast/toastView.html'
-      }).then ()->
-        factory.showToast = false
-        $location.url "/" if messages[msgCode].redirect
-    return
-
-  return factory
+  angular
+    .module "error.service",
+      ['error.toast.controller']
+    .factory "ErrorService", ErrorService
+)()

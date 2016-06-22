@@ -5,7 +5,7 @@ angular.module("player.directive", ['player.controller', 'ucfirstFilter']).direc
       player: "="
     },
     link: function(scope, element, attrs, playerCtrl) {
-      return playerCtrl.preparePlayer(scope.player);
+      playerCtrl.preparePlayer(scope.player);
     },
     controller: "PlayerController",
     controllerAs: "playerCtrl",

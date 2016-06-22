@@ -1,13 +1,13 @@
-angular.module "error.toast.controller", 
-  ['error.service']
+(->
+  ToastController = (ErrorService)->
+    vm = @
+    vm.message = ErrorService.getMessage()
+    return
 
-.controller "ToastController", (ErrorService)->
+  ToastController.$inject = ['ErrorService']
 
-  vm = this
-
-  vm.message = ErrorService.getMessage()
-
-  vm.hide = ()->
-    ErrorService.hide()
-
-  return
+  angular
+    .module "error.toast.controller",
+      ['error.service']
+    .controller "ToastController", ToastController
+)()

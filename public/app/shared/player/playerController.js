@@ -1,18 +1,15 @@
-angular.module("player.controller", ['wordFirstFilter', 'player.actions.controller']).controller("PlayerController", function($mdDialog) {
-  var vm;
-  vm = this;
-  vm.status = "";
-  vm.player = {};
-  vm.preparePlayer = function(data) {
-    var parts;
-    data = data.replace(/( +)/g, " ");
-    parts = data.split(" ");
-    return vm.player = {
-      number: parts[0],
-      name: parts[1] + " " + parts[2]
-    };
+(function() {
+  'use strict';
+  var PlayerController, player, showAdvanced;
+  PlayerController = function(PlayerService) {
+    var vm;
+    vm = this;
+    vm.player = player;
+    vm.preparePlayer = PlayerService.preparePlayer(data);
+    vm.showAdvanced = showAdvanced;
   };
-  vm.showAdvanced = function(ev) {
+  player = {};
+  showAdvanced = function($mdDialog, ev) {
     $mdDialog.show({
       controller: 'PlayerActionsController',
       controllerAs: 'actionsCtrl',
@@ -20,10 +17,8 @@ angular.module("player.controller", ['wordFirstFilter', 'player.actions.controll
       parent: angular.element(document.body),
       targetEvent: ev,
       clickOutsideToClose: true
-    }).then(function(answer) {
-      return vm.status = 'You said the information was "' + answer + '".';
-    }, function() {
-      return vm.status = 'You cancelled the dialog.';
     });
   };
-});
+  PlayerController.$inject = ['PlayerService'];
+  return angular.module("player.controller", ['wordFirstFilter', 'player.actions.controller', 'player.service']).controller("PlayerController", PlayerController);
+})();

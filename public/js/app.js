@@ -1,31 +1,35 @@
 angular.module("app", ['ngMaterial', 'routes', 'ucfirstFilter']);
 
-angular.module("routes", ['ngRoute', 'home.controller', 'match.controller', 'settings.service', 'error.service']).config(["$routeProvider", "$locationProvider", function($routeProvider, $locationProvider) {
-  $routeProvider.when('/', {
-    templateUrl: 'app/components/home/homeView.html',
-    controller: 'HomeController',
-    controllerAs: 'homeCtrl'
-  }).when('/match/:matchType', {
-    templateUrl: 'app/components/match/matchView.html',
-    controller: 'MatchController',
-    controllerAs: 'matchCtrl',
-    resolve: {
-      settings: ["$route", "$http", "SettingsService", function($route, $http, SettingsService) {
-        var matchType;
-        matchType = $route.current.params.matchType;
-        SettingsService.setMatchType(matchType);
-        return $http.get('json/' + matchType + '.json').then(function(result, error) {
-          if (error) {
-            return ErrorService.setMessage("WRONG_MATCH_NAME");
-          } else {
-            return SettingsService.setMatchSettings(result.data);
-          }
-        });
-      }]
-    }
-  });
-  $locationProvider.html5Mode(true);
-}]);
+(function() {
+  var config;
+  config = function($routeProvider, $locationProvider) {
+    $routeProvider.when('/', {
+      templateUrl: 'app/components/home/homeView.html',
+      controller: 'HomeController',
+      controllerAs: 'homeCtrl'
+    }).when('/match/:matchType', {
+      templateUrl: 'app/components/match/matchView.html',
+      controller: 'MatchController',
+      controllerAs: 'matchCtrl',
+      resolve: {
+        settings: function($route, $http, SettingsService) {
+          var matchType;
+          matchType = $route.current.params.matchType;
+          SettingsService.setMatchType(matchType);
+          return $http.get('json/' + matchType + '.json').then(function(result, error) {
+            if (error) {
+              return ErrorService.setMessage("WRONG_MATCH_NAME");
+            } else {
+              return SettingsService.setMatchSettings(result.data);
+            }
+          });
+        }
+      }
+    });
+    $locationProvider.html5Mode(true);
+  };
+  return angular.module("routes", ['ngRoute', 'home.controller', 'match.controller', 'settings.service', 'error.service']).config(config);
+})();
 
 (function() {
   var ucfirst;
@@ -84,122 +88,147 @@ angular.module("routes", ['ngRoute', 'home.controller', 'match.controller', 'set
   return angular.module("match.controller", ['team.form.directive', 'game.directive', 'settings.directive', 'game.service', 'settings.service']).controller('MatchController', MatchController);
 })();
 
-angular.module("error.service", ['error.toast.controller']).factory("ErrorService", ["$mdToast", "$location", function($mdToast, $location) {
-  var factory, messages, showMessage;
-  showMessage = '';
-  messages = {
-    WRONG_MATCH_NAME: {
-      message: "Acest tip de meci nu exista",
-      redirect: true
-    },
-    MATCH_TOO_LONG: {
-      message: "Durata meciului a trecut de limitele normale",
-      redirect: false
-    },
-    NEGATIVE_TIME: {
-      message: "SFAT: Reseteaza contorul!",
-      redirect: false
-    }
-  };
-  factory = {};
-  factory.showToast = false;
-  factory.getMessage = function() {
-    return showMessage;
-  };
-  factory.setMessage = function(msgCode) {
-    if (!factory.showToast) {
-      factory.showToast = true;
-      showMessage = messages[msgCode].message;
-      $mdToast.show({
-        hideDelay: 3000,
-        position: 'top right',
-        controller: "ToastController",
-        controllerAs: "toastCtrl",
-        templateUrl: 'app/shared/error/toast/toastView.html'
-      }).then(function() {
-        factory.showToast = false;
-        if (messages[msgCode].redirect) {
-          return $location.url("/");
-        }
-      });
-    }
-  };
-  return factory;
-}]);
+(function() {
+  var ErrorService;
+  ErrorService = function($mdToast, $location) {
+    var getMessage, message, messages, redirect, setMessage, showMessage, showToast;
+    message = "";
+    redirect = false;
+    showToast = false;
+    messages = {
+      WRONG_MATCH_NAME: {
+        message: "Acest tip de meci nu exista",
+        redirect: true
+      },
+      MATCH_TOO_LONG: {
+        message: "Durata meciului a trecut de limitele normale",
+        redirect: false
+      },
+      NEGATIVE_TIME: {
+        message: "SFAT: Reseteaza contorul!",
+        redirect: false
+      }
+    };
+    setMessage = function(msgCode) {
+      message = messages[msgCode].message;
+      redirect = messages[msgCode].redirect;
+      showMessage($mdToast, $location);
+    };
+    showMessage = function($mdToast, $location) {
+      if (!showToast) {
+        showToast = true;
+        $mdToast.show({
+          hideDelay: 3000,
+          position: 'top right',
+          controller: "ToastController",
+          controllerAs: "toastCtrl",
+          templateUrl: 'app/shared/error/toast/toastView.html'
+        }).then(function() {
+          showToast = false;
+          if (redirect) {
+            $location.url("/");
+          }
+        });
+      }
+    };
+    getMessage = function() {
+      return message;
+    };
 
-angular.module("game.controller", ['game.service', 'team.directive']).controller("GameController", ["GameService", "SettingsService", function(GameService, SettingsService) {
-  var vm;
-  vm = this;
-  vm.settings = SettingsService.all;
-  vm.team1 = GameService.team1;
-  vm.team2 = GameService.team2;
-}]);
-
-angular.module("game.directive", ['game.controller', 'timer.directive']).directive("game", function() {
-  return {
-    restrict: 'E',
-    templateUrl: "app/shared/game/gameView.html",
-    controller: "GameController",
-    controllerAs: "gameCtrl"
-  };
-});
-
-angular.module("game.service", []).factory("GameService", function() {
-  var factory, prepare;
-  factory = {};
-  factory.team1 = {
-    name: "",
-    player_txt: "7   SERGIU DONICĂ",
-    reserve_txt: "6   MIHAI MUSTEA (C)",
-    player_list: ["7   SERGIU DONICĂ"],
-    reserve_list: ["6   MIHAI MUSTEA (C)"],
-    renderPlayer: function() {
-      return factory.team1.player_list = prepare(factory.team1.player_txt);
-    },
-    renderReserve: function() {
-      return factory.team1.reserve_list = prepare(factory.team1.reserve_txt);
-    }
-  };
-  factory.team2 = {
-    name: "",
-    player_txt: "11  ALEXANDRU OLEINIC",
-    reserve_txt: "8   VITALIE BUCȘAN",
-    player_list: ["11  ALEXANDRU OLEINIC"],
-    reserve_list: ["8   VITALIE BUCȘAN"],
-    renderPlayer: function() {
-      return factory.team2.player_list = prepare(factory.team2.player_txt);
-    },
-    renderReserve: function() {
-      return factory.team2.reserve_list = prepare(factory.team2.reserve_txt);
-    }
-  };
-  prepare = function(text) {
-    var text_arr;
-    text_arr = text.split("\n");
-    return text_arr.sort(function(a, b) {
-      a = a.split(" ");
-      b = b.split(" ");
-      return a[0] - b[0];
-    });
-  };
-  return factory;
-});
-
-angular.module("player.controller", ['wordFirstFilter', 'player.actions.controller']).controller("PlayerController", ["$mdDialog", function($mdDialog) {
-  var vm;
-  vm = this;
-  vm.status = "";
-  vm.player = {};
-  vm.preparePlayer = function(data) {
-    var parts;
-    data = data.replace(/( +)/g, " ");
-    parts = data.split(" ");
-    return vm.player = {
-      number: parts[0],
-      name: parts[1] + " " + parts[2]
+    /*   Returned factory */
+    return {
+      getMessage: getMessage,
+      setMessage: setMessage
     };
   };
-  vm.showAdvanced = function(ev) {
+  ErrorService.$inject = ['$mdToast', '$location'];
+  return angular.module("error.service", ['error.toast.controller']).factory("ErrorService", ErrorService);
+})();
+
+(function() {
+  var GameController;
+  GameController = function(GameService, SettingsService) {
+    var vm;
+    vm = this;
+    vm.team1 = GameService.team1;
+    vm.team2 = GameService.team2;
+    vm.settings = SettingsService.all;
+  };
+  return angular.module("game.controller", ['game.service', 'team.directive']).controller("GameController", GameController);
+})();
+
+(function() {
+  var game;
+  game = function() {
+    return {
+      restrict: 'E',
+      templateUrl: "app/shared/game/gameView.html",
+      controller: "GameController",
+      controllerAs: "gameCtrl"
+    };
+  };
+  return angular.module("game.directive", ['game.controller', 'timer.directive']).directive("game", game);
+})();
+
+(function() {
+  var GameService;
+  GameService = function() {
+    var prepare, team1, team2;
+    prepare = function(text) {
+      var text_arr;
+      text_arr = text.split("\n");
+      return text_arr.sort(function(a, b) {
+        a = a.split(" ");
+        b = b.split(" ");
+        return a[0] - b[0];
+      });
+    };
+    team1 = {
+      name: "",
+      player_txt: "7   SERGIU DONICĂ",
+      reserve_txt: "6   MIHAI MUSTEA (C)",
+      player_list: ["7   SERGIU DONICĂ"],
+      reserve_list: ["6   MIHAI MUSTEA (C)"],
+      renderPlayer: function() {
+        return team1.player_list = prepare(team1.player_txt);
+      },
+      renderReserve: function() {
+        return team1.reserve_list = prepare(team1.reserve_txt);
+      }
+    };
+    team2 = {
+      name: "",
+      player_txt: "11  ALEXANDRU OLEINIC",
+      reserve_txt: "8   VITALIE BUCȘAN",
+      player_list: ["11  ALEXANDRU OLEINIC"],
+      reserve_list: ["8   VITALIE BUCȘAN"],
+      renderPlayer: function() {
+        return team2.player_list = prepare(team2.player_txt);
+      },
+      renderReserve: function() {
+        return team2.reserve_list = prepare(team2.reserve_txt);
+      }
+    };
+    return {
+      team1: team1,
+      team2: team2
+    };
+  };
+  return angular.module("game.service", []).factory("GameService", GameService);
+})();
+
+(function() {
+  'use strict';
+  var PlayerController, player, showAdvanced;
+  PlayerController = function(PlayerService) {
+    var vm;
+    vm = this;
+    vm.player = player;
+    vm.preparePlayer = PlayerService.preparePlayer(data);
+    vm.showAdvanced = showAdvanced;
+  };
+  player = {};
+  showAdvanced = function($mdDialog, ev) {
     $mdDialog.show({
       controller: 'PlayerActionsController',
       controllerAs: 'actionsCtrl',
@@ -207,13 +236,11 @@ angular.module("player.controller", ['wordFirstFilter', 'player.actions.controll
       parent: angular.element(document.body),
       targetEvent: ev,
       clickOutsideToClose: true
-    }).then(function(answer) {
-      return vm.status = 'You said the information was "' + answer + '".';
-    }, function() {
-      return vm.status = 'You cancelled the dialog.';
     });
   };
-}]);
+  PlayerController.$inject = ['PlayerService'];
+  return angular.module("player.controller", ['wordFirstFilter', 'player.actions.controller', 'player.service']).controller("PlayerController", PlayerController);
+})();
 
 angular.module("player.directive", ['player.controller', 'ucfirstFilter']).directive("playerCard", function() {
   return {
@@ -222,13 +249,34 @@ angular.module("player.directive", ['player.controller', 'ucfirstFilter']).direc
       player: "="
     },
     link: function(scope, element, attrs, playerCtrl) {
-      return playerCtrl.preparePlayer(scope.player);
+      playerCtrl.preparePlayer(scope.player);
     },
     controller: "PlayerController",
     controllerAs: "playerCtrl",
     templateUrl: "app/shared/player/playerView.html"
   };
 });
+
+(function() {
+  'use strict';
+  var PlayerService;
+  PlayerService = function() {
+    var preparePlayer;
+    preparePlayer = function(data) {
+      var parts;
+      data = data.replace(/( +)/g, " ");
+      parts = data.split(" ");
+      return {
+        number: parts[0],
+        name: parts[1] + " " + parts[2]
+      };
+    };
+    return {
+      preparePlayer: preparePlayer
+    };
+  };
+  return angular.module("player.service", []).factory("PlayerService", PlayerService);
+})();
 
 angular.module("settings.controller", ['settings.service']).controller("SettingsController", ["$routeParams", "SettingsService", function($routeParams, SettingsService) {
   var vm;
@@ -404,26 +452,28 @@ angular.module("timer.service", []).factory('TimerService', ["$interval", "Error
   return factory;
 }]);
 
-angular.module("error.toast.controller", ['error.service']).controller("ToastController", ["ErrorService", function(ErrorService) {
-  var vm;
-  vm = this;
-  vm.message = ErrorService.getMessage();
-  vm.hide = function() {
-    return ErrorService.hide();
+(function() {
+  var ToastController;
+  ToastController = function(ErrorService) {
+    var vm;
+    vm = this;
+    vm.message = ErrorService.getMessage();
   };
-}]);
+  ToastController.$inject = ['ErrorService'];
+  return angular.module("error.toast.controller", ['error.service']).controller("ToastController", ToastController);
+})();
 
 angular.module("player.actions.controller", []).controller("PlayerActionsController", ["$mdDialog", function($mdDialog) {
   var vm;
   vm = this;
   vm.hide = function() {
-    return $mdDialog.hide();
+    $mdDialog.hide();
   };
   vm.cancel = function() {
-    return $mdDialog.cancel();
+    $mdDialog.cancel();
   };
-  return vm.answer = function(answer) {
-    return $mdDialog.hide(answer);
+  vm.answer = function(answer) {
+    $mdDialog.hide(answer);
   };
 }]);
 
@@ -445,6 +495,16 @@ angular.module("settings.corner.directive", []).directive("settingsCorner", func
       cornere: "="
     },
     templateUrl: "app/shared/settings/components/corner/cornerView.html"
+  };
+});
+
+angular.module("settings.departajari.directive", []).directive("settingsDepartajari", function() {
+  return {
+    restrict: "E",
+    scope: {
+      departajari: "="
+    },
+    templateUrl: "app/shared/settings/components/departajari/departajariView.html"
   };
 });
 
@@ -495,15 +555,5 @@ angular.module("settings.timer.directive", []).directive("settingsTimer", functi
       timer: "="
     },
     templateUrl: "app/shared/settings/components/timer/timerView.html"
-  };
-});
-
-angular.module("settings.departajari.directive", []).directive("settingsDepartajari", function() {
-  return {
-    restrict: "E",
-    scope: {
-      departajari: "="
-    },
-    templateUrl: "app/shared/settings/components/departajari/departajariView.html"
   };
 });

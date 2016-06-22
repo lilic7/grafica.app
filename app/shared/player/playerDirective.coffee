@@ -12,6 +12,7 @@ angular.module "player.directive",
     }
     link: (scope, element, attrs, playerCtrl)->
       playerCtrl.preparePlayer scope.player
+      return
     controller: "PlayerController"
     controllerAs: "playerCtrl"
     templateUrl: "app/shared/player/playerView.html"

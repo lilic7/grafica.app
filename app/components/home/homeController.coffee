@@ -5,11 +5,8 @@
 
     return
 
-
-
   angular
   .module "home.controller",
     ['settings.service']
   .controller "HomeController", HomeController
-
 )()

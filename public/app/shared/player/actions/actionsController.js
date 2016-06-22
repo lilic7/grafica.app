@@ -2,12 +2,12 @@ angular.module("player.actions.controller", []).controller("PlayerActionsControl
   var vm;
   vm = this;
   vm.hide = function() {
-    return $mdDialog.hide();
+    $mdDialog.hide();
   };
   vm.cancel = function() {
-    return $mdDialog.cancel();
+    $mdDialog.cancel();
   };
-  return vm.answer = function(answer) {
-    return $mdDialog.hide(answer);
+  vm.answer = function(answer) {
+    $mdDialog.hide(answer);
   };
 });

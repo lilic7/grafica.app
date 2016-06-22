@@ -1,13 +1,18 @@
 angular.module "player.actions.controller", []
 
 .controller "PlayerActionsController", ($mdDialog)->
-  vm = this
+  vm = @
 
-  vm.hide = ()->
+  vm.hide = ->
     $mdDialog.hide()
+    return
 
-  vm.cancel = ()->
+  vm.cancel = ->
     $mdDialog.cancel()
+    return
 
   vm.answer = (answer)->
     $mdDialog.hide answer
+    return
+
+  return
