@@ -20,5 +20,4 @@
   angular
   .module "team.controller", []
   .controller "TeamController", TeamController
-
 )()

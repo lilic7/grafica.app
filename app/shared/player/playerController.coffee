@@ -3,7 +3,8 @@
   PlayerController = (PlayerService)->
     vm = @
     vm.player = player
-    vm.preparePlayer = PlayerService.preparePlayer(data)
+    console.log player
+    #vm.preparePlayer = PlayerService.preparePlayer(vm.player)
     vm.showAdvanced = showAdvanced
 
     return
@@ -18,10 +19,10 @@
         templateUrl: 'app/shared/player/actions/actionsView.html'
         parent: angular.element document.body
         targetEvent: ev
-        clickOutsideToClose:true
+        clickOutsideToClose: true
     return
 
-  PlayerController.$inject = ['PlayerService']
+  PlayerController.$inject = ['PlayerService', '$mdDialog']
 
   angular
     .module "player.controller",

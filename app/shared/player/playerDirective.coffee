@@ -7,12 +7,10 @@ angular.module "player.directive",
 .directive "playerCard", ()->
   {
     restrict: "E"
-    scope: {
+    scope: {}
+    bindToController: {
       player: "="
     }
-    link: (scope, element, attrs, playerCtrl)->
-      playerCtrl.preparePlayer scope.player
-      return
     controller: "PlayerController"
     controllerAs: "playerCtrl"
     templateUrl: "app/shared/player/playerView.html"

@@ -5,7 +5,7 @@
     var vm;
     vm = this;
     vm.player = player;
-    vm.preparePlayer = PlayerService.preparePlayer(data);
+    console.log(player);
     vm.showAdvanced = showAdvanced;
   };
   player = {};
@@ -19,6 +19,6 @@
       clickOutsideToClose: true
     });
   };
-  PlayerController.$inject = ['PlayerService'];
+  PlayerController.$inject = ['PlayerService', '$mdDialog'];
   return angular.module("player.controller", ['wordFirstFilter', 'player.actions.controller', 'player.service']).controller("PlayerController", PlayerController);
 })();

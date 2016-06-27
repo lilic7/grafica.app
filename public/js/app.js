@@ -224,7 +224,7 @@ angular.module("app", ['ngMaterial', 'routes', 'ucfirstFilter']);
     var vm;
     vm = this;
     vm.player = player;
-    vm.preparePlayer = PlayerService.preparePlayer(data);
+    console.log(player);
     vm.showAdvanced = showAdvanced;
   };
   player = {};
@@ -238,18 +238,16 @@ angular.module("app", ['ngMaterial', 'routes', 'ucfirstFilter']);
       clickOutsideToClose: true
     });
   };
-  PlayerController.$inject = ['PlayerService'];
+  PlayerController.$inject = ['PlayerService', '$mdDialog'];
   return angular.module("player.controller", ['wordFirstFilter', 'player.actions.controller', 'player.service']).controller("PlayerController", PlayerController);
 })();
 
 angular.module("player.directive", ['player.controller', 'ucfirstFilter']).directive("playerCard", function() {
   return {
     restrict: "E",
-    scope: {
+    scope: {},
+    bindToController: {
       player: "="
-    },
-    link: function(scope, element, attrs, playerCtrl) {
-      playerCtrl.preparePlayer(scope.player);
     },
     controller: "PlayerController",
     controllerAs: "playerCtrl",
@@ -278,12 +276,17 @@ angular.module("player.directive", ['player.controller', 'ucfirstFilter']).direc
   return angular.module("player.service", []).factory("PlayerService", PlayerService);
 })();
 
-angular.module("settings.controller", ['settings.service']).controller("SettingsController", ["$routeParams", "SettingsService", function($routeParams, SettingsService) {
-  var vm;
-  vm = this;
-  vm.matchType = SettingsService.getMatchType();
-  vm.settings = SettingsService.all;
-}]);
+(function() {
+  var SettingsController;
+  SettingsController = function($routeParams, SettingsService) {
+    var vm;
+    vm = this;
+    vm.matchType = SettingsService.getMatchType();
+    vm.settings = SettingsService.all;
+  };
+  SettingsController.$inject = ['$routeParams', 'SettingsService'];
+  return angular.module("settings.controller", ['settings.service']).controller("SettingsController", SettingsController);
+})();
 
 angular.module("settings.directive", ['settings.controller', 'settings.rezerve.directive', 'settings.offside.directive', 'settings.corner.directive', 'settings.departajari.directive', 'settings.repriza.directive', 'settings.pauza.directive', 'settings.timer.directive']).directive("settings", function() {
   return {
