@@ -16,13 +16,13 @@
         message: "SFAT: Reseteaza contorul!"
         redirect: false
 
-    setMessage = (msgCode)->
+    @.setMessage = (msgCode)->
       message = messages[msgCode].message
       redirect = messages[msgCode].redirect
-      showMessage $mdToast, $location
+      @.showMessage $mdToast, $location
       return
 
-    showMessage = ($mdToast, $location)->
+    @.showMessage = ($mdToast, $location)->
       if not showToast
         showToast = true
         $mdToast
@@ -33,25 +33,20 @@
             controllerAs: "toastCtrl"
             templateUrl: 'app/shared/error/toast/toastView.html'
           .then ->  
-            showToast = false
+            @.showToast = false
             $location.url "/" if redirect
             return
       return
 
-    getMessage = ->
+    @.getMessage = ->
       message
 
-    ###   Returned factory   ###
-
-    return {
-      getMessage: getMessage,
-      setMessage: setMessage
-    }
+    return
 
   ErrorService.$inject = ['$mdToast', '$location']
 
   angular
     .module "error.service",
       ['error.toast.controller']
-    .factory "ErrorService", ErrorService
+    .service "ErrorService", ErrorService
 )()

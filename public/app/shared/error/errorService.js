@@ -1,7 +1,7 @@
 (function() {
   var ErrorService;
   ErrorService = function($mdToast, $location) {
-    var getMessage, message, messages, redirect, setMessage, showMessage, showToast;
+    var message, messages, redirect, showToast;
     message = "";
     redirect = false;
     showToast = false;
@@ -19,12 +19,12 @@
         redirect: false
       }
     };
-    setMessage = function(msgCode) {
+    this.setMessage = function(msgCode) {
       message = messages[msgCode].message;
       redirect = messages[msgCode].redirect;
-      showMessage($mdToast, $location);
+      this.showMessage($mdToast, $location);
     };
-    showMessage = function($mdToast, $location) {
+    this.showMessage = function($mdToast, $location) {
       if (!showToast) {
         showToast = true;
         $mdToast.show({
@@ -34,23 +34,17 @@
           controllerAs: "toastCtrl",
           templateUrl: 'app/shared/error/toast/toastView.html'
         }).then(function() {
-          showToast = false;
+          this.showToast = false;
           if (redirect) {
             $location.url("/");
           }
         });
       }
     };
-    getMessage = function() {
+    this.getMessage = function() {
       return message;
-    };
-
-    /*   Returned factory */
-    return {
-      getMessage: getMessage,
-      setMessage: setMessage
     };
   };
   ErrorService.$inject = ['$mdToast', '$location'];
-  return angular.module("error.service", ['error.toast.controller']).factory("ErrorService", ErrorService);
+  return angular.module("error.service", ['error.toast.controller']).service("ErrorService", ErrorService);
 })();
