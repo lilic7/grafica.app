@@ -1,81 +1,95 @@
-angular.module "timer.service", []
-
-.factory 'TimerService', ($interval, ErrorService, SettingsService)->
-
-  #private elements
-  startTime = 10 #seconds
-  totalSeconds = 10
-  totalMinutes = "00"
-  playMinutes = "01"
-  timerIsRunning = false
-  time = "00:10"
-  timerInterval = null
-  
-  factory = {}
-
-  factory.isOn = ()->
-    timerIsRunning
-
-  factory.getTotalMinutes = ()->
-    totalMinutes
-
-  factory.getPlayMinutes = ()->
-    playMinutes
-    
-  factory.getTime = ()->
-    time
-
-  factory.start = ()->
-    if not timerIsRunning
-      timerInterval = $interval timer, 1000
-    return
-
-  factory.stop = ()->
-    $interval.cancel timerInterval
+(->
+  TimerService = ($interval, ErrorService, SettingsService)->
+    startTime = 10 #seconds
+    totalSeconds = 10
+    totalMinutes = "00"
+    playMinutes = "01"
     timerIsRunning = false
-    return
+    time = "00:10"
+    timerInterval = null
 
-  factory.modify = (minutes)->
-    seconds = minutes * 60
-    totalSeconds = seconds + startTime
-    calculateTime()
-    return
+    @add              = add
+    @addSeconds       = addSeconds
+    @getPlayMinutes   = getPlayMinutes
+    @getTime          = getTime
+    @getTotalMinutes  = getTotalMinutes
+    @isOn             = isOn
+    @modify           = modify
+    @start            = start
+    @stop             = stop
+    @sub              = sub
 
-  factory.add = (minutes)->
-    if(totalSeconds > 600 and timerIsRunning)
-      ErrorService.setMessage "MATCH_TOO_LONG"
-    totalSeconds += minutes * 60
-    calculateTime()
-    return
 
-  factory.sub = (minutes)->
-    seconds = minutes * 60
-    if totalSeconds > seconds
-      totalSeconds -= seconds
+    isOn = =>
+      timerIsRunning
+
+    getTotalMinutes = =>
+      totalMinutes
+
+    getPlayMinutes = =>
+      playMinutes
+
+    getTime = =>
+      time
+
+    start = =>
+      timerInterval = $interval timer, 1000 if not timerIsRunning
+      return
+
+    stop = =>
+      $interval.cancel timerInterval
+      timerIsRunning = false
+      return
+
+    modify = (minutes)=>
+      seconds = minutes * 60
+      totalSeconds = seconds + startTime
       calculateTime()
-    else
-      ErrorService.setMessage "NEGATIVE_TIME"
+      return
+
+    add = (minutes)=>
+      if(totalSeconds > 600 and timerIsRunning)
+        ErrorService.setMessage "MATCH_TOO_LONG"
+      totalSeconds += minutes * 60
+      calculateTime()
+      return
+
+    sub = (minutes)=>
+      seconds = minutes * 60
+      if totalSeconds > seconds
+        totalSeconds -= seconds
+        calculateTime()
+      else
+        ErrorService.setMessage "NEGATIVE_TIME"
+      return
+
+    addSeconds = (seconds)=>
+      totalSeconds += seconds
+      calculateTime()
+      return
+
+    timer = ->
+      ++totalSeconds
+      calculateTime()
+      timerIsRunning = true
+      return
+
+    toMinutes = (seconds)->
+      minutes = Math.floor seconds / 60
+      if minutes < 10 then '0' + minutes else minutes
+
+    calculateTime = ()->
+      seconds = totalSeconds % 60
+      totalMinutes = toMinutes totalSeconds
+      playMinutes = toMinutes totalSeconds + 60
+      time = totalMinutes + ":" + (if seconds < 10 then '0' + seconds else seconds)
+      return
+
     return
 
-  factory.addSeconds = (seconds)->
-    totalSeconds += seconds
-    calculateTime()
+  TimerService.$inject = ['$interval', 'ErrorService', 'SettingsService']
 
-  timer = ()->
-    ++totalSeconds
-    calculateTime()
-    timerIsRunning = true
-    return
-
-  toMinutes = (seconds)->
-    minutes = Math.floor seconds / 60
-    if minutes < 10 then '0' + minutes else minutes
-
-  calculateTime = ()->
-    seconds = totalSeconds % 60
-    totalMinutes = toMinutes totalSeconds
-    playMinutes = toMinutes totalSeconds + 60
-    time = totalMinutes + ":" + (if seconds < 10 then '0' + seconds else seconds)
-    return
-
-  factory
+  angular
+    .module "timer.service", []
+    .service "TimerService", TimerService
+)()
