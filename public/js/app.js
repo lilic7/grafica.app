@@ -1,4 +1,6 @@
-angular.module("app", ['ngMaterial', 'routes', 'ucfirstFilter']);
+(function() {
+  return angular.module("app", ['ngMaterial', 'routes', 'ucfirstFilter']);
+})();
 
 (function() {
   var config;
@@ -39,7 +41,7 @@ angular.module("app", ['ngMaterial', 'routes', 'ucfirstFilter']);
       input = input || "";
       out = "";
       out = input.charAt(0).toUpperCase() + input.substr(1).toLowerCase();
-      return out;
+      return out.trim();
     };
   };
   return angular.module("ucfirstFilter", []).filter('ucfirst', ucfirst);
@@ -57,7 +59,7 @@ angular.module("app", ['ngMaterial', 'routes', 'ucfirstFilter']);
         word = words[i];
         out += rewrite(word);
       }
-      return out;
+      return out.trim();
     };
   };
   rewrite = function(word) {
@@ -71,8 +73,9 @@ angular.module("app", ['ngMaterial', 'routes', 'ucfirstFilter']);
   HomeController = function(SettingsService) {
     var vm;
     vm = this;
-    vm.matches = SettingsService.sports;
+    vm.matches = SettingsService.getSports();
   };
+  HomeController.$inject = ['SettingsService'];
   return angular.module("home.controller", ['settings.service']).controller("HomeController", HomeController);
 })();
 
@@ -292,10 +295,13 @@ angular.module("settings.directive", ['settings.controller', 'settings.rezerve.d
 });
 
 angular.module("settings.service", ['error.service']).factory("SettingsService", ["$http", "ErrorService", function($http, ErrorService) {
-  var checkMatchType, settings, type;
+  var checkMatchType, settings, sports, type;
   type = '';
   settings = {};
-  settings.sports = ['minifotbal', 'fotbal', 'futsal', 'handbal', 'baschet', 'volei', 'tenis'];
+  sports = ['minifotbal', 'fotbal', 'futsal', 'handbal', 'baschet', 'volei', 'tenis'];
+  settings.getSports = function() {
+    return sports;
+  };
   settings.all = {};
   settings.getMatchType = function() {
     return type;
@@ -312,51 +318,29 @@ angular.module("settings.service", ['error.service']).factory("SettingsService",
   };
   checkMatchType = function(matchType) {
     matchType = matchType.toLowerCase();
-    return settings.sports.indexOf(matchType);
+    return sports.indexOf(matchType);
   };
   return settings;
 }]);
 
 (function() {
-  var TeamController;
-  TeamController = function() {
-    var render, setTeam, vm;
+  var TimerController;
+  TimerController = function(TimerService, SettingsService) {
+    var vm;
     vm = this;
-    vm.team = {};
-    vm.setTeam = setTeam;
-    vm.render = render;
-    setTeam = function(team) {
-      return vm.team = team;
-    };
-    render = function() {
-      vm.player_list = vm.team.player_list.split("\n");
-      vm.reserve_list = vm.team.reserve_list.split("\n");
+    vm.repriza = 1;
+    vm.settings = SettingsService.all;
+    vm.timerService = TimerService;
+    vm.setRepriza = function(repriza) {
+      var minutes;
+      minutes = (repriza - 1) * vm.settings.repriza;
+      TimerService.modify(minutes);
+      vm.repriza = repriza;
     };
   };
-  return angular.module("team.controller", []).controller("TeamController", TeamController);
+  TimerController.$inject = ['TimerService', 'SettingsService'];
+  return angular.module("timer.controller", ['timer.service', 'settings.service']).controller("TimerController", TimerController);
 })();
-
-angular.module("team.directive", ['player.directive']).directive("teamList", function() {
-  return {
-    restrict: "E",
-    scope: {
-      team: "="
-    },
-    templateUrl: "app/shared/team/teamView.html"
-  };
-});
-
-angular.module("timer.controller", ['timer.service', 'settings.service']).controller("TimerController", ["TimerService", "SettingsService", function(TimerService, SettingsService) {
-  var vm;
-  vm = this;
-  vm.repriza = 1;
-  vm.settings = SettingsService.all;
-  vm.timerService = TimerService;
-  vm.setRepriza = function(repriza) {
-    TimerService.modify((repriza - 1) * vm.settings.repriza);
-    vm.repriza = repriza;
-  };
-}]);
 
 angular.module("timer.directive", ['timer.controller']).directive("timer", function() {
   return {
@@ -369,45 +353,28 @@ angular.module("timer.directive", ['timer.controller']).directive("timer", funct
 
 (function() {
   var TimerService, add, addSeconds, calculateTime, getPlayMinutes, getTime, getTotalMinutes, isOn, modify, playMinutes, start, startTime, stop, sub, time, timer, timerInterval, timerIsRunning, toMinutes, totalMinutes, totalSeconds;
-  TimerService = (function() {
-    function TimerService($interval1, ErrorService1, SettingsService) {
-      this.$interval = $interval1;
-      this.ErrorService = ErrorService1;
-      this.SettingsService = SettingsService;
-    }
-
-    TimerService.prototype.add = add;
-
-    TimerService.prototype.addSeconds = addSeconds;
-
-    TimerService.prototype.getPlayMinutes = getPlayMinutes;
-
-    TimerService.prototype.getTime = getTime;
-
-    TimerService.prototype.getTotalMinutes = getTotalMinutes;
-
-    TimerService.prototype.isOn = isOn;
-
-    TimerService.prototype.modify = modify;
-
-    TimerService.prototype.sub = sub;
-
-    TimerService.prototype.start = function($interval) {
-      var timerInterval;
-      if (!timerIsRunning) {
-        timerInterval = interval(timer, 1000);
+  TimerService = function($interval, ErrorService, SettingsService) {
+    return {
+      add: function(minutes) {
+        return add(minutes, ErrorService, SettingsService.all.repriza);
+      },
+      addSeconds: addSeconds,
+      getPlayMinutes: getPlayMinutes,
+      getTime: getTime,
+      getTotalMinutes: getTotalMinutes,
+      isOn: isOn,
+      modify: modify,
+      sub: function(minutes) {
+        return sub(minutes, ErrorService);
+      },
+      start: function() {
+        return start($interval);
+      },
+      stop: function() {
+        return stop($interval);
       }
     };
-
-    TimerService.prototype.stop = function(interval) {
-      var timerIsRunning;
-      interval.cancel(timerInterval);
-      timerIsRunning = false;
-    };
-
-    return TimerService;
-
-  })();
+  };
   startTime = 10;
   totalSeconds = 10;
   totalMinutes = "00";
@@ -431,6 +398,7 @@ angular.module("timer.directive", ['timer.controller']).directive("timer", funct
     if (!timerIsRunning) {
       timerInterval = interval(timer, 1000);
     }
+    timerIsRunning = true;
   };
   stop = function(interval) {
     interval.cancel(timerInterval);
@@ -442,14 +410,16 @@ angular.module("timer.directive", ['timer.controller']).directive("timer", funct
     totalSeconds = seconds + startTime;
     calculateTime();
   };
-  add = function(minutes) {
-    if (totalSeconds > 600 && timerIsRunning) {
+  add = function(minutes, ErrorService, durataRepriza) {
+    durataRepriza = parseInt(durataRepriza);
+    console.log(durataRepriza);
+    if (totalSeconds > durataRepriza && timerIsRunning) {
       ErrorService.setMessage("MATCH_TOO_LONG");
     }
     totalSeconds += minutes * 60;
     calculateTime();
   };
-  sub = function(minutes) {
+  sub = function(minutes, ErrorService) {
     var seconds;
     seconds = minutes * 60;
     if (totalSeconds > seconds) {
@@ -485,10 +455,37 @@ angular.module("timer.directive", ['timer.controller']).directive("timer", funct
     time = totalMinutes + ":" + (seconds < 10 ? '0' + seconds : seconds);
   };
   TimerService.$inject = ['$interval', 'ErrorService', 'SettingsService'];
-  return angular.module("timer.service", []).factory("TimerService", function() {
-    return new TimerService();
-  });
+  return angular.module("timer.service", []).factory("TimerService", TimerService);
 })();
+
+(function() {
+  var TeamController;
+  TeamController = function() {
+    var render, setTeam, vm;
+    vm = this;
+    vm.team = {};
+    vm.setTeam = setTeam;
+    vm.render = render;
+    setTeam = function(team) {
+      return vm.team = team;
+    };
+    render = function() {
+      vm.player_list = vm.team.player_list.split("\n");
+      vm.reserve_list = vm.team.reserve_list.split("\n");
+    };
+  };
+  return angular.module("team.controller", []).controller("TeamController", TeamController);
+})();
+
+angular.module("team.directive", ['player.directive']).directive("teamList", function() {
+  return {
+    restrict: "E",
+    scope: {
+      team: "="
+    },
+    templateUrl: "app/shared/team/teamView.html"
+  };
+});
 
 (function() {
   var ToastController;
@@ -576,16 +573,6 @@ angular.module("settings.repriza.directive", []).directive("settingsRepriza", fu
   };
 });
 
-angular.module("settings.rezerve.directive", []).directive("settingsRezerve", function() {
-  return {
-    restrict: "E",
-    scope: {
-      rezerve: "="
-    },
-    templateUrl: 'app/shared/settings/components/rezerve/rezerveView.html'
-  };
-});
-
 angular.module("settings.timer.directive", []).directive("settingsTimer", function() {
   return {
     restrict: "E",
@@ -593,5 +580,15 @@ angular.module("settings.timer.directive", []).directive("settingsTimer", functi
       timer: "="
     },
     templateUrl: "app/shared/settings/components/timer/timerView.html"
+  };
+});
+
+angular.module("settings.rezerve.directive", []).directive("settingsRezerve", function() {
+  return {
+    restrict: "E",
+    scope: {
+      rezerve: "="
+    },
+    templateUrl: 'app/shared/settings/components/rezerve/rezerveView.html'
   };
 });

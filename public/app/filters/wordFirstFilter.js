@@ -10,7 +10,7 @@
         word = words[i];
         out += rewrite(word);
       }
-      return out;
+      return out.trim();
     };
   };
   rewrite = function(word) {

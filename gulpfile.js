@@ -8,7 +8,7 @@ var browserSync = require('browser-sync').create();
 
 gulp.task('default', ['browserSync']);
 
-gulp.task('browserSync', ['sass', 'js', 'appHtml'], function(){
+gulp.task('browserSync', ['sass', 'js', 'appHtml', 'coffee-test'], function(){
     browserSync.init(null, {
         proxy: 'grafica.app',
         files: [
@@ -18,25 +18,33 @@ gulp.task('browserSync', ['sass', 'js', 'appHtml'], function(){
         port: 7000
     });
 
-    gulp.watch("app/*.coffee", ['js']).on('error', gutil.log);
-    gulp.watch("app/**/*.coffee", ['js']).on('error', gutil.log);
-    gulp.watch("app/**/*.html", ['appHtml']);
+    gulp.watch("coffee/app/*.coffee", ['js']).on('error', gutil.log);
+    gulp.watch("coffee/app/**/*.coffee", ['js']).on('error', gutil.log);
+    gulp.watch("coffee/test/*.coffee", ['coffee-test']).on('error', gutil.log);
+    gulp.watch("coffee/test/**/*.coffee", ['coffee-test']).on('error', gutil.log);
+    gulp.watch("coffee/app/**/*.html", ['appHtml']);
     gulp.watch("sass/*.sass", ['sass']);
     gulp.watch("public/js/*.js").on('change', browserSync.reload);
 });
 
 gulp.task('appHtml', function () {
-    return gulp.src(['app/**/*.html'])
+    return gulp.src(['coffee/app/**/*.html'])
         .pipe(gulp.dest('public/app'));
 });
 
-gulp.task('coffee', function(){
-    return gulp.src(['app/*.coffee', 'app/**/*.coffee'])
+gulp.task('coffee-app', function(){
+    return gulp.src(['coffee/app/*.coffee', 'coffee/app/**/*.coffee'])
         .pipe(coffee({bare: true}).on('error', gutil.log))
         .pipe(gulp.dest('public/app'));
 });
 
-gulp.task('js', ['coffee'], function() {
+gulp.task('coffee-test', function(){
+    return gulp.src(['coffee/test/*.coffee', 'coffee/test/**/*.coffee'])
+        .pipe(coffee({bare: true}).on('error', gutil.log))
+        .pipe(gulp.dest('test'));
+});
+
+gulp.task('js', ['coffee-app'], function() {
     return gulp.src(['public/app/*.js', 'public/app/**/*.js'])
         .pipe(ngAnnotate())
         .pipe(concat('app.js'))

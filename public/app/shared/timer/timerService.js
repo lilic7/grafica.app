@@ -1,44 +1,27 @@
 (function() {
   var TimerService, add, addSeconds, calculateTime, getPlayMinutes, getTime, getTotalMinutes, isOn, modify, playMinutes, start, startTime, stop, sub, time, timer, timerInterval, timerIsRunning, toMinutes, totalMinutes, totalSeconds;
-  TimerService = (function() {
-    function TimerService($interval1, ErrorService1, SettingsService) {
-      this.$interval = $interval1;
-      this.ErrorService = ErrorService1;
-      this.SettingsService = SettingsService;
-    }
-
-    TimerService.prototype.add = add;
-
-    TimerService.prototype.addSeconds = addSeconds;
-
-    TimerService.prototype.getPlayMinutes = getPlayMinutes;
-
-    TimerService.prototype.getTime = getTime;
-
-    TimerService.prototype.getTotalMinutes = getTotalMinutes;
-
-    TimerService.prototype.isOn = isOn;
-
-    TimerService.prototype.modify = modify;
-
-    TimerService.prototype.sub = sub;
-
-    TimerService.prototype.start = function($interval) {
-      var timerInterval;
-      if (!timerIsRunning) {
-        timerInterval = interval(timer, 1000);
+  TimerService = function($interval, ErrorService, SettingsService) {
+    return {
+      add: function(minutes) {
+        return add(minutes, ErrorService, SettingsService.all.repriza);
+      },
+      addSeconds: addSeconds,
+      getPlayMinutes: getPlayMinutes,
+      getTime: getTime,
+      getTotalMinutes: getTotalMinutes,
+      isOn: isOn,
+      modify: modify,
+      sub: function(minutes) {
+        return sub(minutes, ErrorService);
+      },
+      start: function() {
+        return start($interval);
+      },
+      stop: function() {
+        return stop($interval);
       }
     };
-
-    TimerService.prototype.stop = function(interval) {
-      var timerIsRunning;
-      interval.cancel(timerInterval);
-      timerIsRunning = false;
-    };
-
-    return TimerService;
-
-  })();
+  };
   startTime = 10;
   totalSeconds = 10;
   totalMinutes = "00";
@@ -62,6 +45,7 @@
     if (!timerIsRunning) {
       timerInterval = interval(timer, 1000);
     }
+    timerIsRunning = true;
   };
   stop = function(interval) {
     interval.cancel(timerInterval);
@@ -73,14 +57,16 @@
     totalSeconds = seconds + startTime;
     calculateTime();
   };
-  add = function(minutes) {
-    if (totalSeconds > 600 && timerIsRunning) {
+  add = function(minutes, ErrorService, durataRepriza) {
+    durataRepriza = parseInt(durataRepriza);
+    console.log(durataRepriza);
+    if (totalSeconds > durataRepriza && timerIsRunning) {
       ErrorService.setMessage("MATCH_TOO_LONG");
     }
     totalSeconds += minutes * 60;
     calculateTime();
   };
-  sub = function(minutes) {
+  sub = function(minutes, ErrorService) {
     var seconds;
     seconds = minutes * 60;
     if (totalSeconds > seconds) {
@@ -116,7 +102,5 @@
     time = totalMinutes + ":" + (seconds < 10 ? '0' + seconds : seconds);
   };
   TimerService.$inject = ['$interval', 'ErrorService', 'SettingsService'];
-  return angular.module("timer.service", []).factory("TimerService", function() {
-    return new TimerService();
-  });
+  return angular.module("timer.service", []).factory("TimerService", TimerService);
 })();

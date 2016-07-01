@@ -1,1 +1,3 @@
-angular.module("app", ['ngMaterial', 'routes', 'ucfirstFilter']);
+(function() {
+  return angular.module("app", ['ngMaterial', 'routes', 'ucfirstFilter']);
+})();

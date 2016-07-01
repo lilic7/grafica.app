@@ -1,8 +1,11 @@
 angular.module("settings.service", ['error.service']).factory("SettingsService", function($http, ErrorService) {
-  var checkMatchType, settings, type;
+  var checkMatchType, settings, sports, type;
   type = '';
   settings = {};
-  settings.sports = ['minifotbal', 'fotbal', 'futsal', 'handbal', 'baschet', 'volei', 'tenis'];
+  sports = ['minifotbal', 'fotbal', 'futsal', 'handbal', 'baschet', 'volei', 'tenis'];
+  settings.getSports = function() {
+    return sports;
+  };
   settings.all = {};
   settings.getMatchType = function() {
     return type;
@@ -19,7 +22,7 @@ angular.module("settings.service", ['error.service']).factory("SettingsService",
   };
   checkMatchType = function(matchType) {
     matchType = matchType.toLowerCase();
-    return settings.sports.indexOf(matchType);
+    return sports.indexOf(matchType);
   };
   return settings;
 });

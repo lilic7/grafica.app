@@ -1,0 +1,4 @@
+http://code.ciphertrick.com/2016/06/26/unit-testing-controllers-angularjs-karma-jasmine/
+
+http://angulartestingquickstart.com/
+
