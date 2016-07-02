@@ -18,9 +18,7 @@ gulp.task('browserSync', ['sass', 'js', 'appHtml', 'coffee-test'], function(){
         port: 7000
     });
 
-    gulp.watch("coffee/app/*.coffee", ['js']).on('error', gutil.log);
     gulp.watch("coffee/app/**/*.coffee", ['js']).on('error', gutil.log);
-    gulp.watch("coffee/test/*.coffee", ['coffee-test']).on('error', gutil.log);
     gulp.watch("coffee/test/**/*.coffee", ['coffee-test']).on('error', gutil.log);
     gulp.watch("coffee/app/**/*.html", ['appHtml']);
     gulp.watch("sass/*.sass", ['sass']);

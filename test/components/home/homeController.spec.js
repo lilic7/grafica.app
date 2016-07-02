@@ -2,8 +2,8 @@ xdescribe("home.controller", function() {
   var homeCtrl, settings;
   homeCtrl = null;
   settings = null;
-  beforeEach(module("settings.service"));
   beforeEach(module("home.controller"));
+  beforeEach(angular.mock.module("settings.service"));
   beforeEach(module("ui.router"));
   beforeEach(inject(function($controller, _SettingsService_) {
     settings = _SettingsService_;

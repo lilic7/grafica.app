@@ -1,10 +1,10 @@
-describe "home.controller", ->
+xdescribe "home.controller", ->
 
   homeCtrl = null
   settings = null
 
-  beforeEach module "settings.service"
   beforeEach module "home.controller"
+  beforeEach angular.mock.module "settings.service"
   beforeEach module "ui.router"
 
   beforeEach inject ($controller, _SettingsService_)->

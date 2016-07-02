@@ -1,24 +1,23 @@
 (->
-  SettingsService = ($http, ErrorService)->
+  SettingsService = (ErrorService)->
     {
       all: {}
-      getJsonSettings: getJsonSettings
       getSports: getSports
       getMatchType: getMatchType
       setMatchType: setMatchType
       setMatchSettings: (settingsFromJson)-> setMatchSettings
     }
 
-    sports = [
-      'minifotbal'
-      'fotbal'
-      'futsal'
-      'handbal'
-      'baschet'
-      'volei'
-      'tenis'
-    ]
-
+  sports = [
+    'minifotbal'
+    'fotbal'
+    'futsal'
+    'handbal'
+    'baschet'
+    'volei'
+    'tenis'
+  ]
+  type = null
   getSports = ->
     sports
 
@@ -39,12 +38,12 @@
     matchType = matchType.toLowerCase()
     sports.indexOf matchType
 
-    SettingsService.$inject = ['$http', 'ErrorService']
+  SettingsService.$inject = ['$http', 'ErrorService']
 
-    angular
-      .module "settings.service",
-        [
-          'error.service'
-        ]
-      .factory "SettingsService", SettingsService
+  angular
+    .module "settings.service",
+      [
+        'error.service'
+      ]
+    .factory "SettingsService", SettingsService
 )()

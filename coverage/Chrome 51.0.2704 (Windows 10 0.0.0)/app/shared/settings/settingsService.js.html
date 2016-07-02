@@ -20,28 +20,28 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">34.78% </span>
+        <span class="strong">90.91% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>8/23</span>
+        <span class='fraction'>20/22</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/2</span>
+        <span class='fraction'>2/2</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">12.5% </span>
+        <span class="strong">75% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>1/8</span>
+        <span class='fraction'>6/8</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">34.78% </span>
+        <span class="strong">90.91% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>8/23</span>
+        <span class='fraction'>20/22</span>
       </div>
     </div>
   </div>
-  <div class='status-line low'></div>
+  <div class='status-line high'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -81,14 +81,10 @@
 36
 37
 38
-39
-40
-41</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+39</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -97,71 +93,69 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">(function() {
-  var SettingsService, checkMatchType, getMatchType, getSports, setMatchSettings, setMatchType;
-  SettingsService = <span class="fstat-no" title="function not covered" >function($http, ErrorService) {</span>
-<span class="cstat-no" title="statement not covered" >    var sports;</span>
-<span class="cstat-no" title="statement not covered" >    ({</span>
+  var SettingsService, checkMatchType, getMatchType, getSports, setMatchSettings, setMatchType, sports, type;
+  SettingsService = function(ErrorService) {
+    return {
       all: {},
-      getJsonSettings: getJsonSettings,
       getSports: getSports,
       getMatchType: getMatchType,
       setMatchType: setMatchType,
       setMatchSettings: <span class="fstat-no" title="function not covered" >function(settingsFromJson) {</span>
 <span class="cstat-no" title="statement not covered" >        return setMatchSettings;</span>
       }
-    });
-<span class="cstat-no" title="statement not covered" >    return sports = ['minifotbal', 'fotbal', 'futsal', 'handbal', 'baschet', 'volei', 'tenis'];</span>
+    };
   };
-  getSports = <span class="fstat-no" title="function not covered" >function() {</span>
-<span class="cstat-no" title="statement not covered" >    return sports;</span>
+  sports = ['minifotbal', 'fotbal', 'futsal', 'handbal', 'baschet', 'volei', 'tenis'];
+  type = null;
+  getSports = function() {
+    return sports;
   };
-  getMatchType = <span class="fstat-no" title="function not covered" >function() {</span>
-<span class="cstat-no" title="statement not covered" >    return type;</span>
+  getMatchType = function() {
+    return type;
   };
   setMatchSettings = <span class="fstat-no" title="function not covered" >function(settings, settingsFromJson) {</span>
 <span class="cstat-no" title="statement not covered" >    return settings.all = settingsFromJson;</span>
   };
-  setMatchType = <span class="fstat-no" title="function not covered" >function(matchType) {</span>
-<span class="cstat-no" title="statement not covered" >    var type;</span>
-<span class="cstat-no" title="statement not covered" >    if (checkMatchType(matchType) !== -1) {</span>
-<span class="cstat-no" title="statement not covered" >      type = matchType;</span>
+  setMatchType = function(matchType) {
+    if (checkMatchType(matchType) !== -1) {
+      type = matchType;
     } else {
-<span class="cstat-no" title="statement not covered" >      ErrorService.setMessage("WRONG_MATCH_NAME");</span>
+      ErrorService.setMessage("WRONG_MATCH_NAME");
     }
   };
-  return checkMatchType = <span class="fstat-no" title="function not covered" >function(matchType) {</span>
-<span class="cstat-no" title="statement not covered" >    matchType = matchType.toLowerCase();</span>
-<span class="cstat-no" title="statement not covered" >    sports.indexOf(matchType);</span>
-<span class="cstat-no" title="statement not covered" >    SettingsService.$inject = ['$http', 'ErrorService'];</span>
-<span class="cstat-no" title="statement not covered" >    return angular.module("settings.service", ['error.service']).factory("SettingsService", SettingsService);</span>
+  checkMatchType = function(matchType) {
+    matchType = matchType.toLowerCase();
+    return sports.indexOf(matchType);
   };
+  SettingsService.$inject = ['$http', 'ErrorService'];
+  return angular.module("settings.service", ['error.service']).factory("SettingsService", SettingsService);
 })();
 &nbsp;</pre></td></tr>
 </table></pre>
@@ -169,7 +163,7 @@
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Jul 02 2016 13:45:12 GMT+0300 (GTB Daylight Time)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Jul 03 2016 00:16:00 GMT+0300 (GTB Daylight Time)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

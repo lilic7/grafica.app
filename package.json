@@ -10,6 +10,7 @@
   "description": "Grafica app for Moldova Sport",
   "devDependencies": {
     "angular-mocks": "^1.5.7",
+    "angular-ui-router": "^0.3.1",
     "browser-sync": "^2.13.0",
     "chai": "^3.5.0",
     "gulp": "^3.9.1",
@@ -26,6 +27,7 @@
     "karma-jasmine": "^1.0.2",
     "karma-ng-html2js-preprocessor": "^1.0.0",
     "karma-phantomjs-launcher": "^1.0.1",
+    "karma-spec-reporter": "0.0.26",
     "mocha": "^2.5.3"
   },
   "dependencies": {
