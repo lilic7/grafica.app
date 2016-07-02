@@ -1,36 +1,34 @@
-angular.module "settings.service",
-  [
-    'error.service'
-  ]
+(->
+  SettingsService = ($http, ErrorService)->
+    {
+      all: {}
+      getJsonSettings: getJsonSettings
+      getSports: getSports
+      getMatchType: getMatchType
+      setMatchType: setMatchType
+      setMatchSettings: (settingsFromJson)-> setMatchSettings
+    }
 
-.factory "SettingsService", ($http, ErrorService)->
+    sports = [
+      'minifotbal'
+      'fotbal'
+      'futsal'
+      'handbal'
+      'baschet'
+      'volei'
+      'tenis'
+    ]
 
-  type = ''
-
-  settings = {}
-
-  sports = [
-    'minifotbal'
-    'fotbal'
-    'futsal'
-    'handbal'
-    'baschet'
-    'volei'
-    'tenis'
-  ]
-
-  settings.getSports = ->
+  getSports = ->
     sports
 
-  settings.all = {}
-
-  settings.getMatchType = ()->
+  getMatchType = ()->
     type
-  
-  settings.setMatchSettings = (settingsFromJson)->
+
+  setMatchSettings = (settings, settingsFromJson)->
     settings.all = settingsFromJson
 
-  settings.setMatchType = (matchType)->
+  setMatchType = (matchType)->
     if checkMatchType(matchType) isnt -1
       type = matchType
     else
@@ -41,4 +39,12 @@ angular.module "settings.service",
     matchType = matchType.toLowerCase()
     sports.indexOf matchType
 
-  settings
+    SettingsService.$inject = ['$http', 'ErrorService']
+
+    angular
+      .module "settings.service",
+        [
+          'error.service'
+        ]
+      .factory "SettingsService", SettingsService
+)()

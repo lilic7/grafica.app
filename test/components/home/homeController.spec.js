@@ -1,21 +1,22 @@
-describe("home.controller", function() {
-  var homeCtrl;
+xdescribe("home.controller", function() {
+  var homeCtrl, settings;
   homeCtrl = null;
+  settings = null;
+  beforeEach(module("settings.service"));
   beforeEach(module("home.controller"));
-  beforeEach(module("settings.service", function($provide) {
-    $provide.value("SettingsService", {
-      getSports: function() {
-        return ['minifotbal', 'fotbal'];
-      }
+  beforeEach(module("ui.router"));
+  beforeEach(inject(function($controller, _SettingsService_) {
+    settings = _SettingsService_;
+    spyOn(settings, "getSports").and.returnValue(['minifotbal', 'fotbal']);
+    homeCtrl = $controller("HomeController", {
+      SettingsService: settings
     });
-  }));
-  beforeEach(inject(function($controller) {
-    homeCtrl = $controller("HomeController");
   }));
   describe("HomeController", function() {
     it("matches has to be a non empty array", function() {
-      expect(homeCtrl.matches).toBeDefined();
-      expect(homeCtrl.matches).toEqual(jasmine.arrayContaining(['minifotbal']));
+      homeCtrl.matches = settings.getSports();
+      expect(homeCtrl.matches.toBeDefined());
+      expect(homeCtrl.matches.toEqual(jasmine.arrayContaining(['minifotbal'])));
     });
   });
 });

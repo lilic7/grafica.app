@@ -294,34 +294,75 @@ angular.module("settings.directive", ['settings.controller', 'settings.rezerve.d
   };
 });
 
-angular.module("settings.service", ['error.service']).factory("SettingsService", ["$http", "ErrorService", function($http, ErrorService) {
-  var checkMatchType, settings, sports, type;
-  type = '';
-  settings = {};
-  sports = ['minifotbal', 'fotbal', 'futsal', 'handbal', 'baschet', 'volei', 'tenis'];
-  settings.getSports = function() {
+(function() {
+  var SettingsService, checkMatchType, getMatchType, getSports, setMatchSettings, setMatchType;
+  SettingsService = function($http, ErrorService) {
+    var sports;
+    ({
+      all: {},
+      getJsonSettings: getJsonSettings,
+      getSports: getSports,
+      getMatchType: getMatchType,
+      setMatchType: setMatchType,
+      setMatchSettings: function(settingsFromJson) {
+        return setMatchSettings;
+      }
+    });
+    return sports = ['minifotbal', 'fotbal', 'futsal', 'handbal', 'baschet', 'volei', 'tenis'];
+  };
+  getSports = function() {
     return sports;
   };
-  settings.all = {};
-  settings.getMatchType = function() {
+  getMatchType = function() {
     return type;
   };
-  settings.setMatchSettings = function(settingsFromJson) {
+  setMatchSettings = function(settings, settingsFromJson) {
     return settings.all = settingsFromJson;
   };
-  settings.setMatchType = function(matchType) {
+  setMatchType = function(matchType) {
+    var type;
     if (checkMatchType(matchType) !== -1) {
       type = matchType;
     } else {
       ErrorService.setMessage("WRONG_MATCH_NAME");
     }
   };
-  checkMatchType = function(matchType) {
+  return checkMatchType = function(matchType) {
     matchType = matchType.toLowerCase();
-    return sports.indexOf(matchType);
+    sports.indexOf(matchType);
+    SettingsService.$inject = ['$http', 'ErrorService'];
+    return angular.module("settings.service", ['error.service']).factory("SettingsService", SettingsService);
   };
-  return settings;
-}]);
+})();
+
+(function() {
+  var TeamController;
+  TeamController = function() {
+    var render, setTeam, vm;
+    vm = this;
+    vm.team = {};
+    vm.setTeam = setTeam;
+    vm.render = render;
+    setTeam = function(team) {
+      return vm.team = team;
+    };
+    render = function() {
+      vm.player_list = vm.team.player_list.split("\n");
+      vm.reserve_list = vm.team.reserve_list.split("\n");
+    };
+  };
+  return angular.module("team.controller", []).controller("TeamController", TeamController);
+})();
+
+angular.module("team.directive", ['player.directive']).directive("teamList", function() {
+  return {
+    restrict: "E",
+    scope: {
+      team: "="
+    },
+    templateUrl: "app/shared/team/teamView.html"
+  };
+});
 
 (function() {
   var TimerController;
@@ -459,35 +500,6 @@ angular.module("timer.directive", ['timer.controller']).directive("timer", funct
 })();
 
 (function() {
-  var TeamController;
-  TeamController = function() {
-    var render, setTeam, vm;
-    vm = this;
-    vm.team = {};
-    vm.setTeam = setTeam;
-    vm.render = render;
-    setTeam = function(team) {
-      return vm.team = team;
-    };
-    render = function() {
-      vm.player_list = vm.team.player_list.split("\n");
-      vm.reserve_list = vm.team.reserve_list.split("\n");
-    };
-  };
-  return angular.module("team.controller", []).controller("TeamController", TeamController);
-})();
-
-angular.module("team.directive", ['player.directive']).directive("teamList", function() {
-  return {
-    restrict: "E",
-    scope: {
-      team: "="
-    },
-    templateUrl: "app/shared/team/teamView.html"
-  };
-});
-
-(function() {
   var ToastController;
   ToastController = function(ErrorService) {
     var vm;
@@ -573,16 +585,6 @@ angular.module("settings.repriza.directive", []).directive("settingsRepriza", fu
   };
 });
 
-angular.module("settings.timer.directive", []).directive("settingsTimer", function() {
-  return {
-    restrict: "E",
-    scope: {
-      timer: "="
-    },
-    templateUrl: "app/shared/settings/components/timer/timerView.html"
-  };
-});
-
 angular.module("settings.rezerve.directive", []).directive("settingsRezerve", function() {
   return {
     restrict: "E",
@@ -590,5 +592,15 @@ angular.module("settings.rezerve.directive", []).directive("settingsRezerve", fu
       rezerve: "="
     },
     templateUrl: 'app/shared/settings/components/rezerve/rezerveView.html'
+  };
+});
+
+angular.module("settings.timer.directive", []).directive("settingsTimer", function() {
+  return {
+    restrict: "E",
+    scope: {
+      timer: "="
+    },
+    templateUrl: "app/shared/settings/components/timer/timerView.html"
   };
 });

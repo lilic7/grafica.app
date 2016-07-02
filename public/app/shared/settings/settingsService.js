@@ -1,28 +1,40 @@
-angular.module("settings.service", ['error.service']).factory("SettingsService", function($http, ErrorService) {
-  var checkMatchType, settings, sports, type;
-  type = '';
-  settings = {};
-  sports = ['minifotbal', 'fotbal', 'futsal', 'handbal', 'baschet', 'volei', 'tenis'];
-  settings.getSports = function() {
+(function() {
+  var SettingsService, checkMatchType, getMatchType, getSports, setMatchSettings, setMatchType;
+  SettingsService = function($http, ErrorService) {
+    var sports;
+    ({
+      all: {},
+      getJsonSettings: getJsonSettings,
+      getSports: getSports,
+      getMatchType: getMatchType,
+      setMatchType: setMatchType,
+      setMatchSettings: function(settingsFromJson) {
+        return setMatchSettings;
+      }
+    });
+    return sports = ['minifotbal', 'fotbal', 'futsal', 'handbal', 'baschet', 'volei', 'tenis'];
+  };
+  getSports = function() {
     return sports;
   };
-  settings.all = {};
-  settings.getMatchType = function() {
+  getMatchType = function() {
     return type;
   };
-  settings.setMatchSettings = function(settingsFromJson) {
+  setMatchSettings = function(settings, settingsFromJson) {
     return settings.all = settingsFromJson;
   };
-  settings.setMatchType = function(matchType) {
+  setMatchType = function(matchType) {
+    var type;
     if (checkMatchType(matchType) !== -1) {
       type = matchType;
     } else {
       ErrorService.setMessage("WRONG_MATCH_NAME");
     }
   };
-  checkMatchType = function(matchType) {
+  return checkMatchType = function(matchType) {
     matchType = matchType.toLowerCase();
-    return sports.indexOf(matchType);
+    sports.indexOf(matchType);
+    SettingsService.$inject = ['$http', 'ErrorService'];
+    return angular.module("settings.service", ['error.service']).factory("SettingsService", SettingsService);
   };
-  return settings;
-});
+})();
