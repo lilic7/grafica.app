@@ -1,5 +1,6 @@
 describe "settings.service", ->
   SettingsService = null
+  mock = null
 
   beforeEach angular.mock.module "settings.service"
 
@@ -15,7 +16,7 @@ describe "settings.service", ->
       return
     return
 
-  it "should exist ", ->
+  it "should exist", ->
     expect SettingsService
       .toBeDefined()
     return
@@ -25,7 +26,7 @@ describe "settings.service", ->
       .toEqual jasmine.arrayContaining ["minifotbal"]
     return
     
-  it "should set matchType to passed type if type exists in sports array", ->
+  xit "should set matchType this type exists in sports array", ->
     SettingsService.setMatchType "fotbal"
     expect SettingsService.getMatchType()
       .toEqual 'fotbal'
