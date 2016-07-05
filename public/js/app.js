@@ -126,6 +126,78 @@
 })();
 
 (function() {
+  var GameController;
+  GameController = function(GameService, SettingsService) {
+    var vm;
+    vm = this;
+    vm.team1 = GameService.team1;
+    vm.team2 = GameService.team2;
+    vm.settings = SettingsService.all;
+  };
+  return angular.module("game.controller", ['game.service', 'team.directive']).controller("GameController", GameController);
+})();
+
+(function() {
+  var game;
+  game = function() {
+    return {
+      restrict: 'E',
+      templateUrl: "app/shared/game/gameView.html",
+      controller: "GameController",
+      controllerAs: "gameCtrl"
+    };
+  };
+  return angular.module("game.directive", ['game.controller', 'timer.directive']).directive("game", game);
+})();
+
+(function() {
+  var GameService;
+  GameService = function() {
+    var prepare, team1, team2;
+    prepare = function(text) {
+      var text_arr;
+      text_arr = text.split("\n");
+      return text_arr.sort(function(a, b) {
+        a = a.split(" ");
+        b = b.split(" ");
+        return a[0] - b[0];
+      });
+    };
+    team1 = {
+      name: "",
+      player_txt: "7   SERGIU DONICĂ",
+      reserve_txt: "6   MIHAI MUSTEA (C)",
+      player_list: ["7   SERGIU DONICĂ"],
+      reserve_list: ["6   MIHAI MUSTEA (C)"],
+      renderPlayer: function() {
+        return team1.player_list = prepare(team1.player_txt);
+      },
+      renderReserve: function() {
+        return team1.reserve_list = prepare(team1.reserve_txt);
+      }
+    };
+    team2 = {
+      name: "",
+      player_txt: "11  ALEXANDRU OLEINIC",
+      reserve_txt: "8   VITALIE BUCȘAN",
+      player_list: ["11  ALEXANDRU OLEINIC"],
+      reserve_list: ["8   VITALIE BUCȘAN"],
+      renderPlayer: function() {
+        return team2.player_list = prepare(team2.player_txt);
+      },
+      renderReserve: function() {
+        return team2.reserve_list = prepare(team2.reserve_txt);
+      }
+    };
+    return {
+      team1: team1,
+      team2: team2
+    };
+  };
+  return angular.module("game.service", []).factory("GameService", GameService);
+})();
+
+(function() {
   'use strict';
   var PlayerController, player, showAdvanced;
   PlayerController = function(PlayerService) {
@@ -206,46 +278,43 @@ angular.module("settings.directive", ['settings.controller', 'settings.rezerve.d
 });
 
 (function() {
-  var SettingsService, checkMatchType, getMatchType, getSports, setMatchSettings, setMatchType, sports, type;
+  var SettingsService;
   SettingsService = function(ErrorService) {
-    return {
-      all: {},
-      getSports: getSports,
-      getMatchType: getMatchType,
-      setMatchType: function(matchType) {
-        return setMatchType(matchType, ErrorService);
-      },
-      setMatchSettings: function(settingsFromJson) {
-        return setMatchSettings;
+    var checkMatchType, setMatchSettings, setMatchType, sports, type;
+    sports = ['minifotbal', 'fotbal', 'futsal', 'handbal', 'baschet', 'volei', 'tenis'];
+    type = null;
+    this.all = {};
+    this.getSports = function() {
+      return sports;
+    };
+    this.getMatchType = function() {
+      return type;
+    };
+    this.setMatchType = function(matchType) {
+      return setMatchType(matchType);
+    };
+    this.setMatchSettings = function(settingsFromJson) {
+      return setMatchSettings;
+    };
+    setMatchSettings = function(settings, settingsFromJson) {
+      return settings.all = settingsFromJson;
+    };
+    setMatchType = function(matchType) {
+      matchType = "" + matchType;
+      if (checkMatchType(matchType) !== -1) {
+        type = matchType;
+      } else {
+        type = "";
+        ErrorService.setMessage("WRONG_MATCH_NAME");
       }
     };
-  };
-  sports = ['minifotbal', 'fotbal', 'futsal', 'handbal', 'baschet', 'volei', 'tenis'];
-  type = null;
-  getSports = function() {
-    return sports;
-  };
-  getMatchType = function() {
-    return type;
-  };
-  setMatchSettings = function(settings, settingsFromJson) {
-    return settings.all = settingsFromJson;
-  };
-  setMatchType = function(matchType, ErrorService) {
-    matchType = "" + matchType;
-    if (checkMatchType(matchType) !== -1) {
-      type = matchType;
-    } else {
-      type = "";
-      ErrorService.setMessage("WRONG_MATCH_NAME");
-    }
-  };
-  checkMatchType = function(matchType) {
-    matchType = matchType.toLowerCase();
-    return sports.indexOf(matchType);
+    checkMatchType = function(matchType) {
+      matchType = matchType.toLowerCase();
+      return sports.indexOf(matchType);
+    };
   };
   SettingsService.$inject = ['ErrorService'];
-  return angular.module("settings.service", ['error.service']).factory("SettingsService", SettingsService);
+  return angular.module("settings.service", ['error.service']).service("SettingsService", SettingsService);
 })();
 
 (function() {
@@ -413,92 +482,6 @@ angular.module("timer.directive", ['timer.controller']).directive("timer", funct
 })();
 
 (function() {
-  var GameController;
-  GameController = function(GameService, SettingsService) {
-    var vm;
-    vm = this;
-    vm.team1 = GameService.team1;
-    vm.team2 = GameService.team2;
-    vm.settings = SettingsService.all;
-  };
-  return angular.module("game.controller", ['game.service', 'team.directive']).controller("GameController", GameController);
-})();
-
-(function() {
-  var game;
-  game = function() {
-    return {
-      restrict: 'E',
-      templateUrl: "app/shared/game/gameView.html",
-      controller: "GameController",
-      controllerAs: "gameCtrl"
-    };
-  };
-  return angular.module("game.directive", ['game.controller', 'timer.directive']).directive("game", game);
-})();
-
-(function() {
-  var GameService;
-  GameService = function() {
-    var prepare, team1, team2;
-    prepare = function(text) {
-      var text_arr;
-      text_arr = text.split("\n");
-      return text_arr.sort(function(a, b) {
-        a = a.split(" ");
-        b = b.split(" ");
-        return a[0] - b[0];
-      });
-    };
-    team1 = {
-      name: "",
-      player_txt: "7   SERGIU DONICĂ",
-      reserve_txt: "6   MIHAI MUSTEA (C)",
-      player_list: ["7   SERGIU DONICĂ"],
-      reserve_list: ["6   MIHAI MUSTEA (C)"],
-      renderPlayer: function() {
-        return team1.player_list = prepare(team1.player_txt);
-      },
-      renderReserve: function() {
-        return team1.reserve_list = prepare(team1.reserve_txt);
-      }
-    };
-    team2 = {
-      name: "",
-      player_txt: "11  ALEXANDRU OLEINIC",
-      reserve_txt: "8   VITALIE BUCȘAN",
-      player_list: ["11  ALEXANDRU OLEINIC"],
-      reserve_list: ["8   VITALIE BUCȘAN"],
-      renderPlayer: function() {
-        return team2.player_list = prepare(team2.player_txt);
-      },
-      renderReserve: function() {
-        return team2.reserve_list = prepare(team2.reserve_txt);
-      }
-    };
-    return {
-      team1: team1,
-      team2: team2
-    };
-  };
-  return angular.module("game.service", []).factory("GameService", GameService);
-})();
-
-angular.module("player.actions.controller", []).controller("PlayerActionsController", ["$mdDialog", function($mdDialog) {
-  var vm;
-  vm = this;
-  vm.hide = function() {
-    $mdDialog.hide();
-  };
-  vm.cancel = function() {
-    $mdDialog.cancel();
-  };
-  vm.answer = function(answer) {
-    $mdDialog.hide(answer);
-  };
-}]);
-
-(function() {
   var ToastController;
   ToastController = function(ErrorService) {
     var vm;
@@ -539,6 +522,20 @@ angular.module("player.actions.controller", []).controller("PlayerActionsControl
   ToastService.$inject = ["$mdToast", "$location"];
   return angular.module("error.toast.service", ['error.toast.controller']).factory("ToastService", ToastService);
 })();
+
+angular.module("player.actions.controller", []).controller("PlayerActionsController", ["$mdDialog", function($mdDialog) {
+  var vm;
+  vm = this;
+  vm.hide = function() {
+    $mdDialog.hide();
+  };
+  vm.cancel = function() {
+    $mdDialog.cancel();
+  };
+  vm.answer = function(answer) {
+    $mdDialog.hide(answer);
+  };
+}]);
 
 angular.module("team.form.directive", []).directive("teamForm", function() {
   return {

@@ -2,19 +2,10 @@ describe "settings.service", ->
   SettingsService = null
   ErrorService = null
 
-  beforeEach ->
-    module ($provide)->
-      $provide.service "ErrorService", ->
-        @.setMessage = jasmine.createSpy 'setMessage' 
-        return
+  beforeEach module "settings.service"
 
-      return
-    module "settings.service"
-    return
-
-  beforeEach inject (_SettingsService_, _ErrorService_)->
-    SettingsService = _SettingsService_
-    ErrorService = _ErrorService_
+  beforeEach inject ($injector)->
+    SettingsService = $injector.get 'SettingsService'
     return
 
   it "should exist", ->
@@ -24,9 +15,14 @@ describe "settings.service", ->
 
   describe "getSport", ->
     it "should return sports array", ->
-      expect SettingsService.getSports()
-        .toEqual jasmine.arrayContaining ["minifotbal"]
+      expect(SettingsService.getSports()).toEqual jasmine.arrayContaining ["minifotbal"]
+      expect(SettingsService.getSports()).toEqual jasmine.arrayContaining ["fotbal"]
+      expect(SettingsService.getSports()).toEqual jasmine.arrayContaining ["tenis"]
+      expect(SettingsService.getSports()).toEqual jasmine.arrayContaining ["handbal"]
       return
+
+    it "should not containt other sports", ->
+      expect(SettingsService.getSports()).not.toEqual jasmine.arrayContaining ['notMatch']
     return
 
   describe "setMatchType", ->
@@ -36,14 +32,22 @@ describe "settings.service", ->
         .toEqual 'fotbal'
       return
 
+  describe "should rise ErrorService setMessage if the match type is incorect", ->
+
+    beforeEach inject ($injector)->
+      ErrorService = $injector.get "ErrorService"
+      ErrorService.setMessage = jasmine.createSpy "setMessage"
+      return
+
     it "should NOT set matchType if the type is incorrect", ->
       SettingsService.setMatchType "wrongMatchType"
       expect ErrorService.setMessage
-        .toHaveBeenCalledWith 'WRONG_MATCH_NAME'
+        .toHaveBeenCalledWith("WRONG_MATCH_NAME")
       expect SettingsService.getMatchType()
         .not
         .toEqual 'wrongMatchType'
       return
+
     return
 
   return

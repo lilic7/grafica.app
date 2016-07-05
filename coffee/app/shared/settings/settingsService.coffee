@@ -1,45 +1,39 @@
 (->
   SettingsService = (ErrorService)->
-    {
-      all: {}
-      getSports: getSports
-      getMatchType: getMatchType
-      setMatchType: (matchType)->  setMatchType matchType, ErrorService
-      setMatchSettings: (settingsFromJson)-> setMatchSettings
-    }
+    sports = [
+      'minifotbal'
+      'fotbal'
+      'futsal'
+      'handbal'
+      'baschet'
+      'volei'
+      'tenis'
+    ]
+    type = null
 
-  sports = [
-    'minifotbal'
-    'fotbal'
-    'futsal'
-    'handbal'
-    'baschet'
-    'volei'
-    'tenis'
-  ]
-  type = null
-  getSports = ->
-    sports
+    @.all = {}
+    @.getSports = -> sports
+    @.getMatchType = -> type
+    @.setMatchType = (matchType)-> setMatchType(matchType)
+    @.setMatchSettings = (settingsFromJson)-> setMatchSettings
 
-  getMatchType = ()->
-    type
+    setMatchSettings = (settings, settingsFromJson)->
+      settings.all = settingsFromJson
 
-  setMatchSettings = (settings, settingsFromJson)->
-    settings.all = settingsFromJson
+    setMatchType = (matchType)->
+      matchType = "" + matchType
+      if checkMatchType(matchType) isnt -1
+        type = matchType
+      else
+        type = ""
+        ErrorService.setMessage "WRONG_MATCH_NAME"
+      return
 
-  setMatchType = (matchType, ErrorService)->
-    matchType = "" + matchType
-    if checkMatchType(matchType) isnt -1
-      type = matchType
-    else
-      type = ""
-      ErrorService.setMessage "WRONG_MATCH_NAME"
+    checkMatchType = (matchType)->
+      matchType = matchType.toLowerCase()
+      sports.indexOf matchType
+
     return
-
-  checkMatchType = (matchType)->
-    matchType = matchType.toLowerCase()
-    sports.indexOf matchType
-
   SettingsService.$inject = ['ErrorService']
 
   angular
@@ -47,5 +41,5 @@
       [
         'error.service'
       ]
-    .factory "SettingsService", SettingsService
+    .service "SettingsService", SettingsService
 )()
