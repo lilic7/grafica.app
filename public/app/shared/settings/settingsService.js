@@ -5,7 +5,9 @@
       all: {},
       getSports: getSports,
       getMatchType: getMatchType,
-      setMatchType: setMatchType,
+      setMatchType: function(matchType) {
+        return setMatchType(matchType, ErrorService);
+      },
       setMatchSettings: function(settingsFromJson) {
         return setMatchSettings;
       }
@@ -22,10 +24,12 @@
   setMatchSettings = function(settings, settingsFromJson) {
     return settings.all = settingsFromJson;
   };
-  setMatchType = function(matchType) {
+  setMatchType = function(matchType, ErrorService) {
+    matchType = "" + matchType;
     if (checkMatchType(matchType) !== -1) {
       type = matchType;
     } else {
+      type = "";
       ErrorService.setMessage("WRONG_MATCH_NAME");
     }
   };
@@ -33,6 +37,6 @@
     matchType = matchType.toLowerCase();
     return sports.indexOf(matchType);
   };
-  SettingsService.$inject = ['$http', 'ErrorService'];
+  SettingsService.$inject = ['ErrorService'];
   return angular.module("settings.service", ['error.service']).factory("SettingsService", SettingsService);
 })();

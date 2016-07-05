@@ -92,126 +92,37 @@
 })();
 
 (function() {
-  var ErrorService;
-  ErrorService = function($mdToast, $location) {
-    var message, messages, redirect, showToast;
-    message = "";
-    redirect = false;
-    showToast = false;
-    messages = {
-      WRONG_MATCH_NAME: {
-        message: "Acest tip de meci nu exista",
-        redirect: true
-      },
-      MATCH_TOO_LONG: {
-        message: "Durata meciului a trecut de limitele normale",
-        redirect: false
-      },
-      NEGATIVE_TIME: {
-        message: "SFAT: Reseteaza contorul!",
-        redirect: false
-      }
+  var ErrorService, getMessage, message, messages, setMessage;
+  ErrorService = function() {
+    return {
+      getMessage: getMessage,
+      setMessage: setMessage
     };
-    this.setMessage = function(msgCode) {
+  };
+  message = "";
+  messages = {
+    WRONG_MATCH_NAME: {
+      message: "Acest tip de meci nu exista",
+      redirect: true
+    },
+    MATCH_TOO_LONG: {
+      message: "Durata meciului a trecut de limitele normale",
+      redirect: false
+    },
+    NEGATIVE_TIME: {
+      message: "SFAT: Reseteaza contorul!",
+      redirect: false
+    }
+  };
+  getMessage = function() {
+    return message;
+  };
+  setMessage = function(msgCode) {
+    if (messages[msgCode]) {
       message = messages[msgCode].message;
-      redirect = messages[msgCode].redirect;
-      this.showMessage($mdToast, $location);
-    };
-    this.showMessage = function($mdToast, $location) {
-      if (!showToast) {
-        showToast = true;
-        $mdToast.show({
-          hideDelay: 3000,
-          position: 'top right',
-          controller: "ToastController",
-          controllerAs: "toastCtrl",
-          templateUrl: 'app/shared/error/toast/toastView.html'
-        }).then(function() {
-          this.showToast = false;
-          if (redirect) {
-            $location.url("/");
-          }
-        });
-      }
-    };
-    this.getMessage = function() {
-      return message;
-    };
+    }
   };
-  ErrorService.$inject = ['$mdToast', '$location'];
-  return angular.module("error.service", ['error.toast.controller']).service("ErrorService", ErrorService);
-})();
-
-(function() {
-  var GameController;
-  GameController = function(GameService, SettingsService) {
-    var vm;
-    vm = this;
-    vm.team1 = GameService.team1;
-    vm.team2 = GameService.team2;
-    vm.settings = SettingsService.all;
-  };
-  return angular.module("game.controller", ['game.service', 'team.directive']).controller("GameController", GameController);
-})();
-
-(function() {
-  var game;
-  game = function() {
-    return {
-      restrict: 'E',
-      templateUrl: "app/shared/game/gameView.html",
-      controller: "GameController",
-      controllerAs: "gameCtrl"
-    };
-  };
-  return angular.module("game.directive", ['game.controller', 'timer.directive']).directive("game", game);
-})();
-
-(function() {
-  var GameService;
-  GameService = function() {
-    var prepare, team1, team2;
-    prepare = function(text) {
-      var text_arr;
-      text_arr = text.split("\n");
-      return text_arr.sort(function(a, b) {
-        a = a.split(" ");
-        b = b.split(" ");
-        return a[0] - b[0];
-      });
-    };
-    team1 = {
-      name: "",
-      player_txt: "7   SERGIU DONICĂ",
-      reserve_txt: "6   MIHAI MUSTEA (C)",
-      player_list: ["7   SERGIU DONICĂ"],
-      reserve_list: ["6   MIHAI MUSTEA (C)"],
-      renderPlayer: function() {
-        return team1.player_list = prepare(team1.player_txt);
-      },
-      renderReserve: function() {
-        return team1.reserve_list = prepare(team1.reserve_txt);
-      }
-    };
-    team2 = {
-      name: "",
-      player_txt: "11  ALEXANDRU OLEINIC",
-      reserve_txt: "8   VITALIE BUCȘAN",
-      player_list: ["11  ALEXANDRU OLEINIC"],
-      reserve_list: ["8   VITALIE BUCȘAN"],
-      renderPlayer: function() {
-        return team2.player_list = prepare(team2.player_txt);
-      },
-      renderReserve: function() {
-        return team2.reserve_list = prepare(team2.reserve_txt);
-      }
-    };
-    return {
-      team1: team1,
-      team2: team2
-    };
-  };
-  return angular.module("game.service", []).factory("GameService", GameService);
+  return angular.module("error.service", []).factory("ErrorService", ErrorService);
 })();
 
 (function() {
@@ -301,7 +212,9 @@ angular.module("settings.directive", ['settings.controller', 'settings.rezerve.d
       all: {},
       getSports: getSports,
       getMatchType: getMatchType,
-      setMatchType: setMatchType,
+      setMatchType: function(matchType) {
+        return setMatchType(matchType, ErrorService);
+      },
       setMatchSettings: function(settingsFromJson) {
         return setMatchSettings;
       }
@@ -318,10 +231,12 @@ angular.module("settings.directive", ['settings.controller', 'settings.rezerve.d
   setMatchSettings = function(settings, settingsFromJson) {
     return settings.all = settingsFromJson;
   };
-  setMatchType = function(matchType) {
+  setMatchType = function(matchType, ErrorService) {
+    matchType = "" + matchType;
     if (checkMatchType(matchType) !== -1) {
       type = matchType;
     } else {
+      type = "";
       ErrorService.setMessage("WRONG_MATCH_NAME");
     }
   };
@@ -329,7 +244,7 @@ angular.module("settings.directive", ['settings.controller', 'settings.rezerve.d
     matchType = matchType.toLowerCase();
     return sports.indexOf(matchType);
   };
-  SettingsService.$inject = ['$http', 'ErrorService'];
+  SettingsService.$inject = ['ErrorService'];
   return angular.module("settings.service", ['error.service']).factory("SettingsService", SettingsService);
 })();
 
@@ -498,14 +413,75 @@ angular.module("timer.directive", ['timer.controller']).directive("timer", funct
 })();
 
 (function() {
-  var ToastController;
-  ToastController = function(ErrorService) {
+  var GameController;
+  GameController = function(GameService, SettingsService) {
     var vm;
     vm = this;
-    vm.message = ErrorService.getMessage();
+    vm.team1 = GameService.team1;
+    vm.team2 = GameService.team2;
+    vm.settings = SettingsService.all;
   };
-  ToastController.$inject = ['ErrorService'];
-  return angular.module("error.toast.controller", ['error.service']).controller("ToastController", ToastController);
+  return angular.module("game.controller", ['game.service', 'team.directive']).controller("GameController", GameController);
+})();
+
+(function() {
+  var game;
+  game = function() {
+    return {
+      restrict: 'E',
+      templateUrl: "app/shared/game/gameView.html",
+      controller: "GameController",
+      controllerAs: "gameCtrl"
+    };
+  };
+  return angular.module("game.directive", ['game.controller', 'timer.directive']).directive("game", game);
+})();
+
+(function() {
+  var GameService;
+  GameService = function() {
+    var prepare, team1, team2;
+    prepare = function(text) {
+      var text_arr;
+      text_arr = text.split("\n");
+      return text_arr.sort(function(a, b) {
+        a = a.split(" ");
+        b = b.split(" ");
+        return a[0] - b[0];
+      });
+    };
+    team1 = {
+      name: "",
+      player_txt: "7   SERGIU DONICĂ",
+      reserve_txt: "6   MIHAI MUSTEA (C)",
+      player_list: ["7   SERGIU DONICĂ"],
+      reserve_list: ["6   MIHAI MUSTEA (C)"],
+      renderPlayer: function() {
+        return team1.player_list = prepare(team1.player_txt);
+      },
+      renderReserve: function() {
+        return team1.reserve_list = prepare(team1.reserve_txt);
+      }
+    };
+    team2 = {
+      name: "",
+      player_txt: "11  ALEXANDRU OLEINIC",
+      reserve_txt: "8   VITALIE BUCȘAN",
+      player_list: ["11  ALEXANDRU OLEINIC"],
+      reserve_list: ["8   VITALIE BUCȘAN"],
+      renderPlayer: function() {
+        return team2.player_list = prepare(team2.player_txt);
+      },
+      renderReserve: function() {
+        return team2.reserve_list = prepare(team2.reserve_txt);
+      }
+    };
+    return {
+      team1: team1,
+      team2: team2
+    };
+  };
+  return angular.module("game.service", []).factory("GameService", GameService);
 })();
 
 angular.module("player.actions.controller", []).controller("PlayerActionsController", ["$mdDialog", function($mdDialog) {
@@ -521,6 +497,48 @@ angular.module("player.actions.controller", []).controller("PlayerActionsControl
     $mdDialog.hide(answer);
   };
 }]);
+
+(function() {
+  var ToastController;
+  ToastController = function(ErrorService) {
+    var vm;
+    vm = this;
+    vm.message = ErrorService.getMessage();
+  };
+  ToastController.$inject = ['ErrorService'];
+  return angular.module("error.toast.controller", ['error.service']).controller("ToastController", ToastController);
+})();
+
+(function() {
+  var ToastService, showError;
+  ToastService = function($mdToast) {
+    return {
+      showError: function() {
+        return showError($mdToast);
+      }
+    };
+  };
+  showError = function($mdToast, $location) {
+    var showToast;
+    if (!showToast) {
+      showToast = true;
+      $mdToast.show({
+        hideDelay: 3000,
+        position: 'top right',
+        controller: "ToastController",
+        controllerAs: "toastCtrl",
+        templateUrl: 'app/shared/error/toast/toastView.html'
+      }).then(function() {
+        showToast = false;
+        if (redirect) {
+          $location.url("/");
+        }
+      });
+    }
+  };
+  ToastService.$inject = ["$mdToast", "$location"];
+  return angular.module("error.toast.service", ['error.toast.controller']).factory("ToastService", ToastService);
+})();
 
 angular.module("team.form.directive", []).directive("teamForm", function() {
   return {

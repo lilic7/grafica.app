@@ -4,7 +4,7 @@
       all: {}
       getSports: getSports
       getMatchType: getMatchType
-      setMatchType: setMatchType
+      setMatchType: (matchType)->  setMatchType matchType, ErrorService
       setMatchSettings: (settingsFromJson)-> setMatchSettings
     }
 
@@ -27,10 +27,12 @@
   setMatchSettings = (settings, settingsFromJson)->
     settings.all = settingsFromJson
 
-  setMatchType = (matchType)->
+  setMatchType = (matchType, ErrorService)->
+    matchType = "" + matchType
     if checkMatchType(matchType) isnt -1
       type = matchType
     else
+      type = ""
       ErrorService.setMessage "WRONG_MATCH_NAME"
     return
 
@@ -38,7 +40,7 @@
     matchType = matchType.toLowerCase()
     sports.indexOf matchType
 
-  SettingsService.$inject = ['$http', 'ErrorService']
+  SettingsService.$inject = ['ErrorService']
 
   angular
     .module "settings.service",

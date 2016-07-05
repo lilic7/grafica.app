@@ -1,29 +1,36 @@
 describe("settings.service", function() {
-  var SettingsService, mock;
+  var ErrorService, SettingsService;
   SettingsService = null;
-  mock = null;
-  beforeEach(angular.mock.module("settings.service"));
+  ErrorService = null;
   beforeEach(function() {
-    mock = {
-      ErrorService: jasmine.createSpy()
-    };
     module(function($provide) {
-      $provide.value("ErrorService", mock);
+      $provide.service("ErrorService", function() {
+        this.setMessage = jasmine.createSpy('setMessage');
+      });
     });
-    inject(function(_SettingsService_) {
-      SettingsService = _SettingsService_;
-    });
+    module("settings.service");
   });
+  beforeEach(inject(function(_SettingsService_, _ErrorService_) {
+    SettingsService = _SettingsService_;
+    ErrorService = _ErrorService_;
+  }));
   it("should exist", function() {
     expect(SettingsService).toBeDefined();
   });
-  it("should return sports array", function() {
-    expect(SettingsService.getSports()).toEqual(jasmine.arrayContaining(["minifotbal"]));
+  describe("getSport", function() {
+    it("should return sports array", function() {
+      expect(SettingsService.getSports()).toEqual(jasmine.arrayContaining(["minifotbal"]));
+    });
   });
-  xit("should set matchType this type exists in sports array", function() {
-    SettingsService.setMatchType("fotbal");
-    expect(SettingsService.getMatchType()).toEqual('fotbal');
-    SettingsService.setMatchType("wrongMatchType");
-    expect(SettingsService.getMatchType()).toEqual('wrongMatchType');
+  describe("setMatchType", function() {
+    it("should set matchType for correct type", function() {
+      SettingsService.setMatchType("fotbal");
+      expect(SettingsService.getMatchType()).toEqual('fotbal');
+    });
+    it("should NOT set matchType if the type is incorrect", function() {
+      SettingsService.setMatchType("wrongMatchType");
+      expect(ErrorService.setMessage).toHaveBeenCalledWith('WRONG_MATCH_NAME');
+      expect(SettingsService.getMatchType()).not.toEqual('wrongMatchType');
+    });
   });
 });

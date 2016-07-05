@@ -1,19 +1,20 @@
 describe "settings.service", ->
   SettingsService = null
-  mock = null
-
-  beforeEach angular.mock.module "settings.service"
+  ErrorService = null
 
   beforeEach ->
-    mock = {ErrorService: jasmine.createSpy()}
-
     module ($provide)->
-      $provide.value "ErrorService", mock
-      return
+      $provide.service "ErrorService", ->
+        @.setMessage = jasmine.createSpy 'setMessage' 
+        return
 
-    inject (_SettingsService_)->
-      SettingsService = _SettingsService_
       return
+    module "settings.service"
+    return
+
+  beforeEach inject (_SettingsService_, _ErrorService_)->
+    SettingsService = _SettingsService_
+    ErrorService = _ErrorService_
     return
 
   it "should exist", ->
@@ -21,20 +22,28 @@ describe "settings.service", ->
       .toBeDefined()
     return
 
-  it "should return sports array", ->
-    expect SettingsService.getSports()
-      .toEqual jasmine.arrayContaining ["minifotbal"]
+  describe "getSport", ->
+    it "should return sports array", ->
+      expect SettingsService.getSports()
+        .toEqual jasmine.arrayContaining ["minifotbal"]
+      return
     return
-    
-  xit "should set matchType this type exists in sports array", ->
-    SettingsService.setMatchType "fotbal"
-    expect SettingsService.getMatchType()
-      .toEqual 'fotbal'
-    SettingsService.setMatchType "wrongMatchType"
-    expect SettingsService.getMatchType()
-      .toEqual 'wrongMatchType'
- 
 
+  describe "setMatchType", ->
+    it "should set matchType for correct type", ->
+      SettingsService.setMatchType "fotbal"
+      expect SettingsService.getMatchType()
+        .toEqual 'fotbal'
+      return
+
+    it "should NOT set matchType if the type is incorrect", ->
+      SettingsService.setMatchType "wrongMatchType"
+      expect ErrorService.setMessage
+        .toHaveBeenCalledWith 'WRONG_MATCH_NAME'
+      expect SettingsService.getMatchType()
+        .not
+        .toEqual 'wrongMatchType'
+      return
     return
 
   return
