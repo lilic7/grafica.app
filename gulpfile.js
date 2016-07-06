@@ -5,10 +5,11 @@ var concat = require('gulp-concat');
 var coffee = require('gulp-coffee');
 var sass = require('gulp-sass');
 var browserSync = require('browser-sync').create();
+var Server = require('karma').Server;
 
 gulp.task('default', ['browserSync']);
 
-gulp.task('browserSync', ['sass', 'js', 'appHtml', 'coffee-test'], function(){
+gulp.task('browserSync', ['sass', 'js', 'appHtml'], function(){
     browserSync.init(null, {
         proxy: 'grafica.app',
         files: [
@@ -19,7 +20,7 @@ gulp.task('browserSync', ['sass', 'js', 'appHtml', 'coffee-test'], function(){
     });
 
     gulp.watch("coffee/app/**/*.coffee", ['js']).on('error', gutil.log);
-    gulp.watch("coffee/test/**/*.coffee", ['coffee-test']).on('error', gutil.log);
+    gulp.watch("coffee/test/**/*.coffee", ['test']).on('error', gutil.log);
     gulp.watch("coffee/app/**/*.html", ['appHtml']);
     gulp.watch("sass/*.sass", ['sass']);
     gulp.watch("public/js/*.js").on('change', browserSync.reload);
@@ -42,7 +43,7 @@ gulp.task('coffee-test', function(){
         .pipe(gulp.dest('test'));
 });
 
-gulp.task('js', ['coffee-app'], function() {
+gulp.task('js', ['test'], function() {
     return gulp.src(['public/app/*.js', 'public/app/**/*.js'])
         .pipe(ngAnnotate())
         .pipe(concat('app.js'))
@@ -55,4 +56,11 @@ gulp.task('sass', function(){
         .pipe(sass().on('error', sass.logError))
         .pipe(gulp.dest('public/css'))
         .pipe(browserSync.stream());
+});
+
+gulp.task('test', ['coffee-test', 'coffee-app'], function(done){
+    new Server({
+        configFile: __dirname + '/karma.conf.js',
+        singleRun: true
+    }, done).start();
 });

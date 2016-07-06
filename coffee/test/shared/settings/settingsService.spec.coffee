@@ -26,28 +26,67 @@ describe "settings.service", ->
     return
 
   describe "setMatchType", ->
+    
     it "should set matchType for correct type", ->
       SettingsService.setMatchType "fotbal"
       expect SettingsService.getMatchType()
         .toEqual 'fotbal'
       return
 
-  describe "should rise ErrorService setMessage if the match type is incorect", ->
+    describe "should rise ErrorService setMessage if the match type is incorect", ->
 
+      beforeEach inject ($injector)->
+        ErrorService = $injector.get "ErrorService"
+        ErrorService.setMessage = jasmine.createSpy "setMessage"
+        return
+
+      it "should NOT set matchType if the type is incorrect", ->
+        SettingsService.setMatchType "wrongMatchType"
+        expect ErrorService.setMessage
+          .toHaveBeenCalledWith("WRONG_MATCH_NAME")
+
+        expect SettingsService.getMatchType()
+          .not
+          .toEqual 'wrongMatchType'
+
+        expect SettingsService.getMatchType()
+          .toEqual ''
+        return
+
+      return
+    return
+
+  describe "setMatchSettings", ->
+    $httpBackend = null
     beforeEach inject ($injector)->
-      ErrorService = $injector.get "ErrorService"
-      ErrorService.setMessage = jasmine.createSpy "setMessage"
+      $httpBackend = $injector.get "$httpBackend"
+
       return
 
-    it "should NOT set matchType if the type is incorrect", ->
-      SettingsService.setMatchType "wrongMatchType"
-      expect ErrorService.setMessage
-        .toHaveBeenCalledWith("WRONG_MATCH_NAME")
-      expect SettingsService.getMatchType()
-        .not
-        .toEqual 'wrongMatchType'
+    afterEach ->
+      $httpBackend.verifyNoOutstandingExpectation()
+      $httpBackend.verifyNoOutstandingRequest()
+      $httpBackend.resetExpectations()
       return
+
+    describe "get json file if match type is in sports array", ->
+      xit "should set matchSettings for correct matchType", ->
+        SettingsService.setMatchType 'fotbal'
+        $httpBackend
+          .whenGET "json/fotbal.json"
+          .respond {'fotbalSettings': 'settings'}
+        promise = SettingsService.getMatchSettings 'fotbal'
+        promise.then (response)->
+          expect response
+            .toBeDefined()
+          expect response.data
+          .toEqual {'fotbalSettings': 'settings'}
+        $httpBackend.flush()
+        return
+      return
+
 
     return
+
 
   return

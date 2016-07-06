@@ -1,7 +1,7 @@
 (function() {
   var SettingsService;
-  SettingsService = function(ErrorService) {
-    var checkMatchType, setMatchSettings, setMatchType, sports, type;
+  SettingsService = function($http, ErrorService) {
+    var checkMatchType, getMatchSettings, setMatchType, sports, type;
     sports = ['minifotbal', 'fotbal', 'futsal', 'handbal', 'baschet', 'volei', 'tenis'];
     type = null;
     this.all = {};
@@ -14,11 +14,15 @@
     this.setMatchType = function(matchType) {
       return setMatchType(matchType);
     };
-    this.setMatchSettings = function(settingsFromJson) {
-      return setMatchSettings;
+    this.getMatchSettings = function() {
+      return getMatchSettings;
     };
-    setMatchSettings = function(settings, settingsFromJson) {
-      return settings.all = settingsFromJson;
+    getMatchSettings = function() {
+      if (type) {
+        return $http.get('json/' + type + ".json").then(function(result) {
+          this.all = result;
+        });
+      }
     };
     setMatchType = function(matchType) {
       matchType = "" + matchType;
@@ -34,6 +38,6 @@
       return sports.indexOf(matchType);
     };
   };
-  SettingsService.$inject = ['ErrorService'];
+  SettingsService.$inject = ['$http', 'ErrorService'];
   return angular.module("settings.service", ['error.service']).service("SettingsService", SettingsService);
 })();

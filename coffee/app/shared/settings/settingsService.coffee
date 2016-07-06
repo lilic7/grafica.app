@@ -1,5 +1,5 @@
 (->
-  SettingsService = (ErrorService)->
+  SettingsService = ($http, ErrorService)->
     sports = [
       'minifotbal'
       'fotbal'
@@ -10,15 +10,20 @@
       'tenis'
     ]
     type = null
-
+    
     @.all = {}
     @.getSports = -> sports
     @.getMatchType = -> type
     @.setMatchType = (matchType)-> setMatchType(matchType)
-    @.setMatchSettings = (settingsFromJson)-> setMatchSettings
+    @.getMatchSettings = -> getMatchSettings
 
-    setMatchSettings = (settings, settingsFromJson)->
-      settings.all = settingsFromJson
+    getMatchSettings = ->
+      if type
+        $http
+          .get 'json/'+type+".json"
+          .then (result)->
+            @.all = result
+            return
 
     setMatchType = (matchType)->
       matchType = "" + matchType
@@ -34,7 +39,8 @@
       sports.indexOf matchType
 
     return
-  SettingsService.$inject = ['ErrorService']
+
+  SettingsService.$inject = ['$http', 'ErrorService']
 
   angular
     .module "settings.service",

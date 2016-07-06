@@ -69,17 +69,6 @@
 })();
 
 (function() {
-  var HomeController;
-  HomeController = function(SettingsService) {
-    var vm;
-    vm = this;
-    vm.matches = SettingsService.getSports();
-  };
-  HomeController.$inject = ['SettingsService'];
-  return angular.module("home.controller", ['settings.service']).controller("HomeController", HomeController);
-})();
-
-(function() {
   var MatchController;
   MatchController = function(GameService, SettingsService) {
     var vm;
@@ -89,6 +78,17 @@
     vm.settings = SettingsService.all;
   };
   return angular.module("match.controller", ['team.form.directive', 'game.directive', 'settings.directive', 'game.service', 'settings.service']).controller('MatchController', MatchController);
+})();
+
+(function() {
+  var HomeController;
+  HomeController = function(SettingsService) {
+    var vm;
+    vm = this;
+    vm.matches = SettingsService.getSports();
+  };
+  HomeController.$inject = ['SettingsService'];
+  return angular.module("home.controller", ['settings.service']).controller("HomeController", HomeController);
 })();
 
 (function() {
@@ -279,8 +279,8 @@ angular.module("settings.directive", ['settings.controller', 'settings.rezerve.d
 
 (function() {
   var SettingsService;
-  SettingsService = function(ErrorService) {
-    var checkMatchType, setMatchSettings, setMatchType, sports, type;
+  SettingsService = function($http, ErrorService) {
+    var checkMatchType, getMatchSettings, setMatchType, sports, type;
     sports = ['minifotbal', 'fotbal', 'futsal', 'handbal', 'baschet', 'volei', 'tenis'];
     type = null;
     this.all = {};
@@ -293,11 +293,13 @@ angular.module("settings.directive", ['settings.controller', 'settings.rezerve.d
     this.setMatchType = function(matchType) {
       return setMatchType(matchType);
     };
-    this.setMatchSettings = function(settingsFromJson) {
-      return setMatchSettings;
-    };
-    setMatchSettings = function(settings, settingsFromJson) {
-      return settings.all = settingsFromJson;
+    this.getMatchSettings = getMatchSettings;
+    getMatchSettings = function() {
+      if (type) {
+        return $http.get('json/' + type + ".json").then(function(result) {
+          this.all = result;
+        });
+      }
     };
     setMatchType = function(matchType) {
       matchType = "" + matchType;
@@ -313,7 +315,7 @@ angular.module("settings.directive", ['settings.controller', 'settings.rezerve.d
       return sports.indexOf(matchType);
     };
   };
-  SettingsService.$inject = ['ErrorService'];
+  SettingsService.$inject = ['$http', 'ErrorService'];
   return angular.module("settings.service", ['error.service']).service("SettingsService", SettingsService);
 })();
 
@@ -578,16 +580,6 @@ angular.module("settings.offside.directive", []).directive("settingsOffside", fu
   };
 });
 
-angular.module("settings.pauza.directive", []).directive("settingsPauza", function() {
-  return {
-    restrict: "E",
-    scope: {
-      pauza: "="
-    },
-    templateUrl: "app/shared/settings/components/pauza/pauzaView.html"
-  };
-});
-
 angular.module("settings.repriza.directive", []).directive("settingsRepriza", function() {
   return {
     restrict: "E",
@@ -598,13 +590,13 @@ angular.module("settings.repriza.directive", []).directive("settingsRepriza", fu
   };
 });
 
-angular.module("settings.rezerve.directive", []).directive("settingsRezerve", function() {
+angular.module("settings.pauza.directive", []).directive("settingsPauza", function() {
   return {
     restrict: "E",
     scope: {
-      rezerve: "="
+      pauza: "="
     },
-    templateUrl: 'app/shared/settings/components/rezerve/rezerveView.html'
+    templateUrl: "app/shared/settings/components/pauza/pauzaView.html"
   };
 });
 
@@ -615,5 +607,15 @@ angular.module("settings.timer.directive", []).directive("settingsTimer", functi
       timer: "="
     },
     templateUrl: "app/shared/settings/components/timer/timerView.html"
+  };
+});
+
+angular.module("settings.rezerve.directive", []).directive("settingsRezerve", function() {
+  return {
+    restrict: "E",
+    scope: {
+      rezerve: "="
+    },
+    templateUrl: 'app/shared/settings/components/rezerve/rezerveView.html'
   };
 });
