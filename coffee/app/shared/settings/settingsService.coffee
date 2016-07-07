@@ -18,12 +18,10 @@
     @.getMatchSettings = -> getMatchSettings
 
     getMatchSettings = ->
-      if type
-        $http
-          .get 'json/'+type+".json"
-          .then (result)->
-            @.all = result
-            return
+      $http
+        .get 'json/'+type+".json"
+        .success (result)->
+          result
 
     setMatchType = (matchType)->
       matchType = "" + matchType

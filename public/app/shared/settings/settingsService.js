@@ -18,11 +18,9 @@
       return getMatchSettings;
     };
     getMatchSettings = function() {
-      if (type) {
-        return $http.get('json/' + type + ".json").then(function(result) {
-          this.all = result;
-        });
-      }
+      return $http.get('json/' + type + ".json").success(function(result) {
+        return result;
+      });
     };
     setMatchType = function(matchType) {
       matchType = "" + matchType;

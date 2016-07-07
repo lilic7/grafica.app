@@ -58,29 +58,24 @@ describe "settings.service", ->
 
   describe "setMatchSettings", ->
     $httpBackend = null
+    _httpBackend = null
     beforeEach inject ($injector)->
       $httpBackend = $injector.get "$httpBackend"
-
+      _httpBackend = $httpBackend
+        .whenGET "json/fotbal.json"
+        .respond 200, {fotbalSettings: 'settings'}
       return
 
     afterEach ->
       $httpBackend.verifyNoOutstandingExpectation()
       $httpBackend.verifyNoOutstandingRequest()
-      $httpBackend.resetExpectations()
       return
 
     describe "get json file if match type is in sports array", ->
       xit "should set matchSettings for correct matchType", ->
         SettingsService.setMatchType 'fotbal'
-        $httpBackend
-          .whenGET "json/fotbal.json"
-          .respond {'fotbalSettings': 'settings'}
-        promise = SettingsService.getMatchSettings 'fotbal'
-        promise.then (response)->
-          expect response
-            .toBeDefined()
-          expect response.data
-          .toEqual {'fotbalSettings': 'settings'}
+        $httpBackend.whenGET "json/fotbal.json"
+        SettingsService.getMatchSettings()
         $httpBackend.flush()
         return
       return

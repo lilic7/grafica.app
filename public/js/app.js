@@ -69,6 +69,17 @@
 })();
 
 (function() {
+  var HomeController;
+  HomeController = function(SettingsService) {
+    var vm;
+    vm = this;
+    vm.matches = SettingsService.getSports();
+  };
+  HomeController.$inject = ['SettingsService'];
+  return angular.module("home.controller", ['settings.service']).controller("HomeController", HomeController);
+})();
+
+(function() {
   var MatchController;
   MatchController = function(GameService, SettingsService) {
     var vm;
@@ -78,17 +89,6 @@
     vm.settings = SettingsService.all;
   };
   return angular.module("match.controller", ['team.form.directive', 'game.directive', 'settings.directive', 'game.service', 'settings.service']).controller('MatchController', MatchController);
-})();
-
-(function() {
-  var HomeController;
-  HomeController = function(SettingsService) {
-    var vm;
-    vm = this;
-    vm.matches = SettingsService.getSports();
-  };
-  HomeController.$inject = ['SettingsService'];
-  return angular.module("home.controller", ['settings.service']).controller("HomeController", HomeController);
 })();
 
 (function() {
@@ -293,13 +293,13 @@ angular.module("settings.directive", ['settings.controller', 'settings.rezerve.d
     this.setMatchType = function(matchType) {
       return setMatchType(matchType);
     };
-    this.getMatchSettings = getMatchSettings;
+    this.getMatchSettings = function() {
+      return getMatchSettings;
+    };
     getMatchSettings = function() {
-      if (type) {
-        return $http.get('json/' + type + ".json").then(function(result) {
-          this.all = result;
-        });
-      }
+      return $http.get('json/' + type + ".json").success(function(result) {
+        return result;
+      });
     };
     setMatchType = function(matchType) {
       matchType = "" + matchType;
@@ -560,16 +560,6 @@ angular.module("settings.corner.directive", []).directive("settingsCorner", func
   };
 });
 
-angular.module("settings.departajari.directive", []).directive("settingsDepartajari", function() {
-  return {
-    restrict: "E",
-    scope: {
-      departajari: "="
-    },
-    templateUrl: "app/shared/settings/components/departajari/departajariView.html"
-  };
-});
-
 angular.module("settings.offside.directive", []).directive("settingsOffside", function() {
   return {
     restrict: "E",
@@ -577,6 +567,16 @@ angular.module("settings.offside.directive", []).directive("settingsOffside", fu
       offside: "="
     },
     templateUrl: "app/shared/settings/components/offside/offsideView.html"
+  };
+});
+
+angular.module("settings.departajari.directive", []).directive("settingsDepartajari", function() {
+  return {
+    restrict: "E",
+    scope: {
+      departajari: "="
+    },
+    templateUrl: "app/shared/settings/components/departajari/departajariView.html"
   };
 });
 
@@ -600,16 +600,6 @@ angular.module("settings.pauza.directive", []).directive("settingsPauza", functi
   };
 });
 
-angular.module("settings.timer.directive", []).directive("settingsTimer", function() {
-  return {
-    restrict: "E",
-    scope: {
-      timer: "="
-    },
-    templateUrl: "app/shared/settings/components/timer/timerView.html"
-  };
-});
-
 angular.module("settings.rezerve.directive", []).directive("settingsRezerve", function() {
   return {
     restrict: "E",
@@ -617,5 +607,15 @@ angular.module("settings.rezerve.directive", []).directive("settingsRezerve", fu
       rezerve: "="
     },
     templateUrl: 'app/shared/settings/components/rezerve/rezerveView.html'
+  };
+});
+
+angular.module("settings.timer.directive", []).directive("settingsTimer", function() {
+  return {
+    restrict: "E",
+    scope: {
+      timer: "="
+    },
+    templateUrl: "app/shared/settings/components/timer/timerView.html"
   };
 });
