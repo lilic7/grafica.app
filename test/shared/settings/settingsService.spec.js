@@ -39,12 +39,12 @@ describe("settings.service", function() {
     });
   });
   describe("setMatchSettings", function() {
-    var $httpBackend, _httpBackend;
+    var $httpBackend, testRequest;
     $httpBackend = null;
-    _httpBackend = null;
+    testRequest = null;
     beforeEach(inject(function($injector) {
       $httpBackend = $injector.get("$httpBackend");
-      _httpBackend = $httpBackend.whenGET("json/fotbal.json").respond(200, {
+      testRequest = $httpBackend.whenGET("json/fotbal.json").respond(200, {
         fotbalSettings: 'settings'
       });
     }));
@@ -52,10 +52,16 @@ describe("settings.service", function() {
       $httpBackend.verifyNoOutstandingExpectation();
       $httpBackend.verifyNoOutstandingRequest();
     });
-    describe("get json file if match type is in sports array", function() {
+    describe("get settings from JSON file", function() {
       it("should set matchSettings for correct matchType", function() {
         SettingsService.setMatchType('fotbal');
-        $httpBackend.whenGET("json/fotbal.json");
+        SettingsService.getMatchSettings();
+        $httpBackend.flush();
+      });
+      return;
+      return it("should NOT make http request for incorrect matchType", function() {
+        SettingsService.setMatchType("whongMAtchType");
+        testRequest.respond(404, {});
         SettingsService.getMatchSettings();
         $httpBackend.flush();
       });

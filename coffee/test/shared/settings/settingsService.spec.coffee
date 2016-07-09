@@ -58,10 +58,10 @@ describe "settings.service", ->
 
   describe "setMatchSettings", ->
     $httpBackend = null
-    _httpBackend = null
+    testRequest = null
     beforeEach inject ($injector)->
       $httpBackend = $injector.get "$httpBackend"
-      _httpBackend = $httpBackend
+      testRequest = $httpBackend
         .whenGET "json/fotbal.json"
         .respond 200, {fotbalSettings: 'settings'}
       return
@@ -71,17 +71,23 @@ describe "settings.service", ->
       $httpBackend.verifyNoOutstandingRequest()
       return
 
-    describe "get json file if match type is in sports array", ->
-      xit "should set matchSettings for correct matchType", ->
+    describe "get settings from JSON file", ->
+      it "should set matchSettings for correct matchType", ->
         SettingsService.setMatchType 'fotbal'
-        $httpBackend.whenGET "json/fotbal.json"
+
         SettingsService.getMatchSettings()
         $httpBackend.flush()
+
         return
       return
 
+      it "should NOT make http request for incorrect matchType", ->
+        SettingsService.setMatchType "whongMAtchType"
+        testRequest.respond 404, {}
+        SettingsService.getMatchSettings()
+        $httpBackend.flush()
+        return
 
     return
-
 
   return

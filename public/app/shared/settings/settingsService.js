@@ -15,12 +15,12 @@
       return setMatchType(matchType);
     };
     this.getMatchSettings = function() {
-      return getMatchSettings;
+      return getMatchSettings($http, type);
     };
-    getMatchSettings = function() {
-      return $http.get('json/' + type + ".json").success(function(result) {
-        return result;
-      });
+    getMatchSettings = function($http, type) {
+      if (type) {
+        $http.get("json/" + type + ".json");
+      }
     };
     setMatchType = function(matchType) {
       matchType = "" + matchType;

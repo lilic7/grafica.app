@@ -294,12 +294,12 @@ angular.module("settings.directive", ['settings.controller', 'settings.rezerve.d
       return setMatchType(matchType);
     };
     this.getMatchSettings = function() {
-      return getMatchSettings;
+      return getMatchSettings($http, type);
     };
-    getMatchSettings = function() {
-      return $http.get('json/' + type + ".json").success(function(result) {
-        return result;
-      });
+    getMatchSettings = function($http, type) {
+      if (type) {
+        $http.get("json/" + type + ".json");
+      }
     };
     setMatchType = function(matchType) {
       matchType = "" + matchType;
@@ -560,16 +560,6 @@ angular.module("settings.corner.directive", []).directive("settingsCorner", func
   };
 });
 
-angular.module("settings.offside.directive", []).directive("settingsOffside", function() {
-  return {
-    restrict: "E",
-    scope: {
-      offside: "="
-    },
-    templateUrl: "app/shared/settings/components/offside/offsideView.html"
-  };
-});
-
 angular.module("settings.departajari.directive", []).directive("settingsDepartajari", function() {
   return {
     restrict: "E",
@@ -577,6 +567,16 @@ angular.module("settings.departajari.directive", []).directive("settingsDepartaj
       departajari: "="
     },
     templateUrl: "app/shared/settings/components/departajari/departajariView.html"
+  };
+});
+
+angular.module("settings.offside.directive", []).directive("settingsOffside", function() {
+  return {
+    restrict: "E",
+    scope: {
+      offside: "="
+    },
+    templateUrl: "app/shared/settings/components/offside/offsideView.html"
   };
 });
 

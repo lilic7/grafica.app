@@ -15,13 +15,12 @@
     @.getSports = -> sports
     @.getMatchType = -> type
     @.setMatchType = (matchType)-> setMatchType(matchType)
-    @.getMatchSettings = -> getMatchSettings
+    @.getMatchSettings = -> getMatchSettings($http, type)
 
-    getMatchSettings = ->
-      $http
-        .get 'json/'+type+".json"
-        .success (result)->
-          result
+    getMatchSettings = ($http, type)->
+      if type
+        $http.get "json/"+type+".json"
+      return
 
     setMatchType = (matchType)->
       matchType = "" + matchType
