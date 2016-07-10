@@ -1,0 +1,33 @@
+{
+  "sports": [
+    {
+      "name": "fotbal",
+      "show": true
+    },
+    {
+      "name": "minifotbal",
+      "show": true
+    },
+    {
+      "name": "handbal",
+      "show": true
+    },
+    {
+      "name": "futsal",
+      "show": true
+    },
+    {
+      "name": "bashet",
+      "show": true
+    },
+    {
+      "name": "tenis",
+      "show": true
+    },
+    {
+      "name": "volei",
+      "show": true
+    }
+  ]
+
+}

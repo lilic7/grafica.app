@@ -278,45 +278,88 @@ angular.module("settings.directive", ['settings.controller', 'settings.rezerve.d
 });
 
 (function() {
-  var SettingsService;
-  SettingsService = function($http, ErrorService) {
-    var checkMatchType, getMatchSettings, setMatchType, sports, type;
-    sports = ['minifotbal', 'fotbal', 'futsal', 'handbal', 'baschet', 'volei', 'tenis'];
-    type = null;
-    this.all = {};
-    this.getSports = function() {
-      return sports;
-    };
-    this.getMatchType = function() {
-      return type;
-    };
-    this.setMatchType = function(matchType) {
-      return setMatchType(matchType);
-    };
-    this.getMatchSettings = function() {
-      return getMatchSettings($http, type);
-    };
-    getMatchSettings = function($http, type) {
-      if (type) {
-        $http.get("json/" + type + ".json");
+  var SettingsFactory, checkMatchType, setMatchType, setSettings, setSports, sports, type;
+  SettingsFactory = function($http, ErrorService, SettingsService) {
+    return {
+      getMatchType: function() {
+        return type;
+      },
+      getSettings: function() {
+        return SettingsService.settings;
+      },
+      getSports: function() {
+        return sports;
+      },
+      setMatchType: function(type) {
+        return setMatchType(type, ErrorService);
+      },
+      setSettings: function() {
+        return setSettings($http, SettingsService);
+      },
+      setSports: function() {
+        return setSports($http);
       }
-    };
-    setMatchType = function(matchType) {
-      matchType = "" + matchType;
-      if (checkMatchType(matchType) !== -1) {
-        type = matchType;
-      } else {
-        type = "";
-        ErrorService.setMessage("WRONG_MATCH_NAME");
-      }
-    };
-    checkMatchType = function(matchType) {
-      matchType = matchType.toLowerCase();
-      return sports.indexOf(matchType);
     };
   };
-  SettingsService.$inject = ['$http', 'ErrorService'];
-  return angular.module("settings.service", ['error.service']).service("SettingsService", SettingsService);
+  type = null;
+  sports = {};
+  setSettings = function($http, SettingsService) {
+    var success;
+    if (type) {
+      success = function(response) {
+        SettingsService.settings = response.data;
+      };
+      $http({
+        method: "GET",
+        url: "json/" + type + ".json"
+      }).then(success);
+    } else {
+      SettingsService.settings = {};
+    }
+  };
+  setSports = function($http) {
+    var success;
+    success = function(response) {
+      sports = response.data;
+    };
+    $http({
+      method: "GET",
+      url: "json/sports.json"
+    }).then(success);
+  };
+  setMatchType = function(matchType, errorService) {
+    matchType = "" + matchType;
+    if (checkMatchType(matchType)) {
+      type = matchType;
+    } else {
+      type = null;
+      errorService.setMessage("WRONG_MATCH_NAME");
+    }
+  };
+  checkMatchType = function(type) {
+    var exist, i, len, sport, sportsNames;
+    type = type.toLowerCase();
+    exist = false;
+    sportsNames = sports['sports'];
+    for (i = 0, len = sportsNames.length; i < len; i++) {
+      sport = sportsNames[i];
+      if (type === sport.name) {
+        exist = true;
+        break;
+      }
+    }
+    return exist;
+  };
+  SettingsFactory.$ingect = ['$http', 'ErrorService', 'SettingsService'];
+  return angular.module("settings.factory", ['error.service', 'settings.service']).factory("SettingsFactory", SettingsFactory);
+})();
+
+(function() {
+  var SettingsService;
+  SettingsService = function() {
+    this.settings = {};
+  };
+  return angular.module("settings.service", []).service("SettingsService", SettingsService);
 })();
 
 (function() {
@@ -580,16 +623,6 @@ angular.module("settings.offside.directive", []).directive("settingsOffside", fu
   };
 });
 
-angular.module("settings.repriza.directive", []).directive("settingsRepriza", function() {
-  return {
-    restrict: "E",
-    scope: {
-      repriza: "="
-    },
-    templateUrl: "app/shared/settings/components/repriza/reprizaView.html"
-  };
-});
-
 angular.module("settings.pauza.directive", []).directive("settingsPauza", function() {
   return {
     restrict: "E",
@@ -597,6 +630,16 @@ angular.module("settings.pauza.directive", []).directive("settingsPauza", functi
       pauza: "="
     },
     templateUrl: "app/shared/settings/components/pauza/pauzaView.html"
+  };
+});
+
+angular.module("settings.repriza.directive", []).directive("settingsRepriza", function() {
+  return {
+    restrict: "E",
+    scope: {
+      repriza: "="
+    },
+    templateUrl: "app/shared/settings/components/repriza/reprizaView.html"
   };
 });
 

@@ -1,41 +1,7 @@
 (function() {
   var SettingsService;
-  SettingsService = function($http, ErrorService) {
-    var checkMatchType, getMatchSettings, setMatchType, sports, type;
-    sports = ['minifotbal', 'fotbal', 'futsal', 'handbal', 'baschet', 'volei', 'tenis'];
-    type = null;
-    this.all = {};
-    this.getSports = function() {
-      return sports;
-    };
-    this.getMatchType = function() {
-      return type;
-    };
-    this.setMatchType = function(matchType) {
-      return setMatchType(matchType);
-    };
-    this.getMatchSettings = function() {
-      return getMatchSettings($http, type);
-    };
-    getMatchSettings = function($http, type) {
-      if (type) {
-        $http.get("json/" + type + ".json");
-      }
-    };
-    setMatchType = function(matchType) {
-      matchType = "" + matchType;
-      if (checkMatchType(matchType) !== -1) {
-        type = matchType;
-      } else {
-        type = "";
-        ErrorService.setMessage("WRONG_MATCH_NAME");
-      }
-    };
-    checkMatchType = function(matchType) {
-      matchType = matchType.toLowerCase();
-      return sports.indexOf(matchType);
-    };
+  SettingsService = function() {
+    this.settings = {};
   };
-  SettingsService.$inject = ['$http', 'ErrorService'];
-  return angular.module("settings.service", ['error.service']).service("SettingsService", SettingsService);
+  return angular.module("settings.service", []).service("SettingsService", SettingsService);
 })();
