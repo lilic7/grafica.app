@@ -7,9 +7,6 @@ var sass = require('gulp-sass');
 var browserSync = require('browser-sync').create();
 var Server = require('karma').Server;
 
-
-
-
 function browser_sync(){
     browserSync.init(null, {
         proxy: 'grafica.app',

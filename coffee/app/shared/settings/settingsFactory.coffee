@@ -2,15 +2,14 @@
   SettingsFactory = ($http, ErrorService, SettingsService)->
     {
       getMatchType: -> type
-      getSettings: -> SettingsService.settings
-      getSports: -> sports
-      setMatchType: (type)-> setMatchType(type, ErrorService)
-      setSettings: -> setSettings($http, SettingsService)
-      setSports: -> setSports($http)
+      getSettings:  -> SettingsService.settings
+      getSports:    -> SettingsService.sports
+      setMatchType: (type)-> setMatchType(type, ErrorService, SettingsService.sports)
+      setSettings:  -> setSettings($http, SettingsService)
+      setSports:    -> setSports($http, SettingsService)
     }
 
   type = null
-  sports = {}
 
   setSettings = ($http, SettingsService)->
     if type
@@ -24,28 +23,27 @@
       SettingsService.settings = {}
       return
 
-  setSports = ($http)->
+  setSports = ($http, SettingsService)->
     success = (response)->
-      sports = response.data
+      SettingsService.sports = response.data
       return
     $http {method: "GET", url: "json/sports.json"}
       .then success
     return
 
-  setMatchType = (matchType, errorService)->
+  setMatchType = (matchType, ErrorService, sports)->
     matchType = "" + matchType
-    if checkMatchType(matchType)
+    if checkMatchType(matchType, sports)
       type = matchType
     else
       type = null
-      errorService.setMessage "WRONG_MATCH_NAME"
+      ErrorService.setMessage "WRONG_MATCH_NAME"
     return
 
-  checkMatchType = (type)->
+  checkMatchType = (type, sports)->
     type = type.toLowerCase()
     exist = false
-    sportsNames = sports['sports']
-    for sport in sportsNames
+    for sport in sports
       if type is sport.name
         exist = true
         break

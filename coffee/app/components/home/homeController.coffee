@@ -1,14 +1,14 @@
 (->
-  HomeController = (SettingsService)->
+  HomeController = (SettingsFactory)->
     vm = @
-    vm.matches = SettingsService.getSports()
+    vm.matches = SettingsFactory.getSports()
 
     return
 
-  HomeController.$inject = ['SettingsService']
+  HomeController.$inject = ['SettingsFactory']
 
   angular
     .module "home.controller",
-      ['settings.service']
+      ['settings.factory']
     .controller "HomeController", HomeController
 )()

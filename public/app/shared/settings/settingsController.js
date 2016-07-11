@@ -4,7 +4,7 @@
     var vm;
     vm = this;
     vm.matchType = SettingsService.getMatchType();
-    vm.settings = SettingsService.all;
+    vm.settings = SettingsService.settings;
   };
   SettingsController.$inject = ['$routeParams', 'SettingsService'];
   return angular.module("settings.controller", ['settings.service']).controller("SettingsController", SettingsController);

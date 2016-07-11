@@ -3,7 +3,7 @@
   TimerService = function($interval, ErrorService, SettingsService) {
     return {
       add: function(minutes) {
-        return add(minutes, ErrorService, SettingsService.all.repriza);
+        return add(minutes, ErrorService, SettingsService.settings.repriza);
       },
       addSeconds: addSeconds,
       getPlayMinutes: getPlayMinutes,
@@ -102,5 +102,5 @@
     time = totalMinutes + ":" + (seconds < 10 ? '0' + seconds : seconds);
   };
   TimerService.$inject = ['$interval', 'ErrorService', 'SettingsService'];
-  return angular.module("timer.service", []).factory("TimerService", TimerService);
+  return angular.module("timer.service", ['error.service', 'settings.service']).factory("TimerService", TimerService);
 })();

@@ -1,19 +1,14 @@
 xdescribe "home.controller", ->
 
-  homeCtrl = null
-  settings = null
+  HomeController = null
+  SettingsService = null
 
   beforeEach module "home.controller"
-  beforeEach angular.mock.module "settings.service"
-  beforeEach module "ui.router"
 
-  beforeEach inject ($controller, _SettingsService_)->
-    settings = _SettingsService_
-    spyOn settings, "getSports"
-      .and.returnValue ['minifotbal', 'fotbal']
-    homeCtrl = $controller "HomeController", {
-      SettingsService: settings
-    }
+  beforeEach inject ($injector)->
+    $controller = $injector.get "$controller"
+    HomeController = $controller "HomeController"
+    SettingsService
     return
 
   describe "HomeController", ->

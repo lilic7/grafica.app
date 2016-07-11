@@ -70,13 +70,13 @@
 
 (function() {
   var HomeController;
-  HomeController = function(SettingsService) {
+  HomeController = function(SettingsFactory) {
     var vm;
     vm = this;
-    vm.matches = SettingsService.getSports();
+    vm.matches = SettingsFactory.getSports();
   };
-  HomeController.$inject = ['SettingsService'];
-  return angular.module("home.controller", ['settings.service']).controller("HomeController", HomeController);
+  HomeController.$inject = ['SettingsFactory'];
+  return angular.module("home.controller", ['settings.factory']).controller("HomeController", HomeController);
 })();
 
 (function() {
@@ -262,7 +262,7 @@ angular.module("player.directive", ['player.controller', 'ucfirstFilter']).direc
     var vm;
     vm = this;
     vm.matchType = SettingsService.getMatchType();
-    vm.settings = SettingsService.all;
+    vm.settings = SettingsService.settings;
   };
   SettingsController.$inject = ['$routeParams', 'SettingsService'];
   return angular.module("settings.controller", ['settings.service']).controller("SettingsController", SettingsController);
@@ -278,7 +278,7 @@ angular.module("settings.directive", ['settings.controller', 'settings.rezerve.d
 });
 
 (function() {
-  var SettingsFactory, checkMatchType, setMatchType, setSettings, setSports, sports, type;
+  var SettingsFactory, checkMatchType, setMatchType, setSettings, setSports, type;
   SettingsFactory = function($http, ErrorService, SettingsService) {
     return {
       getMatchType: function() {
@@ -288,21 +288,20 @@ angular.module("settings.directive", ['settings.controller', 'settings.rezerve.d
         return SettingsService.settings;
       },
       getSports: function() {
-        return sports;
+        return SettingsService.sports;
       },
       setMatchType: function(type) {
-        return setMatchType(type, ErrorService);
+        return setMatchType(type, ErrorService, SettingsService.sports);
       },
       setSettings: function() {
         return setSettings($http, SettingsService);
       },
       setSports: function() {
-        return setSports($http);
+        return setSports($http, SettingsService);
       }
     };
   };
   type = null;
-  sports = {};
   setSettings = function($http, SettingsService) {
     var success;
     if (type) {
@@ -317,32 +316,31 @@ angular.module("settings.directive", ['settings.controller', 'settings.rezerve.d
       SettingsService.settings = {};
     }
   };
-  setSports = function($http) {
+  setSports = function($http, SettingsService) {
     var success;
     success = function(response) {
-      sports = response.data;
+      SettingsService.sports = response.data;
     };
     $http({
       method: "GET",
       url: "json/sports.json"
     }).then(success);
   };
-  setMatchType = function(matchType, errorService) {
+  setMatchType = function(matchType, ErrorService, sports) {
     matchType = "" + matchType;
-    if (checkMatchType(matchType)) {
+    if (checkMatchType(matchType, sports)) {
       type = matchType;
     } else {
       type = null;
-      errorService.setMessage("WRONG_MATCH_NAME");
+      ErrorService.setMessage("WRONG_MATCH_NAME");
     }
   };
-  checkMatchType = function(type) {
-    var exist, i, len, sport, sportsNames;
+  checkMatchType = function(type, sports) {
+    var exist, i, len, sport;
     type = type.toLowerCase();
     exist = false;
-    sportsNames = sports['sports'];
-    for (i = 0, len = sportsNames.length; i < len; i++) {
-      sport = sportsNames[i];
+    for (i = 0, len = sports.length; i < len; i++) {
+      sport = sports[i];
       if (type === sport.name) {
         exist = true;
         break;
@@ -357,6 +355,7 @@ angular.module("settings.directive", ['settings.controller', 'settings.rezerve.d
 (function() {
   var SettingsService;
   SettingsService = function() {
+    this.sports = {};
     this.settings = {};
   };
   return angular.module("settings.service", []).service("SettingsService", SettingsService);
@@ -424,7 +423,7 @@ angular.module("timer.directive", ['timer.controller']).directive("timer", funct
   TimerService = function($interval, ErrorService, SettingsService) {
     return {
       add: function(minutes) {
-        return add(minutes, ErrorService, SettingsService.all.repriza);
+        return add(minutes, ErrorService, SettingsService.settings.repriza);
       },
       addSeconds: addSeconds,
       getPlayMinutes: getPlayMinutes,
@@ -523,7 +522,7 @@ angular.module("timer.directive", ['timer.controller']).directive("timer", funct
     time = totalMinutes + ":" + (seconds < 10 ? '0' + seconds : seconds);
   };
   TimerService.$inject = ['$interval', 'ErrorService', 'SettingsService'];
-  return angular.module("timer.service", []).factory("TimerService", TimerService);
+  return angular.module("timer.service", ['error.service', 'settings.service']).factory("TimerService", TimerService);
 })();
 
 (function() {

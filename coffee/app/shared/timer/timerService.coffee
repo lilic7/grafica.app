@@ -1,7 +1,7 @@
 (->
   TimerService = ($interval, ErrorService, SettingsService)->
     {
-      add: (minutes)-> add minutes, ErrorService, SettingsService.all.repriza
+      add: (minutes)-> add minutes, ErrorService, SettingsService.settings.repriza
       addSeconds: addSeconds
       getPlayMinutes: getPlayMinutes
       getTime: getTime
@@ -91,8 +91,12 @@
 
 
   TimerService.$inject = ['$interval', 'ErrorService', 'SettingsService']
-
+  
   angular
-    .module "timer.service", []
+    .module "timer.service", 
+    [
+      'error.service',
+      'settings.service'
+    ]
     .factory "TimerService", TimerService
 )()

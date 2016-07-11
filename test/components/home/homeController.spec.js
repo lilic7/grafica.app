@@ -1,16 +1,13 @@
 xdescribe("home.controller", function() {
-  var homeCtrl, settings;
-  homeCtrl = null;
-  settings = null;
+  var HomeController, SettingsService;
+  HomeController = null;
+  SettingsService = null;
   beforeEach(module("home.controller"));
-  beforeEach(angular.mock.module("settings.service"));
-  beforeEach(module("ui.router"));
-  beforeEach(inject(function($controller, _SettingsService_) {
-    settings = _SettingsService_;
-    spyOn(settings, "getSports").and.returnValue(['minifotbal', 'fotbal']);
-    homeCtrl = $controller("HomeController", {
-      SettingsService: settings
-    });
+  beforeEach(inject(function($injector) {
+    var $controller;
+    $controller = $injector.get("$controller");
+    HomeController = $controller("HomeController");
+    SettingsService;
   }));
   describe("HomeController", function() {
     it("matches has to be a non empty array", function() {

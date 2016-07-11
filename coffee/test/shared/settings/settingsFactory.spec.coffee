@@ -20,7 +20,6 @@ describe "settings.factory", ->
     beforeEach inject ($injector)->
       $httpBackend = $injector.get "$httpBackend"
       ErrorService = $injector.get "ErrorService"
-#      ErrorService.setMessage = jasmine.createSpy "setMessage"
       spyOn ErrorService, "setMessage"
       $httpBackend
         .whenGET "json/sports.json"
@@ -59,6 +58,13 @@ describe "settings.factory", ->
         it "should check if match type is in sports array", ->
           $httpBackend.flush()
           settingsFactory.setMatchType "fotbal"
+          expect settingsFactory.getSports()
+            .toEqual {sports:
+              [{
+                "name": "fotbal"
+                "show": true
+              }]
+            }
           expect settingsFactory.getMatchType()
             .toEqual 'fotbal'
           return
@@ -91,6 +97,16 @@ describe "settings.factory", ->
         settingsFactory.setMatchType "fotbal"
         settingsFactory.setSettings()
         $httpBackend.flush()
+        expect settingsFactory.getSports()
+          .toEqual {sports:
+            [{
+              "name": "fotbal"
+              "show": true
+            }]
+          }
+        expect ErrorService.setMessage
+          .not
+          .toHaveBeenCalled()
         expect settingsFactory.getSettings()
           .toEqual {fotbal: "settings"}
         return

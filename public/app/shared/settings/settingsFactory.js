@@ -1,5 +1,5 @@
 (function() {
-  var SettingsFactory, checkMatchType, setMatchType, setSettings, setSports, sports, type;
+  var SettingsFactory, checkMatchType, setMatchType, setSettings, setSports, type;
   SettingsFactory = function($http, ErrorService, SettingsService) {
     return {
       getMatchType: function() {
@@ -9,21 +9,20 @@
         return SettingsService.settings;
       },
       getSports: function() {
-        return sports;
+        return SettingsService.sports;
       },
       setMatchType: function(type) {
-        return setMatchType(type, ErrorService);
+        return setMatchType(type, ErrorService, SettingsService.sports);
       },
       setSettings: function() {
         return setSettings($http, SettingsService);
       },
       setSports: function() {
-        return setSports($http);
+        return setSports($http, SettingsService);
       }
     };
   };
   type = null;
-  sports = {};
   setSettings = function($http, SettingsService) {
     var success;
     if (type) {
@@ -38,32 +37,31 @@
       SettingsService.settings = {};
     }
   };
-  setSports = function($http) {
+  setSports = function($http, SettingsService) {
     var success;
     success = function(response) {
-      sports = response.data;
+      SettingsService.sports = response.data;
     };
     $http({
       method: "GET",
       url: "json/sports.json"
     }).then(success);
   };
-  setMatchType = function(matchType, errorService) {
+  setMatchType = function(matchType, ErrorService, sports) {
     matchType = "" + matchType;
-    if (checkMatchType(matchType)) {
+    if (checkMatchType(matchType, sports)) {
       type = matchType;
     } else {
       type = null;
-      errorService.setMessage("WRONG_MATCH_NAME");
+      ErrorService.setMessage("WRONG_MATCH_NAME");
     }
   };
-  checkMatchType = function(type) {
-    var exist, i, len, sport, sportsNames;
+  checkMatchType = function(type, sports) {
+    var exist, i, len, sport;
     type = type.toLowerCase();
     exist = false;
-    sportsNames = sports['sports'];
-    for (i = 0, len = sportsNames.length; i < len; i++) {
-      sport = sportsNames[i];
+    for (i = 0, len = sports.length; i < len; i++) {
+      sport = sports[i];
       if (type === sport.name) {
         exist = true;
         break;

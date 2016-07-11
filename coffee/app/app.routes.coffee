@@ -5,7 +5,10 @@
     .when '/', {
       templateUrl: 'app/components/home/homeView.html'
       controller: 'HomeController'
-      controllerAs: 'homeCtrl'
+      controllerAs: 'homeCtrl',
+      resolve:
+        sports: (SettingsFactory)->
+          
     }
 
     .when '/match/:matchType', {

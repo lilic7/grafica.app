@@ -2,7 +2,7 @@
   SettingsController = ($routeParams, SettingsService)->
     vm = @
     vm.matchType = SettingsService.getMatchType()
-    vm.settings = SettingsService.all
+    vm.settings = SettingsService.settings
     return
 
   SettingsController.$inject = ['$routeParams', 'SettingsService']
