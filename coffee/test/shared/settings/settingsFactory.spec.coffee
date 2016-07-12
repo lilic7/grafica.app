@@ -7,13 +7,14 @@ describe "settings.factory", ->
 
   beforeEach inject ($injector)->
     settingsFactory = $injector.get "SettingsFactory"
+#    SettingsService = $injector.get "SettingsService"
     return
 
   it "should exist", ->
     expect settingsFactory
       .toBeDefined()
     return
-
+                                                              # HTTP
   describe "HttpRequests", ->
     $httpBackend = null
 
@@ -36,7 +37,7 @@ describe "settings.factory", ->
       $httpBackend.verifyNoOutstandingExpectation()
       $httpBackend.verifyNoOutstandingRequest()
       return
-
+                                                                  #getSports
     describe "getSports", ->
 
       beforeEach ->
@@ -44,6 +45,8 @@ describe "settings.factory", ->
         return
 
       it "should get sports Object through HTTP get", ->
+        expect settingsFactory.getSports()
+          .toEqual {}
         $httpBackend.flush()
         expect settingsFactory.getSports()
           .toEqual {sports:
@@ -55,10 +58,10 @@ describe "settings.factory", ->
         return
 
       describe "setMatchType", ->
-        it "should check if match type is in sports array", ->
+        it "should set match type if is correct (exists in sports array)", ->
           $httpBackend.flush()
           settingsFactory.setMatchType "fotbal"
-          expect settingsFactory.getSports()
+          expect settingsFactory.setMatchType "fotbal"
             .toEqual {sports:
               [{
                 "name": "fotbal"
@@ -74,8 +77,6 @@ describe "settings.factory", ->
           settingsFactory.setMatchType "wrongType"
           expect settingsFactory.getMatchType()
             .toBeNull()
-          expect ErrorService.setMessage
-            .toHaveBeenCalled()
           expect ErrorService.setMessage
             .toHaveBeenCalledWith "WRONG_MATCH_NAME"
           return
@@ -104,7 +105,7 @@ describe "settings.factory", ->
               "show": true
             }]
           }
-        expect ErrorService.setMessage
+        expect ErrorService.setMessage()
           .not
           .toHaveBeenCalled()
         expect settingsFactory.getSettings()

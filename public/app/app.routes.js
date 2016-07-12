@@ -4,7 +4,10 @@
     $routeProvider.when('/', {
       templateUrl: 'app/components/home/homeView.html',
       controller: 'HomeController',
-      controllerAs: 'homeCtrl'
+      controllerAs: 'homeCtrl',
+      resolve: {
+        sports: function(SettingsFactory) {}
+      }
     }).when('/match/:matchType', {
       templateUrl: 'app/components/match/matchView.html',
       controller: 'MatchController',

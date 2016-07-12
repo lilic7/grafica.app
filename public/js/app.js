@@ -8,7 +8,10 @@
     $routeProvider.when('/', {
       templateUrl: 'app/components/home/homeView.html',
       controller: 'HomeController',
-      controllerAs: 'homeCtrl'
+      controllerAs: 'homeCtrl',
+      resolve: {
+        sports: function(SettingsFactory) {}
+      }
     }).when('/match/:matchType', {
       templateUrl: 'app/components/match/matchView.html',
       controller: 'MatchController',
@@ -334,14 +337,16 @@ angular.module("settings.directive", ['settings.controller', 'settings.rezerve.d
       type = null;
       ErrorService.setMessage("WRONG_MATCH_NAME");
     }
+    return sports;
   };
-  checkMatchType = function(type, sports) {
-    var exist, i, len, sport;
-    type = type.toLowerCase();
+  checkMatchType = function(matchType, sports) {
+    var exist, i, len, ref, sport;
+    matchType = matchType.toLowerCase();
     exist = false;
-    for (i = 0, len = sports.length; i < len; i++) {
-      sport = sports[i];
-      if (type === sport.name) {
+    ref = sports.sports;
+    for (i = 0, len = ref.length; i < len; i++) {
+      sport = ref[i];
+      if (matchType === sport.name) {
         exist = true;
         break;
       }

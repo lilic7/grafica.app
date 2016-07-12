@@ -4,9 +4,9 @@
       getMatchType: -> type
       getSettings:  -> SettingsService.settings
       getSports:    -> SettingsService.sports
-      setMatchType: (type)-> setMatchType(type, ErrorService, SettingsService.sports)
-      setSettings:  -> setSettings($http, SettingsService)
-      setSports:    -> setSports($http, SettingsService)
+      setMatchType: (type)-> setMatchType type, ErrorService, SettingsService.sports
+      setSettings:  -> setSettings $http, SettingsService
+      setSports:    -> setSports $http, SettingsService
     }
 
   type = null
@@ -38,16 +38,16 @@
     else
       type = null
       ErrorService.setMessage "WRONG_MATCH_NAME"
-    return
+    return sports
 
-  checkMatchType = (type, sports)->
-    type = type.toLowerCase()
+  checkMatchType = (matchType, sports)->
+    matchType = matchType.toLowerCase()
     exist = false
-    for sport in sports
-      if type is sport.name
+    for sport in sports.sports
+      if matchType is sport.name
         exist = true
         break
-    return exist
+    exist
 
   SettingsFactory.$ingect = ['$http', 'ErrorService', 'SettingsService']
   angular

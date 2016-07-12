@@ -35,6 +35,7 @@ describe("settings.factory", function() {
         settingsFactory.setSports();
       });
       it("should get sports Object through HTTP get", function() {
+        expect(settingsFactory.getSports()).toEqual({});
         $httpBackend.flush();
         expect(settingsFactory.getSports()).toEqual({
           sports: [
@@ -46,10 +47,10 @@ describe("settings.factory", function() {
         });
       });
       describe("setMatchType", function() {
-        it("should check if match type is in sports array", function() {
+        it("should set match type if is correct (exists in sports array)", function() {
           $httpBackend.flush();
           settingsFactory.setMatchType("fotbal");
-          expect(settingsFactory.getSports()).toEqual({
+          expect(settingsFactory.setMatchType("fotbal")).toEqual({
             sports: [
               {
                 "name": "fotbal",
@@ -63,7 +64,6 @@ describe("settings.factory", function() {
           $httpBackend.flush();
           settingsFactory.setMatchType("wrongType");
           expect(settingsFactory.getMatchType()).toBeNull();
-          expect(ErrorService.setMessage).toHaveBeenCalled();
           expect(ErrorService.setMessage).toHaveBeenCalledWith("WRONG_MATCH_NAME");
         });
       });
