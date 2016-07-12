@@ -9,10 +9,10 @@
         return SettingsService.settings;
       },
       getSports: function() {
-        return SettingsService.sports;
+        return SettingsService.sports.sports;
       },
       setMatchType: function(type) {
-        return setMatchType(type, ErrorService, SettingsService.sports);
+        return setMatchType(type, ErrorService, SettingsService.sports.sports);
       },
       setSettings: function() {
         return setSettings($http, SettingsService);
@@ -58,12 +58,11 @@
     return sports;
   };
   checkMatchType = function(matchType, sports) {
-    var exist, i, len, ref, sport;
+    var exist, i, len, sport;
     matchType = matchType.toLowerCase();
     exist = false;
-    ref = sports.sports;
-    for (i = 0, len = ref.length; i < len; i++) {
-      sport = ref[i];
+    for (i = 0, len = sports.length; i < len; i++) {
+      sport = sports[i];
       if (matchType === sport.name) {
         exist = true;
         break;

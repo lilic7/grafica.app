@@ -3,8 +3,8 @@
     {
       getMatchType: -> type
       getSettings:  -> SettingsService.settings
-      getSports:    -> SettingsService.sports
-      setMatchType: (type)-> setMatchType type, ErrorService, SettingsService.sports
+      getSports:    -> SettingsService.sports.sports
+      setMatchType: (type)-> setMatchType type, ErrorService, SettingsService.sports.sports
       setSettings:  -> setSettings $http, SettingsService
       setSports:    -> setSports $http, SettingsService
     }
@@ -43,7 +43,7 @@
   checkMatchType = (matchType, sports)->
     matchType = matchType.toLowerCase()
     exist = false
-    for sport in sports.sports
+    for sport in sports
       if matchType is sport.name
         exist = true
         break
