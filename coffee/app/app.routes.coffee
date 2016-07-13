@@ -8,7 +8,7 @@
       controllerAs: 'homeCtrl',
       resolve:
         sports: (SettingsFactory)->
-          
+          SettingsFactory.setSports()
     }
 
     .when '/match/:matchType', {
@@ -16,16 +16,9 @@
       controller: 'MatchController'
       controllerAs: 'matchCtrl'
       resolve:
-        settings: ($route, $http, SettingsService)->
-          matchType = $route.current.params.matchType
-          SettingsService.setMatchType matchType
-          $http
-            .get 'json/'+matchType+'.json'
-            .then (result, error)->
-              if error
-                ErrorService.setMessage "WRONG_MATCH_NAME"
-              else
-                SettingsService.setMatchSettings result.data
+        settings: ($route, SettingsFactory)->
+          SettingsFactory.setMatchType $route.current.params.matchType
+          SettingsFactory.setSettings()
     }
     $locationProvider.html5Mode true
     return
@@ -36,7 +29,7 @@
         'ngRoute'
         'home.controller'
         'match.controller'
-        'settings.service'
+        'settings.factory'
         'error.service'
       ]
     .config config

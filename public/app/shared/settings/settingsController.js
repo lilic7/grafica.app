@@ -1,11 +1,12 @@
 (function() {
   var SettingsController;
-  SettingsController = function($routeParams, SettingsService) {
+  SettingsController = function(SettingsFactory, SettingsService) {
     var vm;
     vm = this;
-    vm.matchType = SettingsService.getMatchType();
+    vm.matchType = SettingsFactory.getMatchType();
+    SettingsFactory.setSettings();
     vm.settings = SettingsService.settings;
   };
-  SettingsController.$inject = ['$routeParams', 'SettingsService'];
-  return angular.module("settings.controller", ['settings.service']).controller("SettingsController", SettingsController);
+  SettingsController.$inject = ['SettingsFactory', 'SettingsService'];
+  return angular.module("settings.controller", ['settings.factory']).controller("SettingsController", SettingsController);
 })();

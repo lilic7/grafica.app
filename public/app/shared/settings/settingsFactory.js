@@ -9,10 +9,10 @@
         return SettingsService.settings;
       },
       getSports: function() {
-        return SettingsService.sports.sports;
+        return SettingsService.sports;
       },
       setMatchType: function(type) {
-        return setMatchType(type, ErrorService, SettingsService.sports.sports);
+        return setMatchType(type, ErrorService, SettingsService.sports);
       },
       setSettings: function() {
         return setSettings($http, SettingsService);
@@ -40,7 +40,7 @@
   setSports = function($http, SettingsService) {
     var success;
     success = function(response) {
-      SettingsService.sports = response.data;
+      SettingsService.sports = response.data.sports;
     };
     $http({
       method: "GET",
@@ -55,7 +55,6 @@
       type = null;
       ErrorService.setMessage("WRONG_MATCH_NAME");
     }
-    return sports;
   };
   checkMatchType = function(matchType, sports) {
     var exist, i, len, sport;

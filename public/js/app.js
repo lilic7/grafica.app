@@ -10,30 +10,24 @@
       controller: 'HomeController',
       controllerAs: 'homeCtrl',
       resolve: {
-        sports: function(SettingsFactory) {}
+        sports: function(SettingsFactory) {
+          return SettingsFactory.setSports();
+        }
       }
     }).when('/match/:matchType', {
       templateUrl: 'app/components/match/matchView.html',
       controller: 'MatchController',
       controllerAs: 'matchCtrl',
       resolve: {
-        settings: function($route, $http, SettingsService) {
-          var matchType;
-          matchType = $route.current.params.matchType;
-          SettingsService.setMatchType(matchType);
-          return $http.get('json/' + matchType + '.json').then(function(result, error) {
-            if (error) {
-              return ErrorService.setMessage("WRONG_MATCH_NAME");
-            } else {
-              return SettingsService.setMatchSettings(result.data);
-            }
-          });
+        settings: function($route, SettingsFactory) {
+          SettingsFactory.setMatchType($route.current.params.matchType);
+          return SettingsFactory.setSettings();
         }
       }
     });
     $locationProvider.html5Mode(true);
   };
-  return angular.module("routes", ['ngRoute', 'home.controller', 'match.controller', 'settings.service', 'error.service']).config(config);
+  return angular.module("routes", ['ngRoute', 'home.controller', 'match.controller', 'settings.factory', 'error.service']).config(config);
 })();
 
 (function() {
@@ -73,13 +67,13 @@
 
 (function() {
   var HomeController;
-  HomeController = function(SettingsFactory) {
+  HomeController = function(SettingsService) {
     var vm;
     vm = this;
-    vm.matches = SettingsFactory.getSports();
+    vm.matches = SettingsService.sports;
   };
-  HomeController.$inject = ['SettingsFactory'];
-  return angular.module("home.controller", ['settings.factory']).controller("HomeController", HomeController);
+  HomeController.$inject = ['SettingsService'];
+  return angular.module("home.controller", ['settings.service']).controller("HomeController", HomeController);
 })();
 
 (function() {
@@ -261,14 +255,15 @@ angular.module("player.directive", ['player.controller', 'ucfirstFilter']).direc
 
 (function() {
   var SettingsController;
-  SettingsController = function($routeParams, SettingsService) {
+  SettingsController = function(SettingsFactory, SettingsService) {
     var vm;
     vm = this;
-    vm.matchType = SettingsService.getMatchType();
+    vm.matchType = SettingsFactory.getMatchType();
+    SettingsFactory.setSettings();
     vm.settings = SettingsService.settings;
   };
-  SettingsController.$inject = ['$routeParams', 'SettingsService'];
-  return angular.module("settings.controller", ['settings.service']).controller("SettingsController", SettingsController);
+  SettingsController.$inject = ['SettingsFactory', 'SettingsService'];
+  return angular.module("settings.controller", ['settings.factory']).controller("SettingsController", SettingsController);
 })();
 
 angular.module("settings.directive", ['settings.controller', 'settings.rezerve.directive', 'settings.offside.directive', 'settings.corner.directive', 'settings.departajari.directive', 'settings.repriza.directive', 'settings.pauza.directive', 'settings.timer.directive']).directive("settings", function() {
@@ -294,7 +289,7 @@ angular.module("settings.directive", ['settings.controller', 'settings.rezerve.d
         return SettingsService.sports;
       },
       setMatchType: function(type) {
-        return setMatchType(type, ErrorService, SettingsService.sports.sports);
+        return setMatchType(type, ErrorService, SettingsService.sports);
       },
       setSettings: function() {
         return setSettings($http, SettingsService);
@@ -322,7 +317,7 @@ angular.module("settings.directive", ['settings.controller', 'settings.rezerve.d
   setSports = function($http, SettingsService) {
     var success;
     success = function(response) {
-      SettingsService.sports = response.data;
+      SettingsService.sports = response.data.sports;
     };
     $http({
       method: "GET",
@@ -337,7 +332,6 @@ angular.module("settings.directive", ['settings.controller', 'settings.rezerve.d
       type = null;
       ErrorService.setMessage("WRONG_MATCH_NAME");
     }
-    return sports;
   };
   checkMatchType = function(matchType, sports) {
     var exist, i, len, sport;

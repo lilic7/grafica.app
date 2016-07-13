@@ -1,16 +1,18 @@
 (->
-  SettingsController = ($routeParams, SettingsService)->
+  SettingsController = (SettingsFactory, SettingsService)->
     vm = @
-    vm.matchType = SettingsService.getMatchType()
+    vm.matchType = SettingsFactory.getMatchType()
+    SettingsFactory.setSettings()
     vm.settings = SettingsService.settings
+
     return
 
-  SettingsController.$inject = ['$routeParams', 'SettingsService']
+  SettingsController.$inject = ['SettingsFactory', 'SettingsService']
   
   angular
     .module "settings.controller",
     [
-      'settings.service'
+      'settings.factory'
     ]
     .controller "SettingsController", SettingsController
 )()

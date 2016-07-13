@@ -26,7 +26,6 @@ describe("settings.factory", function() {
         settingsFactory.setSports();
       });
       it("should get sports Object through HTTP get", function() {
-        expect(settingsFactory.getSports()).toBeUndefined();
         $httpBackend.flush();
         expect(settingsFactory.getSports()).toEqual(sports_arr);
       });
@@ -38,7 +37,6 @@ describe("settings.factory", function() {
       it("should set match type if type exists in sports array", function() {
         $httpBackend.flush();
         settingsFactory.setMatchType("fotbal");
-        expect(settingsFactory.setMatchType("fotbal")).toEqual(sports_arr);
         expect(settingsFactory.getMatchType()).toEqual('fotbal');
       });
       it("should throw ErrorService error for wrongMatchType", function() {

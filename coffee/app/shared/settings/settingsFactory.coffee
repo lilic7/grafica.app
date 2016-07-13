@@ -3,8 +3,8 @@
     {
       getMatchType: -> type
       getSettings:  -> SettingsService.settings
-      getSports:    -> SettingsService.sports.sports
-      setMatchType: (type)-> setMatchType type, ErrorService, SettingsService.sports.sports
+      getSports:    -> SettingsService.sports
+      setMatchType: (type)-> setMatchType type, ErrorService, SettingsService.sports
       setSettings:  -> setSettings $http, SettingsService
       setSports:    -> setSports $http, SettingsService
     }
@@ -25,7 +25,7 @@
 
   setSports = ($http, SettingsService)->
     success = (response)->
-      SettingsService.sports = response.data
+      SettingsService.sports = response.data.sports
       return
     $http {method: "GET", url: "json/sports.json"}
       .then success
@@ -38,7 +38,7 @@
     else
       type = null
       ErrorService.setMessage "WRONG_MATCH_NAME"
-    return sports
+    return
 
   checkMatchType = (matchType, sports)->
     matchType = matchType.toLowerCase()

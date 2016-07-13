@@ -1,10 +1,10 @@
 (function() {
   var HomeController;
-  HomeController = function(SettingsFactory) {
+  HomeController = function(SettingsService) {
     var vm;
     vm = this;
-    vm.matches = SettingsFactory.getSports();
+    vm.matches = SettingsService.sports;
   };
-  HomeController.$inject = ['SettingsFactory'];
-  return angular.module("home.controller", ['settings.factory']).controller("HomeController", HomeController);
+  HomeController.$inject = ['SettingsService'];
+  return angular.module("home.controller", ['settings.service']).controller("HomeController", HomeController);
 })();

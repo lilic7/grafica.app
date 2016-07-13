@@ -32,7 +32,7 @@ describe "settings.factory", ->
         return
 
       it "should get sports Object through HTTP get", ->
-        expect(settingsFactory.getSports()).toBeUndefined()
+#        expect(settingsFactory.getSports()).toBeUndefined()
         $httpBackend.flush()
         expect(settingsFactory.getSports()).toEqual sports_arr
         return
@@ -47,7 +47,6 @@ describe "settings.factory", ->
       it "should set match type if type exists in sports array", ->
         $httpBackend.flush()
         settingsFactory.setMatchType "fotbal"
-        expect(settingsFactory.setMatchType "fotbal").toEqual sports_arr
         expect(settingsFactory.getMatchType()).toEqual 'fotbal'
         return
 
