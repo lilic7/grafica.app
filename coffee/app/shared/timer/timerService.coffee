@@ -82,7 +82,7 @@
     minutes = Math.floor seconds / 60
     if minutes < 10 then '0' + minutes else minutes
 
-  calculateTime = ()->
+  calculateTime = ->
     seconds = totalSeconds % 60
     totalMinutes = toMinutes totalSeconds
     playMinutes = toMinutes totalSeconds + 60
@@ -99,4 +99,13 @@
       'settings.service'
     ]
     .factory "TimerService", TimerService
+)()
+
+(->
+    TimerService = ()->
+        {}
+    TimerService.$inject = []
+    angular
+        .module "timer.service", []
+        .service "TimerService", TimerService
 )()

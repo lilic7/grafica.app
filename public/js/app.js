@@ -77,18 +77,6 @@
 })();
 
 (function() {
-  var MatchController;
-  MatchController = function(GameService, SettingsService) {
-    var vm;
-    vm = this;
-    vm.team1 = GameService.team1;
-    vm.team2 = GameService.team2;
-    vm.settings = SettingsService.all;
-  };
-  return angular.module("match.controller", ['team.form.directive', 'game.directive', 'settings.directive', 'game.service', 'settings.service']).controller('MatchController', MatchController);
-})();
-
-(function() {
   var ErrorService, getMessage, message, messages, setMessage;
   ErrorService = function() {
     return {
@@ -251,112 +239,6 @@ angular.module("player.directive", ['player.controller', 'ucfirstFilter']).direc
     };
   };
   return angular.module("player.service", []).factory("PlayerService", PlayerService);
-})();
-
-(function() {
-  var SettingsController;
-  SettingsController = function(SettingsFactory, SettingsService) {
-    var vm;
-    vm = this;
-    vm.matchType = SettingsFactory.getMatchType();
-    SettingsFactory.setSettings();
-    vm.settings = SettingsService.settings;
-  };
-  SettingsController.$inject = ['SettingsFactory', 'SettingsService'];
-  return angular.module("settings.controller", ['settings.factory']).controller("SettingsController", SettingsController);
-})();
-
-angular.module("settings.directive", ['settings.controller', 'settings.rezerve.directive', 'settings.offside.directive', 'settings.corner.directive', 'settings.departajari.directive', 'settings.repriza.directive', 'settings.pauza.directive', 'settings.timer.directive']).directive("settings", function() {
-  return {
-    restrict: "E",
-    templateUrl: "app/shared/settings/settingsView.html",
-    controller: "SettingsController",
-    controllerAs: "settingsCtrl"
-  };
-});
-
-(function() {
-  var SettingsFactory, checkMatchType, setMatchType, setSettings, setSports, type;
-  SettingsFactory = function($http, ErrorService, SettingsService) {
-    return {
-      getMatchType: function() {
-        return type;
-      },
-      getSettings: function() {
-        return SettingsService.settings;
-      },
-      getSports: function() {
-        return SettingsService.sports;
-      },
-      setMatchType: function(type) {
-        return setMatchType(type, ErrorService, SettingsService.sports);
-      },
-      setSettings: function() {
-        return setSettings($http, SettingsService);
-      },
-      setSports: function() {
-        return setSports($http, SettingsService);
-      }
-    };
-  };
-  type = null;
-  setSettings = function($http, SettingsService) {
-    var success;
-    if (type) {
-      success = function(response) {
-        SettingsService.settings = response.data;
-      };
-      $http({
-        method: "GET",
-        url: "json/" + type + ".json"
-      }).then(success);
-    } else {
-      SettingsService.settings = {};
-    }
-  };
-  setSports = function($http, SettingsService) {
-    var success;
-    success = function(response) {
-      SettingsService.sports = response.data.sports;
-    };
-    $http({
-      method: "GET",
-      url: "json/sports.json"
-    }).then(success);
-  };
-  setMatchType = function(matchType, ErrorService, sports) {
-    matchType = "" + matchType;
-    if (checkMatchType(matchType, sports)) {
-      type = matchType;
-    } else {
-      type = null;
-      ErrorService.setMessage("WRONG_MATCH_NAME");
-    }
-  };
-  checkMatchType = function(matchType, sports) {
-    var exist, i, len, sport;
-    matchType = matchType.toLowerCase();
-    exist = false;
-    for (i = 0, len = sports.length; i < len; i++) {
-      sport = sports[i];
-      if (matchType === sport.name) {
-        exist = true;
-        break;
-      }
-    }
-    return exist;
-  };
-  SettingsFactory.$ingect = ['$http', 'ErrorService', 'SettingsService'];
-  return angular.module("settings.factory", ['error.service', 'settings.service']).factory("SettingsFactory", SettingsFactory);
-})();
-
-(function() {
-  var SettingsService;
-  SettingsService = function() {
-    this.sports = {};
-    this.settings = {};
-  };
-  return angular.module("settings.service", []).service("SettingsService", SettingsService);
 })();
 
 (function() {
@@ -524,6 +406,124 @@ angular.module("timer.directive", ['timer.controller']).directive("timer", funct
 })();
 
 (function() {
+  var SettingsController;
+  SettingsController = function(SettingsFactory, SettingsService) {
+    var vm;
+    vm = this;
+    vm.matchType = SettingsFactory.getMatchType();
+    SettingsFactory.setSettings();
+    vm.settings = SettingsService.settings;
+  };
+  SettingsController.$inject = ['SettingsFactory', 'SettingsService'];
+  return angular.module("settings.controller", ['settings.factory']).controller("SettingsController", SettingsController);
+})();
+
+angular.module("settings.directive", ['settings.controller', 'settings.rezerve.directive', 'settings.offside.directive', 'settings.corner.directive', 'settings.departajari.directive', 'settings.repriza.directive', 'settings.pauza.directive', 'settings.timer.directive']).directive("settings", function() {
+  return {
+    restrict: "E",
+    templateUrl: "app/shared/settings/settingsView.html",
+    controller: "SettingsController",
+    controllerAs: "settingsCtrl"
+  };
+});
+
+(function() {
+  var SettingsFactory, checkMatchType, setMatchType, setSettings, setSports, type;
+  SettingsFactory = function($http, ErrorService, SettingsService) {
+    return {
+      getMatchType: function() {
+        return type;
+      },
+      getSettings: function() {
+        return SettingsService.settings;
+      },
+      getSports: function() {
+        return SettingsService.sports;
+      },
+      setMatchType: function(type) {
+        return setMatchType(type, ErrorService, SettingsService.sports);
+      },
+      setSettings: function() {
+        return setSettings($http, SettingsService);
+      },
+      setSports: function() {
+        return setSports($http, SettingsService);
+      }
+    };
+  };
+  type = null;
+  setSettings = function($http, SettingsService) {
+    var success;
+    if (type) {
+      success = function(response) {
+        SettingsService.settings = response.data;
+      };
+      $http({
+        method: "GET",
+        url: "json/" + type + ".json"
+      }).then(success);
+    } else {
+      SettingsService.settings = {};
+    }
+  };
+  setSports = function($http, SettingsService) {
+    var success;
+    success = function(response) {
+      SettingsService.sports = response.data.sports;
+    };
+    $http({
+      method: "GET",
+      url: "json/sports.json"
+    }).then(success);
+  };
+  setMatchType = function(matchType, ErrorService, sports) {
+    matchType = "" + matchType;
+    if (checkMatchType(matchType, sports)) {
+      type = matchType;
+    } else {
+      type = null;
+      ErrorService.setMessage("WRONG_MATCH_NAME");
+    }
+  };
+  checkMatchType = function(matchType, sports) {
+    var exist, i, len, sport;
+    matchType = matchType.toLowerCase();
+    exist = false;
+    for (i = 0, len = sports.length; i < len; i++) {
+      sport = sports[i];
+      if (matchType === sport.name) {
+        exist = true;
+        break;
+      }
+    }
+    return exist;
+  };
+  SettingsFactory.$ingect = ['$http', 'ErrorService', 'SettingsService'];
+  return angular.module("settings.factory", ['error.service', 'settings.service']).factory("SettingsFactory", SettingsFactory);
+})();
+
+(function() {
+  var SettingsService;
+  SettingsService = function() {
+    this.sports = {};
+    this.settings = {};
+  };
+  return angular.module("settings.service", []).service("SettingsService", SettingsService);
+})();
+
+(function() {
+  var MatchController;
+  MatchController = function(GameService, SettingsService) {
+    var vm;
+    vm = this;
+    vm.team1 = GameService.team1;
+    vm.team2 = GameService.team2;
+    vm.settings = SettingsService.all;
+  };
+  return angular.module("match.controller", ['team.form.directive', 'game.directive', 'settings.directive', 'game.service', 'settings.service']).controller('MatchController', MatchController);
+})();
+
+(function() {
   var ToastController;
   ToastController = function(ErrorService) {
     var vm;
@@ -590,16 +590,6 @@ angular.module("team.form.directive", []).directive("teamForm", function() {
   };
 });
 
-angular.module("settings.corner.directive", []).directive("settingsCorner", function() {
-  return {
-    restrict: "E",
-    scope: {
-      cornere: "="
-    },
-    templateUrl: "app/shared/settings/components/corner/cornerView.html"
-  };
-});
-
 angular.module("settings.departajari.directive", []).directive("settingsDepartajari", function() {
   return {
     restrict: "E",
@@ -617,6 +607,16 @@ angular.module("settings.offside.directive", []).directive("settingsOffside", fu
       offside: "="
     },
     templateUrl: "app/shared/settings/components/offside/offsideView.html"
+  };
+});
+
+angular.module("settings.corner.directive", []).directive("settingsCorner", function() {
+  return {
+    restrict: "E",
+    scope: {
+      cornere: "="
+    },
+    templateUrl: "app/shared/settings/components/corner/cornerView.html"
   };
 });
 
