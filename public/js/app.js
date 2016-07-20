@@ -77,6 +77,18 @@
 })();
 
 (function() {
+  var MatchController;
+  MatchController = function(GameService, SettingsService) {
+    var vm;
+    vm = this;
+    vm.team1 = GameService.team1;
+    vm.team2 = GameService.team2;
+    vm.settings = SettingsService.all;
+  };
+  return angular.module("match.controller", ['team.form.directive', 'game.directive', 'settings.directive', 'game.service', 'settings.service']).controller('MatchController', MatchController);
+})();
+
+(function() {
   var ErrorService, getMessage, message, messages, setMessage;
   ErrorService = function() {
     return {
@@ -242,170 +254,6 @@ angular.module("player.directive", ['player.controller', 'ucfirstFilter']).direc
 })();
 
 (function() {
-  var TeamController;
-  TeamController = function() {
-    var render, setTeam, vm;
-    vm = this;
-    vm.team = {};
-    vm.setTeam = setTeam;
-    vm.render = render;
-    setTeam = function(team) {
-      return vm.team = team;
-    };
-    render = function() {
-      vm.player_list = vm.team.player_list.split("\n");
-      vm.reserve_list = vm.team.reserve_list.split("\n");
-    };
-  };
-  return angular.module("team.controller", []).controller("TeamController", TeamController);
-})();
-
-angular.module("team.directive", ['player.directive']).directive("teamList", function() {
-  return {
-    restrict: "E",
-    scope: {
-      team: "="
-    },
-    templateUrl: "app/shared/team/teamView.html"
-  };
-});
-
-(function() {
-  var TimerController;
-  TimerController = function(TimerService, SettingsService) {
-    var vm;
-    vm = this;
-    vm.repriza = 1;
-    vm.settings = SettingsService.all;
-    vm.timerService = TimerService;
-    vm.setRepriza = function(repriza) {
-      var minutes;
-      minutes = (repriza - 1) * vm.settings.repriza;
-      TimerService.modify(minutes);
-      vm.repriza = repriza;
-    };
-  };
-  TimerController.$inject = ['TimerService', 'SettingsService'];
-  return angular.module("timer.controller", ['timer.service', 'settings.service']).controller("TimerController", TimerController);
-})();
-
-angular.module("timer.directive", ['timer.controller']).directive("timer", function() {
-  return {
-    restrict: 'E',
-    templateUrl: 'app/shared/timer/timerView.html',
-    controller: "TimerController",
-    controllerAs: "timerCtrl"
-  };
-});
-
-(function() {
-  var TimerService, add, addSeconds, calculateTime, getPlayMinutes, getTime, getTotalMinutes, isOn, modify, playMinutes, start, startTime, stop, sub, time, timer, timerInterval, timerIsRunning, toMinutes, totalMinutes, totalSeconds;
-  TimerService = function($interval, ErrorService, SettingsService) {
-    return {
-      add: function(minutes) {
-        return add(minutes, ErrorService, SettingsService.settings.repriza);
-      },
-      addSeconds: addSeconds,
-      getPlayMinutes: getPlayMinutes,
-      getTime: getTime,
-      getTotalMinutes: getTotalMinutes,
-      isOn: isOn,
-      modify: modify,
-      sub: function(minutes) {
-        return sub(minutes, ErrorService);
-      },
-      start: function() {
-        return start($interval);
-      },
-      stop: function() {
-        return stop($interval);
-      }
-    };
-  };
-  startTime = 10;
-  totalSeconds = 10;
-  totalMinutes = "00";
-  playMinutes = "01";
-  timerIsRunning = false;
-  time = "00:10";
-  timerInterval = null;
-  isOn = function() {
-    return timerIsRunning;
-  };
-  getTotalMinutes = function() {
-    return totalMinutes;
-  };
-  getPlayMinutes = function() {
-    return playMinutes;
-  };
-  getTime = function() {
-    return time;
-  };
-  start = function(interval) {
-    if (!timerIsRunning) {
-      timerInterval = interval(timer, 1000);
-    }
-    timerIsRunning = true;
-  };
-  stop = function(interval) {
-    interval.cancel(timerInterval);
-    timerIsRunning = false;
-  };
-  modify = function(minutes) {
-    var seconds;
-    seconds = minutes * 60;
-    totalSeconds = seconds + startTime;
-    calculateTime();
-  };
-  add = function(minutes, ErrorService, durataRepriza) {
-    durataRepriza = parseInt(durataRepriza);
-    console.log(durataRepriza);
-    if (totalSeconds > durataRepriza && timerIsRunning) {
-      ErrorService.setMessage("MATCH_TOO_LONG");
-    }
-    totalSeconds += minutes * 60;
-    calculateTime();
-  };
-  sub = function(minutes, ErrorService) {
-    var seconds;
-    seconds = minutes * 60;
-    if (totalSeconds > seconds) {
-      totalSeconds -= seconds;
-      calculateTime();
-    } else {
-      ErrorService.setMessage("NEGATIVE_TIME");
-    }
-  };
-  addSeconds = function(seconds) {
-    totalSeconds += seconds;
-    calculateTime();
-  };
-  timer = function() {
-    ++totalSeconds;
-    calculateTime();
-    timerIsRunning = true;
-  };
-  toMinutes = function(seconds) {
-    var minutes;
-    minutes = Math.floor(seconds / 60);
-    if (minutes < 10) {
-      return '0' + minutes;
-    } else {
-      return minutes;
-    }
-  };
-  calculateTime = function() {
-    var seconds;
-    seconds = totalSeconds % 60;
-    totalMinutes = toMinutes(totalSeconds);
-    playMinutes = toMinutes(totalSeconds + 60);
-    time = totalMinutes + ":" + (seconds < 10 ? '0' + seconds : seconds);
-  };
-  TimerService.$inject = ['$interval', 'ErrorService', 'SettingsService'];
-  return angular.module("timer.service", ['error.service', 'settings.service']).factory("TimerService", TimerService);
-})();
-
-(function() {
   var SettingsController;
   SettingsController = function(SettingsFactory, SettingsService) {
     var vm;
@@ -416,6 +264,13 @@ angular.module("timer.directive", ['timer.controller']).directive("timer", funct
   };
   SettingsController.$inject = ['SettingsFactory', 'SettingsService'];
   return angular.module("settings.controller", ['settings.factory']).controller("SettingsController", SettingsController);
+})();
+
+(function() {
+  var SettingsController;
+  SettingsController = function() {};
+  SettingsController.$inject = [];
+  return angular.module("settings.service", []).service("SettingsController", SettingsController);
 })();
 
 angular.module("settings.directive", ['settings.controller', 'settings.rezerve.directive', 'settings.offside.directive', 'settings.corner.directive', 'settings.departajari.directive', 'settings.repriza.directive', 'settings.pauza.directive', 'settings.timer.directive']).directive("settings", function() {
@@ -512,15 +367,166 @@ angular.module("settings.directive", ['settings.controller', 'settings.rezerve.d
 })();
 
 (function() {
-  var MatchController;
-  MatchController = function(GameService, SettingsService) {
+  var TeamController;
+  TeamController = function() {
+    var render, setTeam, vm;
+    vm = this;
+    vm.team = {};
+    vm.setTeam = setTeam;
+    vm.render = render;
+    setTeam = function(team) {
+      return vm.team = team;
+    };
+    render = function() {
+      vm.player_list = vm.team.player_list.split("\n");
+      vm.reserve_list = vm.team.reserve_list.split("\n");
+    };
+  };
+  return angular.module("team.controller", []).controller("TeamController", TeamController);
+})();
+
+angular.module("team.directive", ['player.directive']).directive("teamList", function() {
+  return {
+    restrict: "E",
+    scope: {
+      team: "="
+    },
+    templateUrl: "app/shared/team/teamView.html"
+  };
+});
+
+(function() {
+  var TimerController;
+  TimerController = function(TimerService, SettingsService) {
     var vm;
     vm = this;
-    vm.team1 = GameService.team1;
-    vm.team2 = GameService.team2;
+    vm.repriza = 1;
     vm.settings = SettingsService.all;
+    vm.timerService = TimerService;
+    vm.setRepriza = function(repriza) {
+      var minutes;
+      minutes = (repriza - 1) * vm.settings.repriza;
+      TimerService.modify(minutes);
+      vm.repriza = repriza;
+    };
   };
-  return angular.module("match.controller", ['team.form.directive', 'game.directive', 'settings.directive', 'game.service', 'settings.service']).controller('MatchController', MatchController);
+  TimerController.$inject = ['TimerService', 'SettingsService'];
+  return angular.module("timer.controller", ['timer.service', 'settings.service']).controller("TimerController", TimerController);
+})();
+
+angular.module("timer.directive", ['timer.controller']).directive("timer", function() {
+  return {
+    restrict: 'E',
+    templateUrl: 'app/shared/timer/timerView.html',
+    controller: "TimerController",
+    controllerAs: "timerCtrl"
+  };
+});
+
+(function() {
+  var TimerService, add, addSeconds, calculateTime, getPlayMinutes, getTime, getTotalMinutes, isOn, modify, playMinutes, start, startTime, stop, sub, time, timer, timerInterval, timerIsRunning, toMinutes, totalMinutes, totalSeconds;
+  TimerService = function($interval, ErrorService, SettingsService) {
+    return {
+      add: function(minutes) {
+        return add(minutes, ErrorService, SettingsService.settings.repriza);
+      },
+      addSeconds: addSeconds,
+      getPlayMinutes: getPlayMinutes,
+      getTime: getTime,
+      getTotalMinutes: getTotalMinutes,
+      isOn: isOn,
+      modify: modify,
+      sub: function(minutes) {
+        return sub(minutes, ErrorService);
+      },
+      start: function() {
+        return start($interval);
+      },
+      stop: function() {
+        return stop($interval);
+      }
+    };
+  };
+  startTime = 10;
+  totalSeconds = 10;
+  totalMinutes = 0;
+  playMinutes = 1;
+  timerIsRunning = false;
+  time = "00:10";
+  timerInterval = null;
+  isOn = function() {
+    return timerIsRunning;
+  };
+  getTotalMinutes = function() {
+    return totalMinutes;
+  };
+  getPlayMinutes = function() {
+    return playMinutes;
+  };
+  getTime = function() {
+    return time;
+  };
+  start = function($interval) {
+    if (!timerIsRunning) {
+      timerInterval = $interval(timer, 1000);
+    }
+    timerIsRunning = true;
+  };
+  stop = function($interval) {
+    $interval.cancel(timerInterval);
+    timerIsRunning = false;
+  };
+  modify = function(minutes) {
+    var seconds;
+    seconds = minutes * 60;
+    totalSeconds = seconds + startTime;
+    calculateTime();
+  };
+  add = function(minutes, ErrorService, durataRepriza) {
+    durataRepriza = parseInt(durataRepriza);
+    if (totalSeconds > durataRepriza && timerIsRunning) {
+      ErrorService.setMessage("MATCH_TOO_LONG");
+    }
+    totalSeconds += minutes * 60;
+    calculateTime();
+  };
+  sub = function(minutes, ErrorService) {
+    var seconds;
+    seconds = minutes * 60;
+    if (totalSeconds > seconds) {
+      totalSeconds -= seconds;
+      calculateTime();
+    } else {
+      ErrorService.setMessage("NEGATIVE_TIME");
+    }
+  };
+  addSeconds = function(seconds) {
+    totalSeconds += seconds;
+    calculateTime();
+  };
+  timer = function() {
+    ++totalSeconds;
+    calculateTime();
+    timerIsRunning = true;
+  };
+  toMinutes = function(seconds) {
+    var minutes;
+    minutes = Math.floor(seconds / 60);
+    if (minutes < 10) {
+      return '0' + minutes;
+    } else {
+      return minutes;
+    }
+  };
+  calculateTime = function() {
+    var seconds;
+    seconds = totalSeconds % 60;
+    totalMinutes = toMinutes(totalSeconds);
+    playMinutes = toMinutes(totalSeconds + 60);
+    time = totalMinutes + ":" + (seconds < 10 ? '0' + seconds : seconds);
+  };
+  TimerService.$inject = ['$interval', 'ErrorService', 'SettingsService'];
+  return angular.module("timer.service", ['error.service', 'settings.service']).factory("TimerService", TimerService);
 })();
 
 (function() {
@@ -590,6 +596,16 @@ angular.module("team.form.directive", []).directive("teamForm", function() {
   };
 });
 
+angular.module("settings.corner.directive", []).directive("settingsCorner", function() {
+  return {
+    restrict: "E",
+    scope: {
+      cornere: "="
+    },
+    templateUrl: "app/shared/settings/components/corner/cornerView.html"
+  };
+});
+
 angular.module("settings.departajari.directive", []).directive("settingsDepartajari", function() {
   return {
     restrict: "E",
@@ -607,16 +623,6 @@ angular.module("settings.offside.directive", []).directive("settingsOffside", fu
       offside: "="
     },
     templateUrl: "app/shared/settings/components/offside/offsideView.html"
-  };
-});
-
-angular.module("settings.corner.directive", []).directive("settingsCorner", function() {
-  return {
-    restrict: "E",
-    scope: {
-      cornere: "="
-    },
-    templateUrl: "app/shared/settings/components/corner/cornerView.html"
   };
 });
 

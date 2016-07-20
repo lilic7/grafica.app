@@ -1,7 +1,7 @@
 (->
   TimerService = ($interval, ErrorService, SettingsService)->
     {
-      add: (minutes)-> add minutes, ErrorService, SettingsService.settings.repriza
+      add: (minutes)-> add minutes, ErrorService, SettingsService.getRepriza()
       addSeconds: addSeconds
       getPlayMinutes: getPlayMinutes
       getTime: getTime
@@ -15,8 +15,8 @@
 
   startTime = 10 #seconds
   totalSeconds = 10
-  totalMinutes = "00"
-  playMinutes = "01"
+  totalMinutes = 0
+  playMinutes = 1
   timerIsRunning = false
   time = "00:10"
   timerInterval = null
@@ -33,13 +33,13 @@
   getTime = ->
     time
 
-  start = (interval)->
-    timerInterval = interval(timer, 1000) if not timerIsRunning
+  start = ($interval)->
+    timerInterval = $interval(timer, 1000) if not timerIsRunning
     timerIsRunning = true
     return
 
-  stop = (interval)->
-    interval.cancel timerInterval
+  stop = ($interval)->
+    $interval.cancel timerInterval
     timerIsRunning = false
     return
 
@@ -51,7 +51,6 @@
 
   add = (minutes, ErrorService, durataRepriza)->
     durataRepriza = parseInt durataRepriza
-    console.log durataRepriza
     if(totalSeconds > durataRepriza and timerIsRunning)
       ErrorService.setMessage "MATCH_TOO_LONG"
     totalSeconds += minutes * 60
@@ -99,13 +98,4 @@
       'settings.service'
     ]
     .factory "TimerService", TimerService
-)()
-
-(->
-    TimerService = ()->
-        {}
-    TimerService.$inject = []
-    angular
-        .module "timer.service", []
-        .service "TimerService", TimerService
 )()

@@ -3,7 +3,7 @@
   TimerService = function($interval, ErrorService, SettingsService) {
     return {
       add: function(minutes) {
-        return add(minutes, ErrorService, SettingsService.settings.repriza);
+        return add(minutes, ErrorService, SettingsService.getRepriza());
       },
       addSeconds: addSeconds,
       getPlayMinutes: getPlayMinutes,
@@ -24,8 +24,8 @@
   };
   startTime = 10;
   totalSeconds = 10;
-  totalMinutes = "00";
-  playMinutes = "01";
+  totalMinutes = 0;
+  playMinutes = 1;
   timerIsRunning = false;
   time = "00:10";
   timerInterval = null;
@@ -41,14 +41,14 @@
   getTime = function() {
     return time;
   };
-  start = function(interval) {
+  start = function($interval) {
     if (!timerIsRunning) {
-      timerInterval = interval(timer, 1000);
+      timerInterval = $interval(timer, 1000);
     }
     timerIsRunning = true;
   };
-  stop = function(interval) {
-    interval.cancel(timerInterval);
+  stop = function($interval) {
+    $interval.cancel(timerInterval);
     timerIsRunning = false;
   };
   modify = function(minutes) {
@@ -59,7 +59,6 @@
   };
   add = function(minutes, ErrorService, durataRepriza) {
     durataRepriza = parseInt(durataRepriza);
-    console.log(durataRepriza);
     if (totalSeconds > durataRepriza && timerIsRunning) {
       ErrorService.setMessage("MATCH_TOO_LONG");
     }
