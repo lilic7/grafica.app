@@ -1,13 +1,13 @@
-angular.module "team.directive",
-  [
-    'player.directive'
-  ]
-
-.directive "teamList", ()->
-  {
-    restrict: "E"
-    scope: {
-      team: "="
-    }
-    templateUrl: "app/shared/team/teamView.html"
-  }
+(->
+    TeamDirective = ()->
+        # directive declaration
+        directive =
+            restrict: 'E'
+            scope: {team: "="}
+            templateUrl: 'app/shared/team/teamView.html'
+        directive
+    angular
+        .module "team.directive",
+        ['player.directive']
+        .directive "teamList", TeamDirective
+)()

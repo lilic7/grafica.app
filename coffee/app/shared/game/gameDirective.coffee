@@ -1,17 +1,17 @@
 (->
-  game = ->
-    {
-      restrict: 'E'
-      templateUrl: "app/shared/game/gameView.html"
-      controller: "GameController"
-      controllerAs: "gameCtrl"
-    }
-
-  angular
-    .module "game.directive",
-      [
-        'game.controller'
-        'timer.directive'
-      ]
-    .directive "game", game
+    GameDirective = ()->
+        # directive declaration
+        directive =
+            restrict: 'E'
+            controller: "GameController"
+            controllerAs: "gameCtrl"
+            templateUrl: 'app/shared/game/gameView.html'
+        directive
+    angular
+        .module "game.directive",
+        [
+          'game.controller',
+          'timer.directive'
+        ]
+        .directive "game", GameDirective
 )()

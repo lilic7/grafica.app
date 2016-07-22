@@ -29,36 +29,42 @@ describe("timer.service", function() {
       expect(TimerService.isOn()).toBeFalsy();
     });
   });
+  describe("reset timer", function() {
+    it("should reset timer", function() {
+      TimerService.reset();
+      expect(TimerService.isOn()).toBeFalsy();
+      expect(TimerService.getTime()).toEqual("00:10");
+    });
+  });
   describe("minutes calculation", function() {
     beforeEach(function() {
       TimerService.start();
+      $interval.flush(300000);
     });
     afterEach(function() {
       TimerService.stop();
+      TimerService.reset();
     });
     it("should correctly calculate total minutes", function() {
-      $interval.flush(300000);
       expect(TimerService.getTotalMinutes()).toEqual("05");
     });
     it("should correctly calculate play minutes", function() {
-      $interval.flush(100000);
-      expect(TimerService.getPlayMinutes()).toEqual("07");
+      expect(TimerService.getPlayMinutes()).toEqual("06");
     });
     it("should correctly calculate time", function() {
-      $interval.flush(10000);
-      expect(TimerService.getTime()).toEqual("07:00");
+      expect(TimerService.getTime()).toEqual("05:10");
     });
     it("should add minutes", function() {
       TimerService.add(5);
-      expect(TimerService.getTime()).toEqual("12:00");
+      expect(TimerService.getTime()).toEqual("10:10");
     });
     it("should substract minutes", function() {
-      TimerService.sub(10);
-      expect(TimerService.getTime()).toEqual("02:00");
+      TimerService.sub(3);
+      expect(TimerService.getTime()).toEqual("02:10");
     });
     it("should add seconds", function() {
       TimerService.addSeconds(30);
-      expect(TimerService.getTime()).toEqual("02:30");
+      expect(TimerService.getTime()).toEqual("05:40");
     });
     it("should modify time", function() {
       TimerService.modify(45);
@@ -72,7 +78,11 @@ describe("timer.service", function() {
         TimerService.sub(50);
         expect(ErrorService.setMessage).toHaveBeenCalledWith("NEGATIVE_TIME");
       });
-      it("should throw ErrorService if time runs more than match duration", function() {});
+      it("should NOT throw ErrorService for normal substractions", function() {
+        TimerService.sub(1);
+        expect(ErrorService.setMessage).not.toHaveBeenCalled();
+      });
+      it("should throw ErrorService if time runs more than match duration");
     });
   });
 });

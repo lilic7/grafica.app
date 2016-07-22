@@ -1,16 +1,17 @@
 (->
   TimerService = ($interval, ErrorService, SettingsService)->
     {
-      add: (minutes)-> add minutes, ErrorService, SettingsService.getRepriza()
+      add: (minutes)-> add minutes
       addSeconds: addSeconds
       getPlayMinutes: getPlayMinutes
       getTime: getTime
       getTotalMinutes: getTotalMinutes
       isOn: isOn
       modify: modify
+      reset: -> reset $interval
       sub: (minutes)-> sub minutes, ErrorService
-      start: ()-> start $interval
-      stop: ()-> stop $interval
+      start: -> start $interval
+      stop: -> stop $interval
     }
 
   startTime = 10 #seconds
@@ -18,6 +19,7 @@
   totalMinutes = 0
   playMinutes = 1
   timerIsRunning = false
+
   time = "00:10"
   timerInterval = null
 
@@ -43,16 +45,19 @@
     timerIsRunning = false
     return
 
+  reset = ($interval)->
+    $interval.cancel timerInterval
+    totalSeconds = 10
+    calculateTime()
+    return
+
   modify = (minutes)->
     seconds = minutes * 60
     totalSeconds = seconds + startTime
     calculateTime()
     return
 
-  add = (minutes, ErrorService, durataRepriza)->
-    durataRepriza = parseInt durataRepriza
-    if(totalSeconds > durataRepriza and timerIsRunning)
-      ErrorService.setMessage "MATCH_TOO_LONG"
+  add = (minutes)->
     totalSeconds += minutes * 60
     calculateTime()
     return

@@ -17,7 +17,9 @@ module.exports = function(config) {
     files: [
       'node_modules/angular/angular.js',
       'node_modules/angular-ui-router/release/angular-ui-router.js',
+      'node_modules/angular-route/angular-route.js',
       'node_modules/angular-mocks/angular-mocks.js',
+      'node_modules/ng-midway-tester/src/ngMidwayTester.js',
       'public/app/**/*.js',
       'public/app/**/*.html',
       'test/**/*.js'
@@ -79,6 +81,10 @@ module.exports = function(config) {
 
     // Concurrency level
     // how many browser should be started simultaneous
-    concurrency: Infinity
+    concurrency: Infinity,
+
+    proxies: {
+      '/': 'http://grafica.app'
+    }
   })
 }

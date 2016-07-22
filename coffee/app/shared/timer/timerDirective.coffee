@@ -1,12 +1,14 @@
-angular.module "timer.directive",
-  [
-    'timer.controller'
-  ]
-
-.directive "timer", ->
-  {
-    restrict: 'E'
-    templateUrl: 'app/shared/timer/timerView.html'
-    controller: "TimerController"
-    controllerAs: "timerCtrl"
-  }
+(->
+  TimerDirective = ()->
+    # directive declaration
+    directive = 
+      restrict: 'A'
+      controller: "TimerController"
+      controllerAs: "timerCtrl"
+      template: 'app/shared/timer/timer.view.html'
+    directive
+  
+  angular
+    .module "Timer.directive", []
+    .directive "TimerDirective", TimerDirective
+)()

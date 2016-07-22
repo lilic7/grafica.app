@@ -1,9 +1,9 @@
 (function() {
-  var TimerService, add, addSeconds, calculateTime, getPlayMinutes, getTime, getTotalMinutes, isOn, modify, playMinutes, start, startTime, stop, sub, time, timer, timerInterval, timerIsRunning, toMinutes, totalMinutes, totalSeconds;
+  var TimerService, add, addSeconds, calculateTime, getPlayMinutes, getTime, getTotalMinutes, isOn, modify, playMinutes, reset, start, startTime, stop, sub, time, timer, timerInterval, timerIsRunning, toMinutes, totalMinutes, totalSeconds;
   TimerService = function($interval, ErrorService, SettingsService) {
     return {
       add: function(minutes) {
-        return add(minutes, ErrorService, SettingsService.getRepriza());
+        return add(minutes);
       },
       addSeconds: addSeconds,
       getPlayMinutes: getPlayMinutes,
@@ -11,6 +11,9 @@
       getTotalMinutes: getTotalMinutes,
       isOn: isOn,
       modify: modify,
+      reset: function() {
+        return reset($interval);
+      },
       sub: function(minutes) {
         return sub(minutes, ErrorService);
       },
@@ -51,17 +54,18 @@
     $interval.cancel(timerInterval);
     timerIsRunning = false;
   };
+  reset = function($interval) {
+    $interval.cancel(timerInterval);
+    totalSeconds = 10;
+    calculateTime();
+  };
   modify = function(minutes) {
     var seconds;
     seconds = minutes * 60;
     totalSeconds = seconds + startTime;
     calculateTime();
   };
-  add = function(minutes, ErrorService, durataRepriza) {
-    durataRepriza = parseInt(durataRepriza);
-    if (totalSeconds > durataRepriza && timerIsRunning) {
-      ErrorService.setMessage("MATCH_TOO_LONG");
-    }
+  add = function(minutes) {
     totalSeconds += minutes * 60;
     calculateTime();
   };

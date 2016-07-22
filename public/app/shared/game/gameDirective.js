@@ -1,12 +1,14 @@
 (function() {
-  var game;
-  game = function() {
-    return {
+  var GameDirective;
+  GameDirective = function() {
+    var directive;
+    directive = {
       restrict: 'E',
-      templateUrl: "app/shared/game/gameView.html",
       controller: "GameController",
-      controllerAs: "gameCtrl"
+      controllerAs: "gameCtrl",
+      templateUrl: 'app/shared/game/gameView.html'
     };
+    return directive;
   };
-  return angular.module("game.directive", ['game.controller', 'timer.directive']).directive("game", game);
+  return angular.module("game.directive", ['game.controller', 'timer.directive']).directive("game", GameDirective);
 })();

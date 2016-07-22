@@ -25,6 +25,7 @@
     return message;
   };
   setMessage = function(msgCode) {
+    message = "";
     if (messages[msgCode]) {
       message = messages[msgCode].message;
     }

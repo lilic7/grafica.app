@@ -22,6 +22,7 @@
     message
 
   setMessage = (msgCode)->
+    message = ""
     message = messages[msgCode].message if messages[msgCode]
     return
 

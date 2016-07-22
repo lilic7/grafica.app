@@ -3,8 +3,8 @@ describe "error.service", ->
 
   beforeEach module "error.service"
 
-  beforeEach inject (_ErrorService_)->
-    ErrorService = _ErrorService_
+  beforeEach inject ($injector)->
+    ErrorService = $injector.get "ErrorService"
     return
 
   it "should exists", ->

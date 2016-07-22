@@ -6,6 +6,7 @@
       'routes',
 
 #filters
-      'ucfirstFilter'
+      'ucfirstFilter',
+
     ]
 )()

@@ -28,7 +28,9 @@
     "karma-jasmine": "^1.0.2",
     "karma-ng-html2js-preprocessor": "^1.0.0",
     "karma-phantomjs-launcher": "^1.0.1",
-    "karma-spec-reporter": "0.0.26"
+    "karma-spec-reporter": "0.0.26",
+    "ng-midway-tester": "^2.0.5",
+    "protractor": "^4.0.0"
   },
   "dependencies": {
     "angular": "^1.5.7",

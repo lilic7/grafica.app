@@ -115,6 +115,7 @@
     return message;
   };
   setMessage = function(msgCode) {
+    message = "";
     if (messages[msgCode]) {
       message = messages[msgCode].message;
     }
@@ -135,16 +136,18 @@
 })();
 
 (function() {
-  var game;
-  game = function() {
-    return {
+  var GameDirective;
+  GameDirective = function() {
+    var directive;
+    directive = {
       restrict: 'E',
-      templateUrl: "app/shared/game/gameView.html",
       controller: "GameController",
-      controllerAs: "gameCtrl"
+      controllerAs: "gameCtrl",
+      templateUrl: 'app/shared/game/gameView.html'
     };
+    return directive;
   };
-  return angular.module("game.directive", ['game.controller', 'timer.directive']).directive("game", game);
+  return angular.module("game.directive", ['game.controller', 'timer.directive']).directive("game", GameDirective);
 })();
 
 (function() {
@@ -219,18 +222,24 @@
   return angular.module("player.controller", ['wordFirstFilter', 'player.actions.controller', 'player.service']).controller("PlayerController", PlayerController);
 })();
 
-angular.module("player.directive", ['player.controller', 'ucfirstFilter']).directive("playerCard", function() {
-  return {
-    restrict: "E",
-    scope: {},
-    bindToController: {
-      player: "="
-    },
-    controller: "PlayerController",
-    controllerAs: "playerCtrl",
-    templateUrl: "app/shared/player/playerView.html"
+(function() {
+  var PlayerDirective;
+  PlayerDirective = function() {
+    var directive;
+    directive = {
+      restrict: 'E',
+      scope: {},
+      bindToController: {
+        player: "="
+      },
+      controller: "PlayerController",
+      controllerAs: "playerCtrl",
+      templateUrl: 'app/shared/player/playerView.html'
+    };
+    return directive;
   };
-});
+  return angular.module("player.directive", ['player.controller', 'ucfisrtFilter']).directive("playerCard", PlayerDirective);
+})();
 
 (function() {
   'use strict';
@@ -273,14 +282,20 @@ angular.module("player.directive", ['player.controller', 'ucfirstFilter']).direc
   return angular.module("settings.service", []).service("SettingsController", SettingsController);
 })();
 
-angular.module("settings.directive", ['settings.controller', 'settings.rezerve.directive', 'settings.offside.directive', 'settings.corner.directive', 'settings.departajari.directive', 'settings.repriza.directive', 'settings.pauza.directive', 'settings.timer.directive']).directive("settings", function() {
-  return {
-    restrict: "E",
-    templateUrl: "app/shared/settings/settingsView.html",
-    controller: "SettingsController",
-    controllerAs: "settingsCtrl"
+(function() {
+  var SettingsDirective;
+  SettingsDirective = function() {
+    var directive;
+    directive = {
+      restrict: 'E',
+      controller: "SettingsController",
+      controllerAs: "settingsCtrl",
+      templateUrl: 'app/shared/settings/settingsView.html'
+    };
+    return directive;
   };
-});
+  return angular.module("settings.directive", ['settings.controller', 'settings.rezerve.directive', 'settings.offside.directive', 'settings.corner.directive', 'settings.departajari.directive', 'settings.repriza.directive', 'settings.pauza.directive', 'settings.timer.directive']).directive("settings", SettingsDirective);
+})();
 
 (function() {
   var SettingsFactory, checkMatchType, setMatchType, setSettings, setSports, type;
@@ -385,15 +400,21 @@ angular.module("settings.directive", ['settings.controller', 'settings.rezerve.d
   return angular.module("team.controller", []).controller("TeamController", TeamController);
 })();
 
-angular.module("team.directive", ['player.directive']).directive("teamList", function() {
-  return {
-    restrict: "E",
-    scope: {
-      team: "="
-    },
-    templateUrl: "app/shared/team/teamView.html"
+(function() {
+  var TeamDirective;
+  TeamDirective = function() {
+    var directive;
+    directive = {
+      restrict: 'E',
+      scope: {
+        team: "="
+      },
+      templateUrl: 'app/shared/team/teamView.html'
+    };
+    return directive;
   };
-});
+  return angular.module("team.directive", ['player.directive']).directive("teamList", TeamDirective);
+})();
 
 (function() {
   var TimerController;
@@ -414,21 +435,27 @@ angular.module("team.directive", ['player.directive']).directive("teamList", fun
   return angular.module("timer.controller", ['timer.service', 'settings.service']).controller("TimerController", TimerController);
 })();
 
-angular.module("timer.directive", ['timer.controller']).directive("timer", function() {
-  return {
-    restrict: 'E',
-    templateUrl: 'app/shared/timer/timerView.html',
-    controller: "TimerController",
-    controllerAs: "timerCtrl"
+(function() {
+  var TimerDirective;
+  TimerDirective = function() {
+    var directive;
+    directive = {
+      restrict: 'A',
+      controller: "TimerController",
+      controllerAs: "timerCtrl",
+      template: 'app/shared/timer/timer.view.html'
+    };
+    return directive;
   };
-});
+  return angular.module("Timer.directive", []).directive("TimerDirective", TimerDirective);
+})();
 
 (function() {
-  var TimerService, add, addSeconds, calculateTime, getPlayMinutes, getTime, getTotalMinutes, isOn, modify, playMinutes, start, startTime, stop, sub, time, timer, timerInterval, timerIsRunning, toMinutes, totalMinutes, totalSeconds;
+  var TimerService, add, addSeconds, calculateTime, getPlayMinutes, getTime, getTotalMinutes, isOn, modify, playMinutes, reset, start, startTime, stop, sub, time, timer, timerInterval, timerIsRunning, toMinutes, totalMinutes, totalSeconds;
   TimerService = function($interval, ErrorService, SettingsService) {
     return {
       add: function(minutes) {
-        return add(minutes, ErrorService, SettingsService.settings.repriza);
+        return add(minutes);
       },
       addSeconds: addSeconds,
       getPlayMinutes: getPlayMinutes,
@@ -436,6 +463,9 @@ angular.module("timer.directive", ['timer.controller']).directive("timer", funct
       getTotalMinutes: getTotalMinutes,
       isOn: isOn,
       modify: modify,
+      reset: function() {
+        return reset($interval);
+      },
       sub: function(minutes) {
         return sub(minutes, ErrorService);
       },
@@ -476,17 +506,18 @@ angular.module("timer.directive", ['timer.controller']).directive("timer", funct
     $interval.cancel(timerInterval);
     timerIsRunning = false;
   };
+  reset = function($interval) {
+    $interval.cancel(timerInterval);
+    totalSeconds = 10;
+    calculateTime();
+  };
   modify = function(minutes) {
     var seconds;
     seconds = minutes * 60;
     totalSeconds = seconds + startTime;
     calculateTime();
   };
-  add = function(minutes, ErrorService, durataRepriza) {
-    durataRepriza = parseInt(durataRepriza);
-    if (totalSeconds > durataRepriza && timerIsRunning) {
-      ErrorService.setMessage("MATCH_TOO_LONG");
-    }
+  add = function(minutes) {
     totalSeconds += minutes * 60;
     calculateTime();
   };
@@ -585,83 +616,131 @@ angular.module("player.actions.controller", []).controller("PlayerActionsControl
   };
 }]);
 
-angular.module("team.form.directive", []).directive("teamForm", function() {
-  return {
-    restrict: "E",
-    scope: {
-      team: "=",
-      settings: "="
-    },
-    templateUrl: "app/shared/team/form/formView.html"
+(function() {
+  var FormDirective;
+  FormDirective = function() {
+    var directive;
+    directive = {
+      restrict: 'E',
+      scope: {
+        team: "=",
+        settings: "="
+      },
+      templateUrl: 'app/shared/form/formView.html'
+    };
+    return directive;
   };
-});
+  return angular.module("form.directive", []).directive("form", FormDirective);
+})();
 
-angular.module("settings.corner.directive", []).directive("settingsCorner", function() {
-  return {
-    restrict: "E",
-    scope: {
-      cornere: "="
-    },
-    templateUrl: "app/shared/settings/components/corner/cornerView.html"
+(function() {
+  var CornerDirective;
+  CornerDirective = function() {
+    var directive;
+    directive = {
+      restrict: 'E',
+      scope: {
+        cornere: "="
+      },
+      templateUrl: 'app/shared/settings/components/corner/cornerView.html'
+    };
+    return directive;
   };
-});
+  return angular.module("settings.corner.directive", []).directive("settingsCorner", CornerDirective);
+})();
 
-angular.module("settings.departajari.directive", []).directive("settingsDepartajari", function() {
-  return {
-    restrict: "E",
-    scope: {
-      departajari: "="
-    },
-    templateUrl: "app/shared/settings/components/departajari/departajariView.html"
+(function() {
+  var DepartajariDirective;
+  DepartajariDirective = function() {
+    var directive;
+    directive = {
+      restrict: 'E',
+      scope: {
+        departajari: "="
+      },
+      templateUrl: 'app/shared/settings/components/departajari/departajariView.html'
+    };
+    return directive;
   };
-});
+  return angular.module("settings.departajari.directive", []).directive("settingsDepartajari", DepartajariDirective);
+})();
 
-angular.module("settings.offside.directive", []).directive("settingsOffside", function() {
-  return {
-    restrict: "E",
-    scope: {
-      offside: "="
-    },
-    templateUrl: "app/shared/settings/components/offside/offsideView.html"
+(function() {
+  var OffsideDirective;
+  OffsideDirective = function() {
+    var directive;
+    directive = {
+      restrict: 'E',
+      scope: {
+        offside: "="
+      },
+      templateUrl: 'app/shared/settings/components/offside/offsideView.html'
+    };
+    return directive;
   };
-});
+  return angular.module("settings.offside.directive", []).directive("settingsOffside", OffsideDirective);
+})();
 
-angular.module("settings.pauza.directive", []).directive("settingsPauza", function() {
-  return {
-    restrict: "E",
-    scope: {
-      pauza: "="
-    },
-    templateUrl: "app/shared/settings/components/pauza/pauzaView.html"
+(function() {
+  var PauzaDirective;
+  PauzaDirective = function() {
+    var directive;
+    directive = {
+      restrict: 'E',
+      scope: {
+        pauza: "="
+      },
+      templateUrl: 'app/shared/settings/components/pauza/pauzaView.html'
+    };
+    return directive;
   };
-});
+  return angular.module("settings.pauza.directive", []).directive("settingsPauza", PauzaDirective);
+})();
 
-angular.module("settings.repriza.directive", []).directive("settingsRepriza", function() {
-  return {
-    restrict: "E",
-    scope: {
-      repriza: "="
-    },
-    templateUrl: "app/shared/settings/components/repriza/reprizaView.html"
+(function() {
+  var ReprizaDirective;
+  ReprizaDirective = function() {
+    var directive;
+    directive = {
+      restrict: 'E',
+      scope: {
+        repriza: "="
+      },
+      templateUrl: 'app/shared/settings/components/repriza/reprizaView.html'
+    };
+    return directive;
   };
-});
+  return angular.module("settings.repriza.directive", []).directive("settingsRepriza", ReprizaDirective);
+})();
 
-angular.module("settings.rezerve.directive", []).directive("settingsRezerve", function() {
-  return {
-    restrict: "E",
-    scope: {
-      rezerve: "="
-    },
-    templateUrl: 'app/shared/settings/components/rezerve/rezerveView.html'
+(function() {
+  var RezerveDirective;
+  RezerveDirective = function() {
+    var directive;
+    directive = {
+      restrict: 'E',
+      scope: {
+        rezerve: "="
+      },
+      templateUrl: 'app/shared/settings/components/rezerve/rezerveView.html'
+    };
+    return directive;
   };
-});
+  return angular.module("settings.rezerve.directive", []).directive("settingsRezerve", RezerveDirective);
+})();
 
-angular.module("settings.timer.directive", []).directive("settingsTimer", function() {
-  return {
-    restrict: "E",
-    scope: {
-      timer: "="
-    },
-    templateUrl: "app/shared/settings/components/timer/timerView.html"
+(function() {
+  var TimerDirective;
+  TimerDirective = function() {
+    var directive;
+    directive = {
+      restrict: 'E',
+      scope: {
+        timer: "="
+      },
+      templateUrl: 'app/shared/settings/components/timer/timerView.html'
+    };
+    return directive;
   };
-});
+  return angular.module("settings.timer.directive", []).directive("settingsTimer", TimerDirective);
+})();
