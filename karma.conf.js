@@ -16,13 +16,16 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       'node_modules/angular/angular.js',
-      'node_modules/angular-ui-router/release/angular-ui-router.js',
+      'public/assets/libs/angular-material/angular-material.js',
+      'public/assets/libs/angular-animate/angular-animate.js',
+      'public/assets/libs/angular-aria/angular-aria.js',
       'node_modules/angular-route/angular-route.js',
       'node_modules/angular-mocks/angular-mocks.js',
       'node_modules/ng-midway-tester/src/ngMidwayTester.js',
       'public/app/**/*.js',
       'public/app/**/*.html',
-      'test/**/*.js'
+      'test/unit/**/*.js',
+      'test/midway/**/*.js'
     ],
 
 
@@ -84,7 +87,7 @@ module.exports = function(config) {
     concurrency: Infinity,
 
     proxies: {
-      '/': 'http://grafica.app'
+      '/': 'http://grafica.app/'
     }
   })
 }

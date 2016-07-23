@@ -20,7 +20,7 @@
           SettingsFactory.setMatchType $route.current.params.matchType
           SettingsFactory.setSettings()
     }
-    $locationProvider.html5Mode true
+    $locationProvider.html5Mode {enabled: true, requireBase: false}
     return
 
   angular
@@ -30,7 +30,6 @@
         'home.controller'
         'match.controller'
         'settings.factory'
-        'error.service'
       ]
     .config config
 )()

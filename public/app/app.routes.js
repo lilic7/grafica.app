@@ -21,7 +21,10 @@
         }
       }
     });
-    $locationProvider.html5Mode(true);
+    $locationProvider.html5Mode({
+      enabled: true,
+      requireBase: false
+    });
   };
-  return angular.module("routes", ['ngRoute', 'home.controller', 'match.controller', 'settings.factory', 'error.service']).config(config);
+  return angular.module("routes", ['ngRoute', 'home.controller', 'match.controller', 'settings.factory']).config(config);
 })();

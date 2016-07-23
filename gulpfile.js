@@ -6,6 +6,7 @@ var coffee = require('gulp-coffee');
 var sass = require('gulp-sass');
 var browserSync = require('browser-sync').create();
 var Server = require('karma').Server;
+var angularProtractor = require('gulp-angular-protractor');
 
 function browser_sync(){
     browserSync.init(null, {
@@ -66,6 +67,20 @@ function test(done){
     }, done).start();
 }
 
+function protractor(callback) {
+    return gulp.src(['example_spec.js'])
+        .pipe(angularProtractor({
+            'configFile': 'protractor.conf.js',
+            'debug': false,
+            'autoStartStopServer': true
+        }))
+        .on('error', function(e) {
+            console.log(e);
+        })
+        .on('end', callback);
+});
+
+
 buildSpec = gulp.series(coffeeTest, test);
 buildApp = gulp.series(coffeeApp, test, js);
 
@@ -74,7 +89,7 @@ gulp.task('buildSpec', buildSpec);
 gulp.task('buildApp', buildApp);
 
 
-gulp.task('default',
-    gulp.series(coffeeApp, coffeeTest,
+gulp.task('default', gulp.series(
+        coffeeApp, coffeeTest,
         gulp.parallel(Sass, appHtml, js, watch, test)));
         //gulp.parallel(Sass, appHtml, js, watch, gulp.parallel(test, browser_sync))));

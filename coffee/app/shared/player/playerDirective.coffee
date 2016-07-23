@@ -13,7 +13,7 @@
         .module "player.directive",
         [
           'player.controller',
-          'ucfisrtFilter'
+          'ucfirstFilter'
         ]
         .directive "playerCard", PlayerDirective
 )()

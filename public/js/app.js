@@ -25,9 +25,12 @@
         }
       }
     });
-    $locationProvider.html5Mode(true);
+    $locationProvider.html5Mode({
+      enabled: true,
+      requireBase: false
+    });
   };
-  return angular.module("routes", ['ngRoute', 'home.controller', 'match.controller', 'settings.factory', 'error.service']).config(config);
+  return angular.module("routes", ['ngRoute', 'home.controller', 'match.controller', 'settings.factory']).config(config);
 })();
 
 (function() {
@@ -85,7 +88,7 @@
     vm.team2 = GameService.team2;
     vm.settings = SettingsService.all;
   };
-  return angular.module("match.controller", ['team.form.directive', 'game.directive', 'settings.directive', 'game.service', 'settings.service']).controller('MatchController', MatchController);
+  return angular.module("match.controller", ['game.directive', 'settings.directive', 'game.service', 'settings.service']).controller('MatchController', MatchController);
 })();
 
 (function() {
@@ -238,7 +241,7 @@
     };
     return directive;
   };
-  return angular.module("player.directive", ['player.controller', 'ucfisrtFilter']).directive("playerCard", PlayerDirective);
+  return angular.module("player.directive", ['player.controller', 'ucfirstFilter']).directive("playerCard", PlayerDirective);
 })();
 
 (function() {
@@ -447,7 +450,7 @@
     };
     return directive;
   };
-  return angular.module("Timer.directive", []).directive("TimerDirective", TimerDirective);
+  return angular.module("timer.directive", []).directive("timer", TimerDirective);
 })();
 
 (function() {

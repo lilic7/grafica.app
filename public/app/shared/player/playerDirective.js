@@ -14,5 +14,5 @@
     };
     return directive;
   };
-  return angular.module("player.directive", ['player.controller', 'ucfisrtFilter']).directive("playerCard", PlayerDirective);
+  return angular.module("player.directive", ['player.controller', 'ucfirstFilter']).directive("playerCard", PlayerDirective);
 })();

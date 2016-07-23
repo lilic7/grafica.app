@@ -10,7 +10,8 @@
 
   angular
   .module "match.controller",
-      ['team.form.directive'
+      [
+        #'team.form.directive'
         'game.directive'
         'settings.directive'
         'game.service'

@@ -10,5 +10,5 @@
     };
     return directive;
   };
-  return angular.module("Timer.directive", []).directive("TimerDirective", TimerDirective);
+  return angular.module("timer.directive", []).directive("timer", TimerDirective);
 })();

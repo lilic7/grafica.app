@@ -9,6 +9,6 @@
     directive
   
   angular
-    .module "Timer.directive", []
-    .directive "TimerDirective", TimerDirective
+    .module "timer.directive", []
+    .directive "timer", TimerDirective
 )()

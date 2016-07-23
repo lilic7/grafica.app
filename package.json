@@ -14,6 +14,7 @@
     "browser-sync": "^2.13.0",
     "chai": "^3.5.0",
     "gulp": "git://github.com/gulpjs/gulp.git#4.0",
+    "gulp-angular-protractor": "^0.1.1",
     "gulp-cli": "^1.2.1",
     "gulp-coffee": "^2.3.2",
     "gulp-concat": "^2.6.0",
@@ -27,10 +28,13 @@
     "karma-firefox-launcher": "^1.0.0",
     "karma-jasmine": "^1.0.2",
     "karma-ng-html2js-preprocessor": "^1.0.0",
+    "karma-ng-scenario": "^1.0.0",
     "karma-phantomjs-launcher": "^1.0.1",
+    "karma-requirejs": "^1.0.0",
     "karma-spec-reporter": "0.0.26",
     "ng-midway-tester": "^2.0.5",
-    "protractor": "^4.0.0"
+    "protractor": "^4.0.0",
+    "requirejs": "^2.2.0"
   },
   "dependencies": {
     "angular": "^1.5.7",
