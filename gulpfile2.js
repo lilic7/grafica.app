@@ -5,7 +5,7 @@ var concat = require('gulp-concat');
 var coffee = require('gulp-coffee');
 var sass = require('gulp-sass');
 var browserSync = require('browser-sync').create();
-var karma = require('gulp-karma-runner');
+var Server = require('karma').Server;
 var angularProtractor = require('gulp-angular-protractor');
 
 function browser_sync(){
@@ -65,11 +65,6 @@ function unit_test(done){
         configFile: __dirname + '/karma.conf.js',
         singleRun: true
     }, done).start();
-}
-
-
-function karma_server() {
-    return gulp.src
 }
 
 function protractor(callback) {

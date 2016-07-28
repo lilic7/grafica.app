@@ -1,10 +1,9 @@
-// An example configuration file
 exports.config = {
 
     framework: 'jasmine',
 
     // The address of a running selenium server.
-    seleniumAddress: 'http://localhost:4444/wd/hub',
+    seleniumAddress: 'http://localhost:9999/',
 
     // Capabilities to be passed to the webdriver instance.
     capabilities: {
