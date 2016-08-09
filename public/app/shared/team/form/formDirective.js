@@ -12,5 +12,5 @@
     };
     return directive;
   };
-  return angular.module("form.directive", []).directive("form", FormDirective);
+  return angular.module("team.form.directive", []).directive("teamForm", FormDirective);
 })();

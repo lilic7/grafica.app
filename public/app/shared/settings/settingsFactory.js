@@ -40,7 +40,14 @@
   setSports = function($http, SettingsService) {
     var success;
     success = function(response) {
-      SettingsService.sports = response.data.sports;
+      var showSport, sports;
+      sports = response.data.sports;
+      showSport = function(sport) {
+        if (sport.show) {
+          return sport;
+        }
+      };
+      SettingsService.sports = sports.map(showSport);
     };
     $http({
       method: "GET",

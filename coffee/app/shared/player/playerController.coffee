@@ -3,7 +3,6 @@
   PlayerController = (PlayerService)->
     vm = @
     vm.player = player
-    console.log player
     #vm.preparePlayer = PlayerService.preparePlayer(vm.player)
     vm.showAdvanced = showAdvanced
 

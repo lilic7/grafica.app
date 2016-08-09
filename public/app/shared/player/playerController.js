@@ -5,7 +5,6 @@
     var vm;
     vm = this;
     vm.player = player;
-    console.log(player);
     vm.showAdvanced = showAdvanced;
   };
   player = {};

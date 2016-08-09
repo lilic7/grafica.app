@@ -4,7 +4,7 @@
     var vm;
     vm = this;
     vm.repriza = 1;
-    vm.settings = SettingsService.all;
+    vm.settings = SettingsService.settings;
     vm.timerService = TimerService;
     vm.setRepriza = function(repriza) {
       var minutes;

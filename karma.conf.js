@@ -15,17 +15,16 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'node_modules/angular/angular.js',
+      'public/assets/libs/angular/angular.js',
       'public/assets/libs/angular-material/angular-material.js',
       'public/assets/libs/angular-animate/angular-animate.js',
       'public/assets/libs/angular-aria/angular-aria.js',
-      'node_modules/angular-route/angular-route.js',
+      'public/assets/libs/angular-route/angular-route.js',
       'node_modules/angular-mocks/angular-mocks.js',
-      'node_modules/ng-midway-tester/src/ngMidwayTester.js',
       'public/app/**/*.js',
       'public/app/**/*.html',
-      'test/unit/**/*.js',
-      'test/midway/**/*.js'
+      'test/unit/**/*.js'
+      // 'test/integration/**/*.js'
     ],
 
 
@@ -84,10 +83,6 @@ module.exports = function(config) {
 
     // Concurrency level
     // how many browser should be started simultaneous
-    concurrency: Infinity,
-
-    proxies: {
-      '/': 'http://grafica.app/'
-    }
+    concurrency: Infinity
   })
-}
+};

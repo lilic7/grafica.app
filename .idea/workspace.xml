@@ -5,29 +5,63 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a067f4cd-ba67-46c2-b309-c625114df510" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gulpfile2.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/karma-integration.conf.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/karma-shared.conf.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/karma-unit.conf.js" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/e2e/app.routes.spec.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/midway/app.module.spec.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/midway/app.routes.spec.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/unit/components/home/homeController.spec.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/unit/filters/ucfirstFilter.spec.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/unit/filters/wordFirstFilter.spec.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/unit/shared/error/errorService.spec.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/unit/shared/settings/settingsFactory.spec.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/unit/shared/timer/timerService.spec.js" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/coffee/test/midway/app.module.spec.coffee" afterPath="$PROJECT_DIR$/coffee/test/integration/app.module.spec.coffee" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/coffee/test/midway/app.routes.spec.coffee" afterPath="$PROJECT_DIR$/coffee/test/integration/app.routes.spec.coffee" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/protractor.conf.js" afterPath="$PROJECT_DIR$/test/protractor.conf.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/test/files/OK COMPONENȚĂ COJUȘNA.docx" afterPath="$PROJECT_DIR$/tests/files/OK COMPONENȚĂ COJUȘNA.docx" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/test/files/OK COMPONENȚĂ ROMPETROL.docx" afterPath="$PROJECT_DIR$/tests/files/OK COMPONENȚĂ ROMPETROL.docx" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/test/files/links.txt" afterPath="$PROJECT_DIR$/tests/files/links.txt" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/test/files/settings.jar" afterPath="$PROJECT_DIR$/tests/files/settings.jar" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/gulpfile2.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/spec/support/jasmine.json" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/libs/angular/angular.min.js.gzip" afterPath="$PROJECT_DIR$/public/assets/libs/angular/angular.min.js.gzip" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/coffee/app/components/match/matchController.coffee" afterPath="$PROJECT_DIR$/coffee/app/components/match/matchController.coffee" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/coffee/app/components/match/matchView.html" afterPath="$PROJECT_DIR$/coffee/app/components/match/matchView.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/coffee/app/shared/game/gameController.coffee" afterPath="$PROJECT_DIR$/coffee/app/shared/game/gameController.coffee" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/coffee/app/shared/player/playerController.coffee" afterPath="$PROJECT_DIR$/coffee/app/shared/player/playerController.coffee" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/coffee/app/shared/settings/settingsFactory.coffee" afterPath="$PROJECT_DIR$/coffee/app/shared/settings/settingsFactory.coffee" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/coffee/app/shared/team/form/formDirective.coffee" afterPath="$PROJECT_DIR$/coffee/app/shared/team/form/formDirective.coffee" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/coffee/app/shared/team/form/formView.html" afterPath="$PROJECT_DIR$/coffee/app/shared/team/form/formView.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/coffee/app/shared/team/teamDirective.coffee" afterPath="$PROJECT_DIR$/coffee/app/shared/team/teamDirective.coffee" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/coffee/app/shared/timer/timerController.coffee" afterPath="$PROJECT_DIR$/coffee/app/shared/timer/timerController.coffee" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/coffee/test/unit/shared/settings/settingsFactory.spec.coffee" afterPath="$PROJECT_DIR$/coffee/test/unit/shared/settings/settingsFactory.spec.coffee" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gulpfile.js" afterPath="$PROJECT_DIR$/gulpfile.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/karma.conf.js" afterPath="$PROJECT_DIR$/karma.conf.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/app/components/match/matchController.js" afterPath="$PROJECT_DIR$/public/app/components/match/matchController.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/app/components/match/matchView.html" afterPath="$PROJECT_DIR$/public/app/components/match/matchView.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/app/shared/game/gameController.js" afterPath="$PROJECT_DIR$/public/app/shared/game/gameController.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/app/shared/player/playerController.js" afterPath="$PROJECT_DIR$/public/app/shared/player/playerController.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/app/shared/settings/settingsFactory.js" afterPath="$PROJECT_DIR$/public/app/shared/settings/settingsFactory.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/app/shared/team/form/formDirective.js" afterPath="$PROJECT_DIR$/public/app/shared/team/form/formDirective.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/app/shared/team/form/formView.html" afterPath="$PROJECT_DIR$/public/app/shared/team/form/formView.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/app/shared/timer/timerController.js" afterPath="$PROJECT_DIR$/public/app/shared/timer/timerController.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/libs/angular-animate/.bower.json" afterPath="$PROJECT_DIR$/public/assets/libs/angular-animate/.bower.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/libs/angular-animate/angular-animate.js" afterPath="$PROJECT_DIR$/public/assets/libs/angular-animate/angular-animate.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/libs/angular-animate/angular-animate.min.js" afterPath="$PROJECT_DIR$/public/assets/libs/angular-animate/angular-animate.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/libs/angular-animate/angular-animate.min.js.map" afterPath="$PROJECT_DIR$/public/assets/libs/angular-animate/angular-animate.min.js.map" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/libs/angular-animate/bower.json" afterPath="$PROJECT_DIR$/public/assets/libs/angular-animate/bower.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/libs/angular-animate/package.json" afterPath="$PROJECT_DIR$/public/assets/libs/angular-animate/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/libs/angular-aria/.bower.json" afterPath="$PROJECT_DIR$/public/assets/libs/angular-aria/.bower.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/libs/angular-aria/angular-aria.js" afterPath="$PROJECT_DIR$/public/assets/libs/angular-aria/angular-aria.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/libs/angular-aria/angular-aria.min.js" afterPath="$PROJECT_DIR$/public/assets/libs/angular-aria/angular-aria.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/libs/angular-aria/bower.json" afterPath="$PROJECT_DIR$/public/assets/libs/angular-aria/bower.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/libs/angular-aria/package.json" afterPath="$PROJECT_DIR$/public/assets/libs/angular-aria/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/libs/angular-messages/.bower.json" afterPath="$PROJECT_DIR$/public/assets/libs/angular-messages/.bower.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/libs/angular-messages/angular-messages.js" afterPath="$PROJECT_DIR$/public/assets/libs/angular-messages/angular-messages.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/libs/angular-messages/angular-messages.min.js" afterPath="$PROJECT_DIR$/public/assets/libs/angular-messages/angular-messages.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/libs/angular-messages/angular-messages.min.js.map" afterPath="$PROJECT_DIR$/public/assets/libs/angular-messages/angular-messages.min.js.map" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/libs/angular-messages/bower.json" afterPath="$PROJECT_DIR$/public/assets/libs/angular-messages/bower.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/libs/angular-messages/package.json" afterPath="$PROJECT_DIR$/public/assets/libs/angular-messages/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/libs/angular-route/.bower.json" afterPath="$PROJECT_DIR$/public/assets/libs/angular-route/.bower.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/libs/angular-route/angular-route.js" afterPath="$PROJECT_DIR$/public/assets/libs/angular-route/angular-route.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/libs/angular-route/angular-route.min.js" afterPath="$PROJECT_DIR$/public/assets/libs/angular-route/angular-route.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/libs/angular-route/angular-route.min.js.map" afterPath="$PROJECT_DIR$/public/assets/libs/angular-route/angular-route.min.js.map" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/libs/angular-route/bower.json" afterPath="$PROJECT_DIR$/public/assets/libs/angular-route/bower.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/libs/angular-route/package.json" afterPath="$PROJECT_DIR$/public/assets/libs/angular-route/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/libs/angular/.bower.json" afterPath="$PROJECT_DIR$/public/assets/libs/angular/.bower.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/libs/angular/angular.js" afterPath="$PROJECT_DIR$/public/assets/libs/angular/angular.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/libs/angular/angular.min.js" afterPath="$PROJECT_DIR$/public/assets/libs/angular/angular.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/libs/angular/angular.min.js.map" afterPath="$PROJECT_DIR$/public/assets/libs/angular/angular.min.js.map" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/libs/angular/bower.json" afterPath="$PROJECT_DIR$/public/assets/libs/angular/bower.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/assets/libs/angular/package.json" afterPath="$PROJECT_DIR$/public/assets/libs/angular/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/app.js" afterPath="$PROJECT_DIR$/public/js/app.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/json/sports.json" afterPath="$PROJECT_DIR$/public/json/sports.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/protractor.conf.js" afterPath="$PROJECT_DIR$/test/protractor.conf.js" />
     </list>
     <ignored path="grafica.app.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -48,24 +82,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="app.routes.spec.coffee" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/coffee/test/integration/app.routes.spec.coffee">
+      <file leaf-file-name="settingsFactory.coffee" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/coffee/app/shared/settings/settingsFactory.coffee">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="280">
-              <caret line="58" column="8" selection-start-line="58" selection-start-column="8" selection-end-line="58" selection-end-column="8" />
-              <folding>
-                <marker date="1469649005437" expanded="true" signature="1178:1188" ph="..." />
-                <marker date="1469649005437" expanded="true" signature="1178:1197" ph="..." />
-              </folding>
+            <state relative-caret-position="567">
+              <caret line="27" column="35" selection-start-line="27" selection-start-column="35" selection-end-line="27" selection-end-column="35" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="app.routes.spec.coffee" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/coffee/test/e2e/app.routes.spec.coffee">
+      <file leaf-file-name="app.routes.coffee" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/coffee/app/app.routes.coffee">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="140">
-              <caret line="7" column="37" selection-start-line="7" selection-start-column="37" selection-end-line="7" selection-end-column="37" />
+            <state relative-caret-position="378">
+              <caret line="18" column="45" selection-start-line="18" selection-start-column="45" selection-end-line="18" selection-end-column="45" />
               <folding />
             </state>
           </provider>
@@ -74,38 +105,38 @@
       <file leaf-file-name="homeView.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/coffee/app/components/home/homeView.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="315">
+              <caret line="15" column="6" selection-start-line="15" selection-start-column="6" selection-end-line="15" selection-end-column="6" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="gulpfile2.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/gulpfile2.js">
+      <file leaf-file-name="homeController.coffee" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/coffee/app/components/home/homeController.coffee">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="304">
-              <caret line="62" column="14" selection-start-line="62" selection-start-column="14" selection-end-line="62" selection-end-column="14" />
+            <state relative-caret-position="63">
+              <caret line="3" column="39" selection-start-line="3" selection-start-column="39" selection-end-line="3" selection-end-column="39" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="gulpfile.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/gulpfile.js">
+      <file leaf-file-name="settingsFactory.spec.coffee" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/coffee/test/unit/shared/settings/settingsFactory.spec.coffee">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1420">
-              <caret line="71" column="19" selection-start-line="71" selection-start-column="19" selection-end-line="71" selection-end-column="19" />
+            <state relative-caret-position="1092">
+              <caret line="52" column="31" selection-start-line="52" selection-start-column="31" selection-end-line="52" selection-end-column="31" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="protractor.conf.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/protractor.conf.js">
+      <file leaf-file-name="sports.json" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/json/sports.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="168">
+              <caret line="8" column="19" selection-start-line="8" selection-start-column="19" selection-end-line="8" selection-end-column="19" />
               <folding />
             </state>
           </provider>
@@ -127,25 +158,13 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/public/app/shared/settings/settingsFactory.js" />
-        <option value="$PROJECT_DIR$/test/shared/settings/settingsFactory.spec.js" />
-        <option value="$PROJECT_DIR$/coffee/app/components/home/homeView.html" />
-        <option value="$PROJECT_DIR$/public/json/sports.json" />
-        <option value="$PROJECT_DIR$/coffee/app/components/home/homeController.coffee" />
-        <option value="$PROJECT_DIR$/coffee/test/components/home/homeController.spec.coffee" />
-        <option value="$PROJECT_DIR$/public/js/app.js" />
-        <option value="$PROJECT_DIR$/coffee/app/shared/settings/settingsFactory.coffee" />
-        <option value="$PROJECT_DIR$/coffee/test/shared/settings/settingsFactory.spec.coffee" />
         <option value="$PROJECT_DIR$/coffee/app/shared/settings/settingsController.coffee" />
         <option value="$PROJECT_DIR$/coffee/app/shared/settings/settingsService.coffee" />
         <option value="$PROJECT_DIR$/coffee/app/shared/timer/timer.module.coffee" />
         <option value="$PROJECT_DIR$/coffee/app/shared/timer/timer.controller.coffee" />
         <option value="$PROJECT_DIR$/coffee/app/shared/timer/timer.directive.coffee" />
         <option value="$PROJECT_DIR$/coffee/app/shared/timer/_timer.module.coffee" />
-        <option value="$PROJECT_DIR$/coffee/app/shared/team/teamDirective.coffee" />
-        <option value="$PROJECT_DIR$/coffee/app/shared/game/gameDirective.coffee" />
         <option value="$PROJECT_DIR$/coffee/app/shared/settings/settingsDirective.coffee" />
-        <option value="$PROJECT_DIR$/coffee/app/shared/team/form/formDirective.coffee" />
         <option value="$PROJECT_DIR$/coffee/app/shared/settings/components/corner/cornerDirective.coffee" />
         <option value="$PROJECT_DIR$/coffee/app/shared/settings/components/departajari/departajariDirective.coffee" />
         <option value="$PROJECT_DIR$/coffee/app/shared/settings/components/offside/offsideDirective.coffee" />
@@ -159,7 +178,6 @@
         <option value="$PROJECT_DIR$/coffee/app/shared/error/errorService.coffee" />
         <option value="$PROJECT_DIR$/coffee/app/shared/timer/timerService.coffee" />
         <option value="$PROJECT_DIR$/coffee/test/unit/shared/timer/timerService.spec.coffee" />
-        <option value="$PROJECT_DIR$/coffee/app/components/match/matchController.coffee" />
         <option value="$PROJECT_DIR$/coffee/app/shared/player/playerDirective.coffee" />
         <option value="$PROJECT_DIR$/coffee/app/shared/timer/timerDirective.coffee" />
         <option value="$PROJECT_DIR$/coffee/app/app.module.coffee" />
@@ -168,16 +186,29 @@
         <option value="$PROJECT_DIR$/coffee/test/midway/app.routes/app.routes.paths.spec.coffee" />
         <option value="$PROJECT_DIR$/coffee/app/app.routes.coffee" />
         <option value="$PROJECT_DIR$/coffee/test/midway/app.routes.spec.coffee" />
-        <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/coffee/test/e2e/app.routes.spec.coffee" />
-        <option value="$PROJECT_DIR$/karma.conf.js" />
         <option value="$PROJECT_DIR$/test/karma-integration.conf.js" />
         <option value="$PROJECT_DIR$/test/karma-unit.conf.js" />
         <option value="$PROJECT_DIR$/test/karma-shared.conf.js" />
         <option value="$PROJECT_DIR$/test/karma-e2e.conf.js" />
         <option value="$PROJECT_DIR$/protractor.conf.js" />
         <option value="$PROJECT_DIR$/test/protractor.conf.js" />
+        <option value="$PROJECT_DIR$/coffee/app/shared/game/gameDirective.coffee" />
+        <option value="$PROJECT_DIR$/coffee/app/shared/timer/timerController.coffee" />
+        <option value="$PROJECT_DIR$/coffee/app/shared/player/playerController.coffee" />
+        <option value="$PROJECT_DIR$/coffee/app/shared/team/form/formView.html" />
+        <option value="$PROJECT_DIR$/coffee/app/shared/team/teamDirective.coffee" />
+        <option value="$PROJECT_DIR$/package.json" />
+        <option value="$PROJECT_DIR$/bower.json" />
         <option value="$PROJECT_DIR$/gulpfile.js" />
+        <option value="$PROJECT_DIR$/coffee/app/shared/game/gameController.coffee" />
+        <option value="$PROJECT_DIR$/karma.conf.js" />
+        <option value="$PROJECT_DIR$/coffee/app/components/match/matchView.html" />
+        <option value="$PROJECT_DIR$/coffee/app/components/match/matchController.coffee" />
+        <option value="$PROJECT_DIR$/coffee/app/shared/team/form/formDirective.coffee" />
+        <option value="$PROJECT_DIR$/public/json/sports.json" />
+        <option value="$PROJECT_DIR$/coffee/app/shared/settings/settingsFactory.coffee" />
+        <option value="$PROJECT_DIR$/coffee/test/unit/shared/settings/settingsFactory.spec.coffee" />
       </list>
     </option>
   </component>
@@ -193,7 +224,18 @@
     <detection-done>true</detection-done>
     <gulpfiles>
       <GulpfileState>
-        <gulpfile-path>$PROJECT_DIR$/gulpfile2.js</gulpfile-path>
+        <gulpfile-path>$PROJECT_DIR$/gulpfile.js</gulpfile-path>
+        <tasks>
+          <GulpTaskState>
+            <task-name>buildSpec</task-name>
+          </GulpTaskState>
+          <GulpTaskState>
+            <task-name>buildApp</task-name>
+          </GulpTaskState>
+          <GulpTaskState>
+            <task-name>default</task-name>
+          </GulpTaskState>
+        </tasks>
       </GulpfileState>
     </gulpfiles>
     <sorting>DEFINITION_ORDER</sorting>
@@ -206,8 +248,8 @@
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
-    <option name="width" value="1616" />
-    <option name="height" value="876" />
+    <option name="width" value="1936" />
+    <option name="height" value="1066" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -259,7 +301,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -275,20 +316,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="grafica.app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="grafica.app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="grafica.app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="test" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -323,6 +350,14 @@
               <option name="myItemId" value="test" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="unit" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="shared" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -337,10 +372,133 @@
               <option name="myItemId" value="coffee" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="unit" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="shared" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="settings" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="grafica.app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="grafica.app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="coffee" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="unit" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="grafica.app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="grafica.app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="coffee" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="grafica.app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="grafica.app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="coffee" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="grafica.app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="grafica.app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="coffee" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="components" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="grafica.app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="grafica.app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="coffee" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="components" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="home" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -353,9 +511,14 @@
     <property name="js-jscs-nodeInterpreter" value="C:\Program Files\nodejs\node.exe" />
     <property name="nodejs.mocha.mocha_node_package_dir" value="C:\xampp\htdocs\grafica.app\node_modules\mocha" />
     <property name="js.buildTools.gulp.gulp_package_dir" value="C:\xampp\htdocs\grafica.app\node_modules\gulp" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../angular-change" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/gulpfile.js" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\grafica.app" />
+      <recent name="C:\xampp\htdocs\grafica.app\test" />
+      <recent name="C:\xampp\htdocs\grafica.app\coffee" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\xampp\htdocs\grafica.app\test" />
       <recent name="C:\xampp\htdocs\grafica.app\tests" />
@@ -363,13 +526,8 @@
       <recent name="C:\xampp\htdocs\grafica.app\coffee\test\midway\app.routes" />
       <recent name="C:\xampp\htdocs\grafica.app\coffee\test\unit" />
     </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\xampp\htdocs\grafica.app" />
-      <recent name="C:\xampp\htdocs\grafica.app\test" />
-      <recent name="C:\xampp\htdocs\grafica.app\coffee" />
-    </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Gulp.js.default">
     <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
       <method />
     </configuration>
@@ -377,7 +535,7 @@
       <method />
     </configuration>
     <configuration default="true" type="JavaScriptTestRunnerKarma" factoryName="Karma">
-      <config-file value="" />
+      <config-file value="$PROJECT_DIR$/karma.conf.js" />
       <node-interpreter value="project" />
       <envs />
       <method />
@@ -423,6 +581,28 @@
       <recursive>false</recursive>
       <method />
     </configuration>
+    <configuration default="false" name="default" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <gulpfile>$PROJECT_DIR$/gulpfile.js</gulpfile>
+      <tasks>
+        <task>default</task>
+      </tasks>
+      <arguments />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="Karma tests" type="JavaScriptTestRunnerKarma" factoryName="Karma">
+      <config-file value="$PROJECT_DIR$/karma.conf.js" />
+      <karma-package-dir value="$PROJECT_DIR$/node_modules/karma" />
+      <node-interpreter value="project" />
+      <envs />
+      <method />
+    </configuration>
+    <list size="2">
+      <item index="0" class="java.lang.String" itemvalue="Gulp.js.default" />
+      <item index="1" class="java.lang.String" itemvalue="Karma.Karma tests" />
+    </list>
   </component>
   <component name="ShelveChangesManager" show_recycled="false">
     <option name="remove_strategy" value="false" />
@@ -479,11 +659,39 @@
       <workItem from="1469260579781" duration="5739000" />
       <workItem from="1469267280288" duration="7140000" />
       <workItem from="1469649436103" duration="7987000" />
+      <workItem from="1470724839720" duration="1985000" />
+      <workItem from="1470726892474" duration="11350000" />
     </task>
     <servers />
   </component>
+  <component name="TestHistory">
+    <history-entry file="Karma_tests - 2016.08.09 at 16h 09m 43s.xml">
+      <configuration name="Karma tests" configurationId="JavaScriptTestRunnerKarma" />
+    </history-entry>
+    <history-entry file="Karma_tests - 2016.08.09 at 16h 12m 23s.xml">
+      <configuration name="Karma tests" configurationId="JavaScriptTestRunnerKarma" />
+    </history-entry>
+    <history-entry file="Karma_tests - 2016.08.09 at 16h 13m 03s.xml">
+      <configuration name="Karma tests" configurationId="JavaScriptTestRunnerKarma" />
+    </history-entry>
+    <history-entry file="Karma_tests - 2016.08.09 at 16h 13m 36s.xml">
+      <configuration name="Karma tests" configurationId="JavaScriptTestRunnerKarma" />
+    </history-entry>
+    <history-entry file="Karma_tests - 2016.08.09 at 16h 13m 40s.xml">
+      <configuration name="Karma tests" configurationId="JavaScriptTestRunnerKarma" />
+    </history-entry>
+    <history-entry file="Karma_tests - 2016.08.09 at 16h 15m 47s.xml">
+      <configuration name="Karma tests" configurationId="JavaScriptTestRunnerKarma" />
+    </history-entry>
+    <history-entry file="Karma_tests - 2016.08.09 at 16h 16m 00s.xml">
+      <configuration name="Karma tests" configurationId="JavaScriptTestRunnerKarma" />
+    </history-entry>
+    <history-entry file="Karma_tests - 2016.08.09 at 17h 55m 20s.xml">
+      <configuration name="Karma tests" configurationId="JavaScriptTestRunnerKarma" />
+    </history-entry>
+  </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="262939000" />
+    <option name="totallyTimeSpent" value="276274000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -495,16 +703,16 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
     <editor active="false" />
     <layout>
-      <window_info id="Gulp" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.12526652" sideWeight="0.5046854" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19215938" sideWeight="0.4953146" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Gulp" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.12633263" sideWeight="0.5046854" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17110874" sideWeight="0.4953146" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32931727" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32869378" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.37526652" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.35287845" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31343284" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
@@ -536,134 +744,10 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/public/app/shared/timer/timerService.js" />
-    <entry file="file://$PROJECT_DIR$/coffee/app/shared/settings/settingsController.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="20" column="26" selection-start-line="20" selection-start-column="26" selection-end-line="20" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/shared/settings/settingsFactory.spec.js" />
-    <entry file="file://$PROJECT_DIR$/public/app/shared/timer/timerController.js" />
-    <entry file="file://$PROJECT_DIR$/test/shared/timer/timerService.spec.js" />
-    <entry file="file://$PROJECT_DIR$/coffee/test/unit/shared/settings/settingsFactory.spec.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="679">
-          <caret line="56" column="60" selection-start-line="56" selection-start-column="40" selection-end-line="56" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/app/shared/game/gameDirective.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/coffee/app/shared/game/gameDirective.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="16" column="3" selection-start-line="16" selection-start-column="3" selection-end-line="16" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/coffee/app/shared/team/form/formDirective.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="15" column="3" selection-start-line="15" selection-start-column="3" selection-end-line="15" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/coffee/app/shared/settings/components/corner/cornerDirective.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="12" column="3" selection-start-line="12" selection-start-column="3" selection-end-line="12" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/coffee/app/shared/settings/components/departajari/departajariDirective.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="12" column="3" selection-start-line="12" selection-start-column="3" selection-end-line="12" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/coffee/app/shared/settings/components/offside/offsideDirective.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="12" column="3" selection-start-line="12" selection-start-column="3" selection-end-line="12" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/coffee/app/shared/settings/components/pauza/pauzaDirective.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="12" column="3" selection-start-line="12" selection-start-column="3" selection-end-line="12" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/coffee/app/shared/settings/components/repriza/reprizaDirective.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="12" column="3" selection-start-line="12" selection-start-column="3" selection-end-line="12" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/coffee/app/shared/settings/components/rezerve/rezerveDirective.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="12" column="3" selection-start-line="12" selection-start-column="3" selection-end-line="12" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/coffee/app/shared/settings/components/timer/timerDirective.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="12" column="3" selection-start-line="12" selection-start-column="3" selection-end-line="12" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/coffee/app/shared/team/teamDirective.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="12" column="3" selection-start-line="12" selection-start-column="3" selection-end-line="12" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/coffee/app/shared/timer/_timer.module.coffee" />
-    <entry file="file://$PROJECT_DIR$/coffee/app/shared/timer/timerView.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/coffee/app/shared/settings/settingsDirective.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="440">
-          <caret line="22" column="3" selection-start-line="22" selection-start-column="3" selection-end-line="22" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/js/app.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="679">
           <caret line="701" column="0" selection-start-line="701" selection-start-column="0" selection-end-line="701" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/coffee/app/shared/timer/timerController.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/coffee/app/shared/settings/settingsService.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="11" column="3" selection-start-line="11" selection-start-column="3" selection-end-line="11" selection-end-column="3" />
         </state>
       </provider>
     </entry>
@@ -688,13 +772,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/coffee/app/shared/timer/timerService.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1000">
-          <caret line="50" column="19" selection-start-line="50" selection-start-column="19" selection-end-line="50" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/coffee/test/unit/shared/timer/timerService.spec.coffee">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="499">
@@ -706,13 +783,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="252">
           <caret line="12" column="20" selection-start-line="12" selection-start-column="20" selection-end-line="12" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/coffee/app/components/match/matchController.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="273">
-          <caret line="13" column="9" selection-start-line="13" selection-start-column="9" selection-end-line="13" selection-end-column="9" />
         </state>
       </provider>
     </entry>
@@ -737,36 +807,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/coffee/app/app.module.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="147">
-          <caret line="7" column="8" selection-start-line="7" selection-start-column="8" selection-end-line="7" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/coffee/test/midway/app.routes/app.routes.dependaces.spec.coffee" />
     <entry file="file://$PROJECT_DIR$/coffee/test/integration/app.module.spec.coffee">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="126">
           <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/coffee/test/integration/app.routes.spec.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="58" column="8" selection-start-line="58" selection-start-column="8" selection-end-line="58" selection-end-column="8" />
-          <folding>
-            <marker date="1469649005437" expanded="true" signature="1178:1188" ph="..." />
-            <marker date="1469649005437" expanded="true" signature="1178:1197" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="651">
-          <caret line="35" column="4" selection-start-line="35" selection-start-column="4" selection-end-line="35" selection-end-column="4" />
         </state>
       </provider>
     </entry>
@@ -777,27 +822,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/coffee/test/e2e/app.routes.spec.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
-          <caret line="7" column="37" selection-start-line="7" selection-start-column="37" selection-end-line="7" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/coffee/app/components/home/homeView.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
           <caret line="6" column="23" selection-start-line="6" selection-start-column="23" selection-end-line="6" selection-end-column="23" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -805,7 +833,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
           <caret line="15" column="36" selection-start-line="15" selection-start-column="36" selection-end-line="15" selection-end-column="36" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -813,35 +840,56 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="400">
           <caret line="20" column="28" selection-start-line="20" selection-start-column="28" selection-end-line="20" selection-end-column="28" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/karma.conf.js">
+    <entry file="file://$PROJECT_DIR$/test/karma-e2e.conf.js" />
+    <entry file="file://$PROJECT_DIR$/test/karma-unit.conf.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="78">
-          <caret line="27" column="27" selection-start-line="27" selection-start-column="27" selection-end-line="27" selection-end-column="27" />
-          <folding />
+        <state relative-caret-position="200">
+          <caret line="10" column="30" selection-start-line="10" selection-start-column="26" selection-end-line="10" selection-end-column="30" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/coffee/app/app.routes.coffee">
+    <entry file="file://$PROJECT_DIR$/coffee/test/integration/app.routes.spec.coffee">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="640">
-          <caret line="32" column="7" selection-start-line="32" selection-start-column="7" selection-end-line="32" selection-end-column="7" />
-          <folding />
+        <state relative-caret-position="780">
+          <caret line="58" column="8" selection-start-line="58" selection-start-column="8" selection-end-line="58" selection-end-column="8" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test/karma-e2e.conf.js">
+    <entry file="file://$PROJECT_DIR$/coffee/test/e2e/app.routes.spec.coffee">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="15" column="24" selection-start-line="15" selection-start-column="24" selection-end-line="15" selection-end-column="24" />
+        <state relative-caret-position="147">
+          <caret line="7" column="37" selection-start-line="7" selection-start-column="37" selection-end-line="7" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gulpfile2.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1932">
+          <caret line="92" column="33" selection-start-line="92" selection-start-column="33" selection-end-line="92" selection-end-column="33" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test/protractor.conf.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="483">
+          <caret line="23" column="2" selection-start-line="23" selection-start-column="2" selection-end-line="23" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/unit/filters/ucfirstFilter.spec.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="336">
+          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coffee/app/shared/settings/settingsController.coffee">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -849,26 +897,226 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test/karma-unit.conf.js">
+    <entry file="file://$PROJECT_DIR$/coffee/app/shared/timer/timerService.coffee">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="10" column="30" selection-start-line="10" selection-start-column="26" selection-end-line="10" selection-end-column="30" />
+        <state relative-caret-position="1050">
+          <caret line="50" column="19" selection-start-line="50" selection-start-column="19" selection-end-line="50" selection-end-column="19" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gulpfile2.js">
+    <entry file="file://$PROJECT_DIR$/coffee/app/shared/settings/settingsService.coffee">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="62" column="14" selection-start-line="62" selection-start-column="14" selection-end-line="62" selection-end-column="14" />
+        <state relative-caret-position="231">
+          <caret line="11" column="3" selection-start-line="11" selection-start-column="3" selection-end-line="11" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coffee/app/shared/player/playerController.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coffee/app/shared/timer/timerView.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coffee/app/shared/timer/timerController.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="273">
+          <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coffee/app/shared/game/gameView.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="21">
+          <caret line="1" column="23" selection-start-line="1" selection-start-column="23" selection-end-line="1" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bower.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="483">
+          <caret line="23" column="25" selection-start-line="23" selection-start-column="25" selection-end-line="23" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="519">
+          <caret line="26" column="31" selection-start-line="26" selection-start-column="31" selection-end-line="26" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/karma.conf.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="906">
+          <caret line="73" column="27" selection-start-line="73" selection-start-column="27" selection-end-line="73" selection-end-column="27" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/gulpfile.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1420">
-          <caret line="71" column="19" selection-start-line="71" selection-start-column="19" selection-end-line="71" selection-end-column="19" />
+        <state relative-caret-position="3">
+          <caret line="62" column="10" selection-start-line="62" selection-start-column="10" selection-end-line="62" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coffee/app/components/match/matchView.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="273">
+          <caret line="13" column="27" selection-start-line="13" selection-start-column="27" selection-end-line="13" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coffee/app/shared/team/teamView.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coffee/app/shared/team/form/formView.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="17" column="6" selection-start-line="17" selection-start-column="6" selection-end-line="17" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coffee/app/shared/team/teamDirective.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="231">
+          <caret line="11" column="30" selection-start-line="11" selection-start-column="30" selection-end-line="11" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coffee/app/shared/team/teamController.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coffee/app/shared/team/form/formDirective.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="273">
+          <caret line="13" column="3" selection-start-line="13" selection-start-column="3" selection-end-line="13" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coffee/app/shared/game/gameController.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="12" column="24" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coffee/app/shared/game/gameDirective.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="12" column="28" selection-start-line="12" selection-start-column="28" selection-end-line="12" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coffee/app/shared/game/gameService.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/json/sports.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="8" column="19" selection-start-line="8" selection-start-column="19" selection-end-line="8" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/app/shared/settings/settingsFactory.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="693">
+          <caret line="36" column="36" selection-start-line="36" selection-start-column="36" selection-end-line="36" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coffee/app/components/match/matchController.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="441">
+          <caret line="21" column="3" selection-start-line="21" selection-start-column="3" selection-end-line="21" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coffee/test/unit/shared/settings/settingsFactory.spec.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1092">
+          <caret line="52" column="31" selection-start-line="52" selection-start-column="31" selection-end-line="52" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coffee/app/app.module.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="8" column="17" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coffee/app/shared/settings/settingsFactory.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="567">
+          <caret line="27" column="35" selection-start-line="27" selection-start-column="35" selection-end-line="27" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coffee/app/components/home/homeView.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="15" column="6" selection-start-line="15" selection-start-column="6" selection-end-line="15" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coffee/app/components/home/homeController.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="63">
+          <caret line="3" column="39" selection-start-line="3" selection-start-column="39" selection-end-line="3" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coffee/app/app.routes.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="18" column="45" selection-start-line="18" selection-start-column="45" selection-end-line="18" selection-end-column="45" />
           <folding />
         </state>
       </provider>

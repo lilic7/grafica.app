@@ -8,6 +8,8 @@
         directive
     angular
         .module "team.directive",
-        ['player.directive']
+        [
+            'player.directive'
+        ]
         .directive "teamList", TeamDirective
 )()

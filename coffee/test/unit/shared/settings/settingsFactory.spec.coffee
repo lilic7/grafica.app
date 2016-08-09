@@ -11,6 +11,18 @@ describe "settings.factory", ->
   describe "HttpRequests", ->
     $httpBackend = null
 
+    sports_obj = {
+      sports: [{
+        "name": "fotbal"
+        "show": true
+      }]
+    }
+
+    sports_arr = [{
+      "name": "fotbal"
+      "show": true
+    }]
+
     beforeEach inject ($injector)->
       $httpBackend = $injector.get "$httpBackend"
       ErrorService = $injector.get "ErrorService"
@@ -62,6 +74,8 @@ describe "settings.factory", ->
 
     describe "setSettings", ->
 
+      matchSettings = {fotbal: "settings"}
+
       beforeEach ->
         settingsFactory.setSports()  #makes HTTP request to json/sports.json
         $httpBackend
@@ -91,17 +105,3 @@ describe "settings.factory", ->
     return
 
   return
-
-sports_obj = {sports:
-  [{
-    "name": "fotbal"
-    "show": true
-  }]
-}
-
-sports_arr = [{
-  "name": "fotbal"
-  "show": true
-}]
-
-matchSettings = {fotbal: "settings"}

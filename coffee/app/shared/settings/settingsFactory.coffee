@@ -25,7 +25,10 @@
 
   setSports = ($http, SettingsService)->
     success = (response)->
-      SettingsService.sports = response.data.sports
+      sports = response.data.sports
+      showSport = (sport)->
+        sport if sport.show
+      SettingsService.sports = sports.map showSport
       return
     $http {method: "GET", url: "json/sports.json"}
       .then success

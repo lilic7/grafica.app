@@ -69,6 +69,18 @@
 })();
 
 (function() {
+  var MatchController;
+  MatchController = function(GameService, SettingsService) {
+    var vm;
+    vm = this;
+    vm.team1 = GameService.team1;
+    vm.team2 = GameService.team2;
+    vm.settings = SettingsService.settings;
+  };
+  return angular.module("match.controller", ['team.form.directive', 'game.directive', 'settings.directive', 'game.service', 'settings.service']).controller('MatchController', MatchController);
+})();
+
+(function() {
   var HomeController;
   HomeController = function(SettingsService) {
     var vm;
@@ -77,18 +89,6 @@
   };
   HomeController.$inject = ['SettingsService'];
   return angular.module("home.controller", ['settings.service']).controller("HomeController", HomeController);
-})();
-
-(function() {
-  var MatchController;
-  MatchController = function(GameService, SettingsService) {
-    var vm;
-    vm = this;
-    vm.team1 = GameService.team1;
-    vm.team2 = GameService.team2;
-    vm.settings = SettingsService.all;
-  };
-  return angular.module("match.controller", ['game.directive', 'settings.directive', 'game.service', 'settings.service']).controller('MatchController', MatchController);
 })();
 
 (function() {
@@ -133,7 +133,7 @@
     vm = this;
     vm.team1 = GameService.team1;
     vm.team2 = GameService.team2;
-    vm.settings = SettingsService.all;
+    vm.settings = SettingsService.settings;
   };
   return angular.module("game.controller", ['game.service', 'team.directive']).controller("GameController", GameController);
 })();
@@ -207,7 +207,6 @@
     var vm;
     vm = this;
     vm.player = player;
-    console.log(player);
     vm.showAdvanced = showAdvanced;
   };
   player = {};
@@ -342,7 +341,14 @@
   setSports = function($http, SettingsService) {
     var success;
     success = function(response) {
-      SettingsService.sports = response.data.sports;
+      var showSport, sports;
+      sports = response.data.sports;
+      showSport = function(sport) {
+        if (sport.show) {
+          return sport;
+        }
+      };
+      SettingsService.sports = sports.map(showSport);
     };
     $http({
       method: "GET",
@@ -425,7 +431,7 @@
     var vm;
     vm = this;
     vm.repriza = 1;
-    vm.settings = SettingsService.all;
+    vm.settings = SettingsService.settings;
     vm.timerService = TimerService;
     vm.setRepriza = function(repriza) {
       var minutes;
@@ -633,7 +639,7 @@ angular.module("player.actions.controller", []).controller("PlayerActionsControl
     };
     return directive;
   };
-  return angular.module("form.directive", []).directive("form", FormDirective);
+  return angular.module("team.form.directive", []).directive("teamForm", FormDirective);
 })();
 
 (function() {
