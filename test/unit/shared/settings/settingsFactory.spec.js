@@ -33,6 +33,10 @@ describe("settings.factory", function() {
       $httpBackend.verifyNoOutstandingExpectation();
       $httpBackend.verifyNoOutstandingRequest();
     });
+    describe("setSports", function() {
+      it("should make get request to json/sports.json to get the sports array", function() {});
+      it("should ", function() {});
+    });
     describe("getSports", function() {
       beforeEach(function() {
         settingsFactory.setSports();

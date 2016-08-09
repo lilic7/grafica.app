@@ -6,8 +6,8 @@
       controller: 'HomeController',
       controllerAs: 'homeCtrl',
       resolve: {
-        sports: function(SettingsFactory) {
-          return SettingsFactory.setSports();
+        sports: function(SportService) {
+          return SportService.setSports();
         }
       }
     }).when('/match/:matchType', {
@@ -26,5 +26,5 @@
       requireBase: false
     });
   };
-  return angular.module("routes", ['ngRoute', 'home.controller', 'match.controller', 'settings.factory']).config(config);
+  return angular.module("routes", ['ngRoute', 'home.controller', 'match.controller', 'sport.service', 'settings.factory']).config(config);
 })();

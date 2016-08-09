@@ -15,5 +15,5 @@
   var SettingsController;
   SettingsController = function() {};
   SettingsController.$inject = [];
-  return angular.module("settings.service", []).service("SettingsController", SettingsController);
+  return angular.module("settings.controller", []).service("SettingsController", SettingsController);
 })();

@@ -10,8 +10,8 @@
       controller: 'HomeController',
       controllerAs: 'homeCtrl',
       resolve: {
-        sports: function(SettingsFactory) {
-          return SettingsFactory.setSports();
+        sports: function(SportService) {
+          return SportService.setSports();
         }
       }
     }).when('/match/:matchType', {
@@ -30,7 +30,7 @@
       requireBase: false
     });
   };
-  return angular.module("routes", ['ngRoute', 'home.controller', 'match.controller', 'settings.factory']).config(config);
+  return angular.module("routes", ['ngRoute', 'home.controller', 'match.controller', 'sport.service', 'settings.factory']).config(config);
 })();
 
 (function() {
@@ -69,6 +69,17 @@
 })();
 
 (function() {
+  var HomeController;
+  HomeController = function(SportService) {
+    var vm;
+    vm = this;
+    vm.matches = SportService.select();
+  };
+  HomeController.$inject = ['SportService'];
+  return angular.module("home.controller", ['sport.service']).controller("HomeController", HomeController);
+})();
+
+(function() {
   var MatchController;
   MatchController = function(GameService, SettingsService) {
     var vm;
@@ -78,17 +89,6 @@
     vm.settings = SettingsService.settings;
   };
   return angular.module("match.controller", ['team.form.directive', 'game.directive', 'settings.directive', 'game.service', 'settings.service']).controller('MatchController', MatchController);
-})();
-
-(function() {
-  var HomeController;
-  HomeController = function(SettingsService) {
-    var vm;
-    vm = this;
-    vm.matches = SettingsService.sports;
-  };
-  HomeController.$inject = ['SettingsService'];
-  return angular.module("home.controller", ['settings.service']).controller("HomeController", HomeController);
 })();
 
 (function() {
@@ -281,7 +281,7 @@
   var SettingsController;
   SettingsController = function() {};
   SettingsController.$inject = [];
-  return angular.module("settings.service", []).service("SettingsController", SettingsController);
+  return angular.module("settings.controller", []).service("SettingsController", SettingsController);
 })();
 
 (function() {
@@ -388,6 +388,43 @@
     this.settings = {};
   };
   return angular.module("settings.service", []).service("SettingsService", SettingsService);
+})();
+
+(function() {
+  var SportService, select, setSports, sports;
+  SportService = function($http) {
+    return {
+      setSports: function() {
+        return setSports($http);
+      },
+      getSports: function() {
+        return sports;
+      },
+      select: select
+    };
+  };
+  sports = {};
+  setSports = function($http) {
+    sports = null;
+    $http({
+      method: "GET",
+      url: "json/sports.json"
+    }).then(function(response) {
+      sports = response.data.sports;
+    });
+  };
+  select = function() {
+    var selectedSports;
+    selectedSports = [];
+    sports.map(function(sport) {
+      if (sport['show']) {
+        return selectedSports.push(sport);
+      }
+    });
+    return selectedSports;
+  };
+  SportService.$inject = ["$http"];
+  return angular.module("sport.service", []).factory("SportService", SportService);
 })();
 
 (function() {

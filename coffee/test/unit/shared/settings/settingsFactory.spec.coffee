@@ -37,6 +37,17 @@ describe "settings.factory", ->
       $httpBackend.verifyNoOutstandingRequest()
       return
 
+    describe "setSports", ->
+      it "should make get request to json/sports.json to get the sports array", ->
+          
+          return
+      it "should ", ->
+          
+          return
+      return  
+      
+      
+    
     describe "getSports", ->
 
       beforeEach ->

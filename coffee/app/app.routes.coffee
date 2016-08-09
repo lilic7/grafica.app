@@ -7,8 +7,9 @@
       controller: 'HomeController'
       controllerAs: 'homeCtrl',
       resolve:
-        sports: (SettingsFactory)->
-          SettingsFactory.setSports()
+        sports: (SportService)->
+          SportService.setSports()
+          
     }
 
     .when '/match/:matchType', {
@@ -29,6 +30,7 @@
         'ngRoute'
         'home.controller'
         'match.controller'
+        'sport.service'
         'settings.factory'
       ]
     .config config

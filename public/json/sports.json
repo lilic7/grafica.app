@@ -14,11 +14,11 @@
     },
     {
       "name": "futsal",
-      "show": true
+      "show": false
     },
     {
       "name": "baschet",
-      "show": true
+      "show": false
     },
     {
       "name": "tenis",
@@ -26,7 +26,7 @@
     },
     {
       "name": "volei",
-      "show": true
+      "show": false
     }
   ]
 

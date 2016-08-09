@@ -82,11 +82,11 @@ function protractor(callback) {
 }
 
 
-// buildSpec = gulp.series(coffeeTest, test);
-// buildApp = gulp.series(coffeeApp, test, js);
+buildSpec = gulp.series(coffeeTest, test);
+buildApp = gulp.series(coffeeApp, test, js);
 
-buildSpec = gulp.series(coffeeTest);
-buildApp = gulp.series(coffeeApp, js);
+// buildSpec = gulp.series(coffeeTest);
+// buildApp = gulp.series(coffeeApp, js);
 
 
 gulp.task('buildSpec', buildSpec);
@@ -95,6 +95,6 @@ gulp.task('buildApp', buildApp);
 
 gulp.task('default', gulp.series(
         coffeeApp, coffeeTest,
-        gulp.parallel(Sass, appHtml, js, watch)));
-        // gulp.parallel(Sass, appHtml, js, watch, test)));
+        // gulp.parallel(Sass, appHtml, js, watch)));
+        gulp.parallel(Sass, appHtml, js, watch, test)));
         //gulp.parallel(Sass, appHtml, js, watch, gulp.parallel(test, browser_sync))));

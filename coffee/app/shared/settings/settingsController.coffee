@@ -23,6 +23,6 @@
         return
     SettingsController.$inject = []
     angular
-        .module "settings.service", []
+        .module "settings.controller", []
         .service "SettingsController", SettingsController
 )()
