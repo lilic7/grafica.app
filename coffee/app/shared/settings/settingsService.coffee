@@ -1,7 +1,6 @@
 (->
   SettingsService = ->
-
-    @.sports = {}
+    
     @.settings = {}
 
     return

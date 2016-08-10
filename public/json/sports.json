@@ -14,7 +14,7 @@
     },
     {
       "name": "futsal",
-      "show": false
+      "show": true
     },
     {
       "name": "baschet",

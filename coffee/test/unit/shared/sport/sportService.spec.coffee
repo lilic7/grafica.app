@@ -2,48 +2,21 @@ describe "UNIT: SportService", ->
   sportService = null
   $httpBackend = null
   sports = null
-  sports_obj = {
+  
+  sports_obj =
     "sports": [
-      {
-        "name": "fotbal",
-        "show": true
-      },
-      {
-        "name": "minifotbal",
-        "show": false
-      },
-      {
-        "name": "handbal",
-        "show": true
-      }
+      {"name": "fotbal", "show": true}
+      {"name": "minifotbal", "show": false}
+      {"name": "handbal", "show": true}
     ]
-  };
-
+    
   sports_arr = [
-    {
-      "name": "fotbal",
-      "show": true
-    },
-    {
-      "name": "minifotbal",
-      "show": false
-    },
-    {
-      "name": "handbal",
-      "show": true
-    }
+    {"name": "fotbal", "show": true}
+    {"name": "minifotbal", "show": false}
+    { "name": "handbal", "show": true }
   ]
-
-  selected = [
-    {
-      "name": "fotbal",
-      "show": true
-    },
-    {
-      "name": "handbal",
-      "show": true
-    }
-  ]
+  
+  
   
   beforeEach module "sport.service"
   
@@ -78,8 +51,14 @@ describe "UNIT: SportService", ->
 
   describe "selectSports", ->
     it "should select only sports with show = true", ->
-        expect sportService.select()
-            .toEqual selected
+
+        selected = [
+          { "name": "fotbal", "show": true }
+          { "name": "handbal", "show": true }
+        ]  
+      
+        expect(sportService.getSelected()).toEqual selected
         return
     return
+    
   return

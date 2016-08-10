@@ -1,17 +1,20 @@
 (function() {
-  var SportService, select, setSports, sports;
+  var SportService, select, selected, setSports, sports;
   SportService = function($http) {
     return {
-      setSports: function() {
-        return setSports($http);
+      getSelected: function() {
+        return selected;
       },
       getSports: function() {
         return sports;
       },
-      select: select
+      setSports: function() {
+        return setSports($http);
+      }
     };
   };
   sports = {};
+  selected = [];
   setSports = function($http) {
     sports = null;
     $http({
@@ -19,6 +22,7 @@
       url: "json/sports.json"
     }).then(function(response) {
       sports = response.data.sports;
+      selected = select();
     });
   };
   select = function() {

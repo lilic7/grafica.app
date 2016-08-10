@@ -1,91 +1,42 @@
-describe("settings.factory", function() {
-  var ErrorService, settingsFactory;
+describe("UNIT: settings.factory", function() {
+  var $httpBackend, errorService, matchSettings, settingsFactory, sports;
   settingsFactory = null;
-  ErrorService = null;
+  errorService = null;
+  $httpBackend = null;
+  matchSettings = {
+    reprize: 2,
+    timer: true,
+    repriza: 45,
+    pauza: 15
+  };
+  sports = [
+    {
+      "name": "fotbal",
+      "show": true
+    }, {
+      "name": "handbal",
+      "show": true
+    }
+  ];
   beforeEach(module('settings.factory'));
+  beforeEach(module('sport.service'));
   beforeEach(inject(function($injector) {
+    var sportService;
     settingsFactory = $injector.get("SettingsFactory");
+    errorService = $injector.get("ErrorService");
+    sportService = $injector.get("SportService");
+    spyOn(sportService, "getSelected").and.returnValue(sports);
+    spyOn(errorService, "setMessage");
   }));
-  describe("HttpRequests", function() {
-    var $httpBackend, sports_arr, sports_obj;
-    $httpBackend = null;
-    sports_obj = {
-      sports: [
-        {
-          "name": "fotbal",
-          "show": true
-        }
-      ]
-    };
-    sports_arr = [
-      {
-        "name": "fotbal",
-        "show": true
-      }
-    ];
-    beforeEach(inject(function($injector) {
-      $httpBackend = $injector.get("$httpBackend");
-      ErrorService = $injector.get("ErrorService");
-      spyOn(ErrorService, "setMessage");
-      $httpBackend.whenGET("json/sports.json").respond(200, sports_obj);
-    }));
-    afterEach(function() {
-      $httpBackend.verifyNoOutstandingExpectation();
-      $httpBackend.verifyNoOutstandingRequest();
+  describe("setMatchType", function() {
+    it("should set matchType if given sport is present in sports array", function() {
+      settingsFactory.setMatchType("fotbal");
+      expect(settingsFactory.getMatchType()).toEqual("fotbal");
     });
-    describe("setSports", function() {
-      it("should make get request to json/sports.json to get the sports array", function() {});
-      it("should ", function() {});
-    });
-    describe("getSports", function() {
-      beforeEach(function() {
-        settingsFactory.setSports();
-      });
-      it("should get sports Object through HTTP get", function() {
-        $httpBackend.flush();
-        expect(settingsFactory.getSports()).toEqual(sports_arr);
-      });
-    });
-    describe("setMatchType", function() {
-      beforeEach(function() {
-        settingsFactory.setSports();
-      });
-      it("should set match type if type exists in sports array", function() {
-        $httpBackend.flush();
-        settingsFactory.setMatchType("fotbal");
-        expect(settingsFactory.getMatchType()).toEqual('fotbal');
-      });
-      it("should throw ErrorService error for wrongMatchType", function() {
-        $httpBackend.flush();
-        settingsFactory.setMatchType("wrongType");
-        expect(settingsFactory.getMatchType()).toBeNull();
-        expect(ErrorService.setMessage).toHaveBeenCalledWith("WRONG_MATCH_NAME");
-      });
-    });
-    describe("setSettings", function() {
-      var matchSettings;
-      matchSettings = {
-        fotbal: "settings"
-      };
-      beforeEach(function() {
-        settingsFactory.setSports();
-        $httpBackend.whenGET("json/fotbal.json").respond(200, matchSettings);
-      });
-      it("should make HTTP request for correct matchType", function() {
-        $httpBackend.flush(1);
-        settingsFactory.setMatchType("fotbal");
-        settingsFactory.setSettings();
-        $httpBackend.flush();
-        expect(ErrorService.setMessage).not.toHaveBeenCalled();
-        expect(settingsFactory.getSettings()).toEqual(matchSettings);
-      });
-      it("should NOT make HTTP request for incorrect matchType", function() {
-        $httpBackend.flush(1);
-        settingsFactory.setMatchType("wrongMatchType");
-        settingsFactory.setSettings();
-        expect(ErrorService.setMessage).toHaveBeenCalled();
-        expect(settingsFactory.getSettings()).toEqual({});
-      });
+    it("should NOT set matchType if sport is NOT present in sports array", function() {
+      settingsFactory.setMatchType("WrongMatchType");
+      expect(settingsFactory.getMatchType()).toBeNull();
+      expect(errorService.setMessage).toHaveBeenCalledWith("WRONG_MATCH_NAME");
     });
   });
 });

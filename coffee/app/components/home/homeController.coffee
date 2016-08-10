@@ -1,8 +1,7 @@
 (->
   HomeController = (SportService)->
     vm = @
-    vm.matches = SportService.select()
-
+    vm.matches = SportService.getSelected()
     return
 
   HomeController.$inject = ['SportService']

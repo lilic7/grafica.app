@@ -1,20 +1,20 @@
 (->
     SportService = ($http)->
-        #add code here
         {
-            setSports: -> setSports $http
+            getSelected: -> selected
             getSports: -> sports
-            select: select
+            setSports: -> setSports $http
         }
-    #all fuctions definition comes here
 
     sports = {}
+    selected = []
 
     setSports = ($http)->
         sports = null
         $http { method: "GET", url: "json/sports.json"}
             .then (response)->
                 sports = response.data.sports
+                selected = select()
                 return
         return
 
@@ -25,6 +25,7 @@
         selectedSports
 
     SportService.$inject = ["$http"]
+
     angular
         .module "sport.service", []
         .factory "SportService", SportService

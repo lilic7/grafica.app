@@ -9,7 +9,6 @@
       resolve:
         sports: (SportService)->
           SportService.setSports()
-          
     }
 
     .when '/match/:matchType', {

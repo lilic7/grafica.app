@@ -1,12 +1,10 @@
 (->
-  SettingsFactory = ($http, ErrorService, SettingsService)->
+  SettingsFactory = ($http, ErrorService, SettingsService, SportService)->
     {
       getMatchType: -> type
       getSettings:  -> SettingsService.settings
-      getSports:    -> SettingsService.sports
       setMatchType: (type)-> setMatchType type, ErrorService, SettingsService.sports
       setSettings:  -> setSettings $http, SettingsService
-      setSports:    -> setSports $http, SettingsService
     }
 
   type = null
@@ -22,17 +20,6 @@
     else
       SettingsService.settings = {}
       return
-
-  setSports = ($http, SettingsService)->
-    success = (response)->
-      sports = response.data.sports
-      showSport = (sport)->
-        sport if sport.show
-      SettingsService.sports = sports.map showSport
-      return
-    $http {method: "GET", url: "json/sports.json"}
-      .then success
-    return
 
   setMatchType = (matchType, ErrorService, sports)->
     matchType = "" + matchType
@@ -52,12 +39,13 @@
         break
     exist
 
-  SettingsFactory.$ingect = ['$http', 'ErrorService', 'SettingsService']
+  SettingsFactory.$ingect = ['$http', 'ErrorService', 'SettingsService', 'SportService']
   angular
     .module "settings.factory",
     [
       'error.service',
       'settings.service'
+      'sport.service'
     ]
     .factory "SettingsFactory", SettingsFactory
 )()

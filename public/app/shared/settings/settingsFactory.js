@@ -1,6 +1,6 @@
 (function() {
-  var SettingsFactory, checkMatchType, setMatchType, setSettings, setSports, type;
-  SettingsFactory = function($http, ErrorService, SettingsService) {
+  var SettingsFactory, checkMatchType, setMatchType, setSettings, type;
+  SettingsFactory = function($http, ErrorService, SettingsService, SportService) {
     return {
       getMatchType: function() {
         return type;
@@ -8,17 +8,11 @@
       getSettings: function() {
         return SettingsService.settings;
       },
-      getSports: function() {
-        return SettingsService.sports;
-      },
       setMatchType: function(type) {
         return setMatchType(type, ErrorService, SettingsService.sports);
       },
       setSettings: function() {
         return setSettings($http, SettingsService);
-      },
-      setSports: function() {
-        return setSports($http, SettingsService);
       }
     };
   };
@@ -36,23 +30,6 @@
     } else {
       SettingsService.settings = {};
     }
-  };
-  setSports = function($http, SettingsService) {
-    var success;
-    success = function(response) {
-      var showSport, sports;
-      sports = response.data.sports;
-      showSport = function(sport) {
-        if (sport.show) {
-          return sport;
-        }
-      };
-      SettingsService.sports = sports.map(showSport);
-    };
-    $http({
-      method: "GET",
-      url: "json/sports.json"
-    }).then(success);
   };
   setMatchType = function(matchType, ErrorService, sports) {
     matchType = "" + matchType;
@@ -76,6 +53,6 @@
     }
     return exist;
   };
-  SettingsFactory.$ingect = ['$http', 'ErrorService', 'SettingsService'];
-  return angular.module("settings.factory", ['error.service', 'settings.service']).factory("SettingsFactory", SettingsFactory);
+  SettingsFactory.$ingect = ['$http', 'ErrorService', 'SettingsService', 'SportService'];
+  return angular.module("settings.factory", ['error.service', 'settings.service', 'sport.service']).factory("SettingsFactory", SettingsFactory);
 })();

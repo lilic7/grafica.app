@@ -1,5 +1,5 @@
 describe("UNIT: SportService", function() {
-  var $httpBackend, selected, sportService, sports, sports_arr, sports_obj;
+  var $httpBackend, sportService, sports, sports_arr, sports_obj;
   sportService = null;
   $httpBackend = null;
   sports = null;
@@ -24,15 +24,6 @@ describe("UNIT: SportService", function() {
     }, {
       "name": "minifotbal",
       "show": false
-    }, {
-      "name": "handbal",
-      "show": true
-    }
-  ];
-  selected = [
-    {
-      "name": "fotbal",
-      "show": true
     }, {
       "name": "handbal",
       "show": true
@@ -72,7 +63,17 @@ describe("UNIT: SportService", function() {
   });
   describe("selectSports", function() {
     it("should select only sports with show = true", function() {
-      expect(sportService.select()).toEqual(selected);
+      var selected;
+      selected = [
+        {
+          "name": "fotbal",
+          "show": true
+        }, {
+          "name": "handbal",
+          "show": true
+        }
+      ];
+      expect(sportService.getSelected()).toEqual(selected);
     });
   });
 });
