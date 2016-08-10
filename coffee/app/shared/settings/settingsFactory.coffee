@@ -1,15 +1,15 @@
 (->
-  SettingsFactory = ($http, ErrorService, SettingsService, SportService)->
+  SettingsFactory = ($http, $location, ErrorService, SettingsService, SportService)->
     {
       getMatchType: -> type
       getSettings:  -> SettingsService.settings
-      setMatchType: (type)-> setMatchType type, ErrorService, SettingsService.sports
-      setSettings:  -> setSettings $http, SettingsService
+      setMatchType: (type)-> setMatchType type, ErrorService, SportService.getSelected()
+      setSettings:  -> setSettings $http, SettingsService, $location
     }
 
   type = null
 
-  setSettings = ($http, SettingsService)->
+  setSettings = ($http, SettingsService, $location)->
     if type
       success = (response)->
         SettingsService.settings = response.data
@@ -19,6 +19,7 @@
       return
     else
       SettingsService.settings = {}
+      $location.path "/"
       return
 
   setMatchType = (matchType, ErrorService, sports)->
@@ -39,7 +40,7 @@
         break
     exist
 
-  SettingsFactory.$ingect = ['$http', 'ErrorService', 'SettingsService', 'SportService']
+  SettingsFactory.$ingect = ['$http', '$location', 'ErrorService', 'SettingsService', 'SportService']
   angular
     .module "settings.factory",
     [

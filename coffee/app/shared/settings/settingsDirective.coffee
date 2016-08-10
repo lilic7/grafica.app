@@ -1,5 +1,5 @@
 (->
-    SettingsDirective = ()->
+    SettingsDirective = ->
         # directive declaration
         directive =
             restrict: 'E'

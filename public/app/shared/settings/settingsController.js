@@ -10,10 +10,3 @@
   SettingsController.$inject = ['SettingsFactory', 'SettingsService'];
   return angular.module("settings.controller", ['settings.factory']).controller("SettingsController", SettingsController);
 })();
-
-(function() {
-  var SettingsController;
-  SettingsController = function() {};
-  SettingsController.$inject = [];
-  return angular.module("settings.controller", []).service("SettingsController", SettingsController);
-})();

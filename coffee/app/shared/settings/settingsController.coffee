@@ -16,13 +16,3 @@
     ]
     .controller "SettingsController", SettingsController
 )()
-
-(->
-    SettingsController = ()->        
-        
-        return
-    SettingsController.$inject = []
-    angular
-        .module "settings.controller", []
-        .service "SettingsController", SettingsController
-)()

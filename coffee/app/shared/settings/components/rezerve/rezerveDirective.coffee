@@ -7,7 +7,6 @@
             templateUrl: 'app/shared/settings/components/rezerve/rezerveView.html'
         directive
     angular
-        .module "settings.rezerve.directive",
-        []
+        .module "settings.rezerve.directive", []
         .directive "settingsRezerve", RezerveDirective
 )()

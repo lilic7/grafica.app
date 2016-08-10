@@ -22,6 +22,7 @@ describe("UNIT: settings.factory", function() {
   beforeEach(module('sport.service'));
   beforeEach(inject(function($injector) {
     var sportService;
+    $httpBackend = $injector.get("$httpBackend");
     settingsFactory = $injector.get("SettingsFactory");
     errorService = $injector.get("ErrorService");
     sportService = $injector.get("SportService");
@@ -37,6 +38,27 @@ describe("UNIT: settings.factory", function() {
       settingsFactory.setMatchType("WrongMatchType");
       expect(settingsFactory.getMatchType()).toBeNull();
       expect(errorService.setMessage).toHaveBeenCalledWith("WRONG_MATCH_NAME");
+    });
+  });
+  describe("setSettings", function() {
+    beforeEach(function() {
+      $httpBackend.whenGET("json/fotbal.json").respond(200, matchSettings);
+    });
+    afterEach(function() {
+      $httpBackend.verifyNoOutstandingExpectation();
+      $httpBackend.verifyNoOutstandingRequest();
+    });
+    it("should make HTTP request for correct matchType", function() {
+      settingsFactory.setMatchType("fotbal");
+      settingsFactory.setSettings();
+      $httpBackend.flush();
+      expect(errorService.setMessage).not.toHaveBeenCalled();
+      expect(settingsFactory.getSettings()).toEqual(matchSettings);
+    });
+    it("should NOT make HTTP request for incorrect matchType", function() {
+      settingsFactory.setMatchType("wrongMatchType");
+      settingsFactory.setSettings();
+      expect(settingsFactory.getSettings()).toEqual({});
     });
   });
 });

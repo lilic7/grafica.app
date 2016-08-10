@@ -88,7 +88,7 @@
     vm.team2 = GameService.team2;
     vm.settings = SettingsService.settings;
   };
-  return angular.module("match.controller", ['team.form.directive', 'game.directive', 'settings.directive', 'game.service', 'settings.service']).controller('MatchController', MatchController);
+  return angular.module("match.controller", ['game.directive', 'settings.directive', 'game.service', 'settings.service']).controller('MatchController', MatchController);
 })();
 
 (function() {
@@ -278,13 +278,6 @@
 })();
 
 (function() {
-  var SettingsController;
-  SettingsController = function() {};
-  SettingsController.$inject = [];
-  return angular.module("settings.controller", []).service("SettingsController", SettingsController);
-})();
-
-(function() {
   var SettingsDirective;
   SettingsDirective = function() {
     var directive;
@@ -301,7 +294,7 @@
 
 (function() {
   var SettingsFactory, checkMatchType, setMatchType, setSettings, type;
-  SettingsFactory = function($http, ErrorService, SettingsService, SportService) {
+  SettingsFactory = function($http, $location, ErrorService, SettingsService, SportService) {
     return {
       getMatchType: function() {
         return type;
@@ -310,15 +303,15 @@
         return SettingsService.settings;
       },
       setMatchType: function(type) {
-        return setMatchType(type, ErrorService, SettingsService.sports);
+        return setMatchType(type, ErrorService, SportService.getSelected());
       },
       setSettings: function() {
-        return setSettings($http, SettingsService);
+        return setSettings($http, SettingsService, $location);
       }
     };
   };
   type = null;
-  setSettings = function($http, SettingsService) {
+  setSettings = function($http, SettingsService, $location) {
     var success;
     if (type) {
       success = function(response) {
@@ -330,6 +323,7 @@
       }).then(success);
     } else {
       SettingsService.settings = {};
+      $location.path("/");
     }
   };
   setMatchType = function(matchType, ErrorService, sports) {
@@ -354,7 +348,7 @@
     }
     return exist;
   };
-  SettingsFactory.$ingect = ['$http', 'ErrorService', 'SettingsService', 'SportService'];
+  SettingsFactory.$ingect = ['$http', '$location', 'ErrorService', 'SettingsService', 'SportService'];
   return angular.module("settings.factory", ['error.service', 'settings.service', 'sport.service']).factory("SettingsFactory", SettingsFactory);
 })();
 
