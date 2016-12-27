@@ -11,6 +11,7 @@
       [
         'game.service'
         'team.directive'
+        'timer.directive'
       ]
     .controller "GameController", GameController
 )() 

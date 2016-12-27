@@ -1,6 +1,6 @@
 (function() {
   var TimerService, add, addSeconds, calculateTime, getPlayMinutes, getTime, getTotalMinutes, isOn, modify, playMinutes, reset, start, startTime, stop, sub, time, timer, timerInterval, timerIsRunning, toMinutes, totalMinutes, totalSeconds;
-  TimerService = function($interval, ErrorService, SettingsService) {
+  TimerService = function($interval, ErrorService) {
     return {
       add: function(minutes) {
         return add(minutes);

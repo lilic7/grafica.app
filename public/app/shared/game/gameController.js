@@ -7,5 +7,5 @@
     vm.team2 = GameService.team2;
     vm.settings = SettingsService.settings;
   };
-  return angular.module("game.controller", ['game.service', 'team.directive']).controller("GameController", GameController);
+  return angular.module("game.controller", ['game.service', 'team.directive', 'timer.directive']).controller("GameController", GameController);
 })();

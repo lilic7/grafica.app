@@ -15,9 +15,7 @@ describe "UNIT: SportService", ->
     {"name": "minifotbal", "show": false}
     { "name": "handbal", "show": true }
   ]
-  
-  
-  
+
   beforeEach module "sport.service"
   
   beforeEach inject ($injector)->

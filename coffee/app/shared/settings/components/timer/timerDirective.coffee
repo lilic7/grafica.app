@@ -7,7 +7,6 @@
             templateUrl: 'app/shared/settings/components/timer/timerView.html'
         directive
     angular
-        .module "settings.timer.directive",
-        []
+        .module "settings.timer.directive", []
         .directive "settingsTimer", TimerDirective
 )()

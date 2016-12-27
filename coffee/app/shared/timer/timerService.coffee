@@ -1,5 +1,5 @@
 (->
-  TimerService = ($interval, ErrorService, SettingsService)->
+  TimerService = ($interval, ErrorService)->
     {
       add: (minutes)-> add minutes
       addSeconds: addSeconds

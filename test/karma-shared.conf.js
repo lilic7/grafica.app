@@ -15,7 +15,7 @@ module.exports = function () {
             'public/assets/libs/angular-material/angular-material.js',
             'public/assets/libs/angular-animate/angular-animate.js',
             'public/assets/libs/angular-aria/angular-aria.js',
-            'node_modules/angular-route/angular-route.js',
+            'public/assets/libs/angular-route/angular-route.js',
 
             // App Code
             'public/app/**/*.js',

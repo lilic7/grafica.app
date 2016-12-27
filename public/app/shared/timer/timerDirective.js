@@ -3,12 +3,12 @@
   TimerDirective = function() {
     var directive;
     directive = {
-      restrict: 'A',
+      restrict: 'E',
       controller: "TimerController",
       controllerAs: "timerCtrl",
-      template: 'app/shared/timer/timer.view.html'
+      template: 'app/shared/timer/timerView.html'
     };
     return directive;
   };
-  return angular.module("timer.directive", []).directive("timer", TimerDirective);
+  return angular.module("timer.directive", ['timer.controller']).directive("timer", TimerDirective);
 })();

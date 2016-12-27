@@ -135,7 +135,7 @@
     vm.team2 = GameService.team2;
     vm.settings = SettingsService.settings;
   };
-  return angular.module("game.controller", ['game.service', 'team.directive']).controller("GameController", GameController);
+  return angular.module("game.controller", ['game.service', 'team.directive', 'timer.directive']).controller("GameController", GameController);
 })();
 
 (function() {
@@ -460,19 +460,19 @@
   TimerDirective = function() {
     var directive;
     directive = {
-      restrict: 'A',
+      restrict: 'E',
       controller: "TimerController",
       controllerAs: "timerCtrl",
-      template: 'app/shared/timer/timer.view.html'
+      template: 'app/shared/timer/timerView.html'
     };
     return directive;
   };
-  return angular.module("timer.directive", []).directive("timer", TimerDirective);
+  return angular.module("timer.directive", ['timer.controller']).directive("timer", TimerDirective);
 })();
 
 (function() {
   var TimerService, add, addSeconds, calculateTime, getPlayMinutes, getTime, getTotalMinutes, isOn, modify, playMinutes, reset, start, startTime, stop, sub, time, timer, timerInterval, timerIsRunning, toMinutes, totalMinutes, totalSeconds;
-  TimerService = function($interval, ErrorService, SettingsService) {
+  TimerService = function($interval, ErrorService) {
     return {
       add: function(minutes) {
         return add(minutes);
