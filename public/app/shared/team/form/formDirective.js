@@ -8,7 +8,7 @@
         team: "=",
         settings: "="
       },
-      templateUrl: 'app/shared/form/formView.html'
+      templateUrl: 'app/shared/team/form/formView.html'
     };
     return directive;
   };

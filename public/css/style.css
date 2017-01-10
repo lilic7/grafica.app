@@ -62,8 +62,8 @@ body {
     border-radius: 0 10px 10px 0; }
 
 team-list player-card md-card {
-  width: 200px;
-  height: 200px; }
+  width: 250px;
+  height: 100px; }
 
 team-list player-card md-card md-card-title-text {
   font-size: 50px; }

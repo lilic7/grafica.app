@@ -6,7 +6,7 @@
       restrict: 'E',
       controller: "TimerController",
       controllerAs: "timerCtrl",
-      template: 'app/shared/timer/timerView.html'
+      templateUrl: 'app/shared/timer/timerView.html'
     };
     return directive;
   };

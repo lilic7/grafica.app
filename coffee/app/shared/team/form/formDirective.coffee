@@ -6,7 +6,7 @@
             scope:
               team: "="
               settings: "="
-            templateUrl: 'app/shared/form/formView.html'
+            templateUrl: 'app/shared/team/form/formView.html'
         directive
     angular
         .module "team.form.directive", []

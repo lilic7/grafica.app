@@ -88,7 +88,7 @@
     vm.team2 = GameService.team2;
     vm.settings = SettingsService.settings;
   };
-  return angular.module("match.controller", ['game.directive', 'settings.directive', 'game.service', 'settings.service']).controller('MatchController', MatchController);
+  return angular.module("match.controller", ['team.form.directive', 'game.directive', 'settings.directive', 'game.service', 'settings.service']).controller('MatchController', MatchController);
 })();
 
 (function() {
@@ -463,7 +463,7 @@
       restrict: 'E',
       controller: "TimerController",
       controllerAs: "timerCtrl",
-      template: 'app/shared/timer/timerView.html'
+      templateUrl: 'app/shared/timer/timerView.html'
     };
     return directive;
   };
@@ -646,7 +646,7 @@ angular.module("player.actions.controller", []).controller("PlayerActionsControl
         team: "=",
         settings: "="
       },
-      templateUrl: 'app/shared/form/formView.html'
+      templateUrl: 'app/shared/team/form/formView.html'
     };
     return directive;
   };
