@@ -18,6 +18,6 @@
     return
 
   angular
-  .module "team.controller", []
-  .controller "TeamController", TeamController
+    .module "team.controller", []
+    .controller "TeamController", TeamController
 )()

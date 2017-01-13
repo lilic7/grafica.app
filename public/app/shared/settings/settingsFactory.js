@@ -27,19 +27,12 @@
         method: "GET",
         url: "json/" + type + ".json"
       }).then(success);
-    } else {
-      SettingsService.settings = {};
-      $location.path("/");
+      return;
     }
   };
   setMatchType = function(matchType, ErrorService, sports) {
     matchType = "" + matchType;
-    if (checkMatchType(matchType, sports)) {
-      type = matchType;
-    } else {
-      type = null;
-      ErrorService.setMessage("WRONG_MATCH_NAME");
-    }
+    type = matchType;
   };
   checkMatchType = function(matchType, sports) {
     var exist, i, len, sport;

@@ -34,11 +34,6 @@ describe("UNIT: settings.factory", function() {
       settingsFactory.setMatchType("fotbal");
       expect(settingsFactory.getMatchType()).toEqual("fotbal");
     });
-    it("should NOT set matchType if sport is NOT present in sports array", function() {
-      settingsFactory.setMatchType("WrongMatchType");
-      expect(settingsFactory.getMatchType()).toBeNull();
-      expect(errorService.setMessage).toHaveBeenCalledWith("WRONG_MATCH_NAME");
-    });
   });
   describe("setSettings", function() {
     beforeEach(function() {
@@ -54,11 +49,6 @@ describe("UNIT: settings.factory", function() {
       $httpBackend.flush();
       expect(errorService.setMessage).not.toHaveBeenCalled();
       expect(settingsFactory.getSettings()).toEqual(matchSettings);
-    });
-    it("should NOT make HTTP request for incorrect matchType", function() {
-      settingsFactory.setMatchType("wrongMatchType");
-      settingsFactory.setSettings();
-      expect(settingsFactory.getSettings()).toEqual({});
     });
   });
 });

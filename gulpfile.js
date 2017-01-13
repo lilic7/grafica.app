@@ -96,5 +96,5 @@ gulp.task('buildApp', buildApp);
 gulp.task('default', gulp.series(
         coffeeApp, coffeeTest,
         // gulp.parallel(Sass, appHtml, js, watch)));
-        gulp.parallel(Sass, appHtml, js, watch, test)));
-        //gulp.parallel(Sass, appHtml, js, watch, gulp.parallel(test, browser_sync))));
+        // gulp.parallel(Sass, appHtml, js, watch, test)));
+        gulp.parallel(Sass, appHtml, js, watch, gulp.parallel(test, browser_sync))));

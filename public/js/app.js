@@ -11,7 +11,7 @@
       controllerAs: 'homeCtrl',
       resolve: {
         sports: function(SportService) {
-          return SportService.setSports();
+          SportService.setSports();
         }
       }
     }).when('/match/:matchType', {
@@ -21,7 +21,7 @@
       resolve: {
         settings: function($route, SettingsFactory) {
           SettingsFactory.setMatchType($route.current.params.matchType);
-          return SettingsFactory.setSettings();
+          SettingsFactory.setSettings();
         }
       }
     });
@@ -88,7 +88,7 @@
     vm.team2 = GameService.team2;
     vm.settings = SettingsService.settings;
   };
-  return angular.module("match.controller", ['team.form.directive', 'game.directive', 'settings.directive', 'game.service', 'settings.service']).controller('MatchController', MatchController);
+  return angular.module("match.controller", ['team.form.directive', 'game.directive', 'game.service', 'settings.directive', 'settings.service']).controller('MatchController', MatchController);
 })();
 
 (function() {
@@ -167,10 +167,10 @@
       });
     };
     team1 = {
-      name: "",
+      name: "Dacia",
       player_txt: "7   SERGIU DONICĂ",
       reserve_txt: "6   MIHAI MUSTEA (C)",
-      player_list: ["7   SERGIU DONICĂ"],
+      player_list: ["7   SERGIU DONICĂ", "9   ALEX POSTICA"],
       reserve_list: ["6   MIHAI MUSTEA (C)"],
       renderPlayer: function() {
         return team1.player_list = prepare(team1.player_txt);
@@ -180,7 +180,7 @@
       }
     };
     team2 = {
-      name: "",
+      name: "Zimbru",
       player_txt: "11  ALEXANDRU OLEINIC",
       reserve_txt: "8   VITALIE BUCȘAN",
       player_list: ["11  ALEXANDRU OLEINIC"],
@@ -198,70 +198,6 @@
     };
   };
   return angular.module("game.service", []).factory("GameService", GameService);
-})();
-
-(function() {
-  'use strict';
-  var PlayerController, player, showAdvanced;
-  PlayerController = function(PlayerService) {
-    var vm;
-    vm = this;
-    vm.player = player;
-    vm.showAdvanced = showAdvanced;
-  };
-  player = {};
-  showAdvanced = function($mdDialog, ev) {
-    $mdDialog.show({
-      controller: 'PlayerActionsController',
-      controllerAs: 'actionsCtrl',
-      templateUrl: 'app/shared/player/actions/actionsView.html',
-      parent: angular.element(document.body),
-      targetEvent: ev,
-      clickOutsideToClose: true
-    });
-  };
-  PlayerController.$inject = ['PlayerService', '$mdDialog'];
-  return angular.module("player.controller", ['wordFirstFilter', 'player.actions.controller', 'player.service']).controller("PlayerController", PlayerController);
-})();
-
-(function() {
-  var PlayerDirective;
-  PlayerDirective = function() {
-    var directive;
-    directive = {
-      restrict: 'E',
-      scope: {},
-      bindToController: {
-        player: "="
-      },
-      controller: "PlayerController",
-      controllerAs: "playerCtrl",
-      templateUrl: 'app/shared/player/playerView.html'
-    };
-    return directive;
-  };
-  return angular.module("player.directive", ['player.controller', 'ucfirstFilter']).directive("playerCard", PlayerDirective);
-})();
-
-(function() {
-  'use strict';
-  var PlayerService;
-  PlayerService = function() {
-    var preparePlayer;
-    preparePlayer = function(data) {
-      var parts;
-      data = data.replace(/( +)/g, " ");
-      parts = data.split(" ");
-      return {
-        number: parts[0],
-        name: parts[1] + " " + parts[2]
-      };
-    };
-    return {
-      preparePlayer: preparePlayer
-    };
-  };
-  return angular.module("player.service", []).factory("PlayerService", PlayerService);
 })();
 
 (function() {
@@ -321,19 +257,12 @@
         method: "GET",
         url: "json/" + type + ".json"
       }).then(success);
-    } else {
-      SettingsService.settings = {};
-      $location.path("/");
+      return;
     }
   };
   setMatchType = function(matchType, ErrorService, sports) {
     matchType = "" + matchType;
-    if (checkMatchType(matchType, sports)) {
-      type = matchType;
-    } else {
-      type = null;
-      ErrorService.setMessage("WRONG_MATCH_NAME");
-    }
+    type = matchType;
   };
   checkMatchType = function(matchType, sports) {
     var exist, i, len, sport;
@@ -433,7 +362,62 @@
     };
     return directive;
   };
-  return angular.module("team.directive", ['player.directive']).directive("teamList", TeamDirective);
+  return angular.module("team.directive", []).directive("teamList", TeamDirective);
+})();
+
+(function() {
+  var TeamService, getName, getPlayersTxt, getSubstitutesTxt, name, parse, players_txt, setPlayersTxt, setSubstitutesTxt, substitutes_txt;
+  TeamService = function() {
+    return {
+      getName: getName,
+      getPlayers: function() {
+        return parse(players_txt);
+      },
+      getSubstitutes: function() {
+        return parse(substitutes_txt);
+      },
+      getPlayers_txt: getPlayersTxt,
+      setPlayers_txt: function(text) {
+        return setPlayersTxt(text);
+      },
+      getSubstitutes_txt: getSubstitutesTxt,
+      setSubstitutes_txt: function(text) {
+        return setSubstitutesTxt(text);
+      }
+    };
+  };
+  name = "";
+  players_txt = "";
+  substitutes_txt = "";
+  getName = function() {
+    return name;
+  };
+  parse = function(str) {
+    var allPlayers, i, len, list, obj, row;
+    list = str.split("\n");
+    allPlayers = [];
+    for (i = 0, len = list.length; i < len; i++) {
+      row = list[i];
+      obj = {
+        "all": row.trim().toUpperCase()
+      };
+      allPlayers.push(obj);
+    }
+    return allPlayers;
+  };
+  getPlayersTxt = function() {
+    return players_txt;
+  };
+  setPlayersTxt = function(text) {
+    return players_txt = text;
+  };
+  getSubstitutesTxt = function() {
+    return substitutes_txt;
+  };
+  setSubstitutesTxt = function(text) {
+    return substitutes_txt = text;
+  };
+  return angular.module("team.service", []).factory("TeamService", TeamService);
 })();
 
 (function() {
@@ -500,7 +484,7 @@
   startTime = 10;
   totalSeconds = 10;
   totalMinutes = 0;
-  playMinutes = 1;
+  playMinutes = "01";
   timerIsRunning = false;
   time = "00:10";
   timerInterval = null;
@@ -622,20 +606,6 @@
   return angular.module("error.toast.service", ['error.toast.controller']).factory("ToastService", ToastService);
 })();
 
-angular.module("player.actions.controller", []).controller("PlayerActionsController", ["$mdDialog", function($mdDialog) {
-  var vm;
-  vm = this;
-  vm.hide = function() {
-    $mdDialog.hide();
-  };
-  vm.cancel = function() {
-    $mdDialog.cancel();
-  };
-  vm.answer = function(answer) {
-    $mdDialog.hide(answer);
-  };
-}]);
-
 (function() {
   var FormDirective;
   FormDirective = function() {
@@ -654,22 +624,6 @@ angular.module("player.actions.controller", []).controller("PlayerActionsControl
 })();
 
 (function() {
-  var CornerDirective;
-  CornerDirective = function() {
-    var directive;
-    directive = {
-      restrict: 'E',
-      scope: {
-        cornere: "="
-      },
-      templateUrl: 'app/shared/settings/components/corner/cornerView.html'
-    };
-    return directive;
-  };
-  return angular.module("settings.corner.directive", []).directive("settingsCorner", CornerDirective);
-})();
-
-(function() {
   var DepartajariDirective;
   DepartajariDirective = function() {
     var directive;
@@ -683,6 +637,22 @@ angular.module("player.actions.controller", []).controller("PlayerActionsControl
     return directive;
   };
   return angular.module("settings.departajari.directive", []).directive("settingsDepartajari", DepartajariDirective);
+})();
+
+(function() {
+  var CornerDirective;
+  CornerDirective = function() {
+    var directive;
+    directive = {
+      restrict: 'E',
+      scope: {
+        cornere: "="
+      },
+      templateUrl: 'app/shared/settings/components/corner/cornerView.html'
+    };
+    return directive;
+  };
+  return angular.module("settings.corner.directive", []).directive("settingsCorner", CornerDirective);
 })();
 
 (function() {

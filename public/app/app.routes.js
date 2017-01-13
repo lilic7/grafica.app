@@ -7,7 +7,7 @@
       controllerAs: 'homeCtrl',
       resolve: {
         sports: function(SportService) {
-          return SportService.setSports();
+          SportService.setSports();
         }
       }
     }).when('/match/:matchType', {
@@ -17,7 +17,7 @@
       resolve: {
         settings: function($route, SettingsFactory) {
           SettingsFactory.setMatchType($route.current.params.matchType);
-          return SettingsFactory.setSettings();
+          SettingsFactory.setSettings();
         }
       }
     });

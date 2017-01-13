@@ -17,7 +17,7 @@
   startTime = 10 #seconds
   totalSeconds = 10
   totalMinutes = 0
-  playMinutes = 1
+  playMinutes = "01"
   timerIsRunning = false
 
   time = "00:10"

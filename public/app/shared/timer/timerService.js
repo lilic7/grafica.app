@@ -28,7 +28,7 @@
   startTime = 10;
   totalSeconds = 10;
   totalMinutes = 0;
-  playMinutes = 1;
+  playMinutes = "01";
   timerIsRunning = false;
   time = "00:10";
   timerInterval = null;

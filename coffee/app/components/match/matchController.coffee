@@ -13,8 +13,8 @@
       [
         'team.form.directive'
         'game.directive'
-        'settings.directive'
         'game.service'
+        'settings.directive'
         'settings.service'
     ]
 

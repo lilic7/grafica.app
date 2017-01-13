@@ -12,10 +12,10 @@
       });
     };
     team1 = {
-      name: "",
+      name: "Dacia",
       player_txt: "7   SERGIU DONICĂ",
       reserve_txt: "6   MIHAI MUSTEA (C)",
-      player_list: ["7   SERGIU DONICĂ"],
+      player_list: ["7   SERGIU DONICĂ", "9   ALEX POSTICA"],
       reserve_list: ["6   MIHAI MUSTEA (C)"],
       renderPlayer: function() {
         return team1.player_list = prepare(team1.player_txt);
@@ -25,7 +25,7 @@
       }
     };
     team2 = {
-      name: "",
+      name: "Zimbru",
       player_txt: "11  ALEXANDRU OLEINIC",
       reserve_txt: "8   VITALIE BUCȘAN",
       player_list: ["11  ALEXANDRU OLEINIC"],

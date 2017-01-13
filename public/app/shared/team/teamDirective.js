@@ -11,5 +11,5 @@
     };
     return directive;
   };
-  return angular.module("team.directive", ['player.directive']).directive("teamList", TeamDirective);
+  return angular.module("team.directive", []).directive("teamList", TeamDirective);
 })();

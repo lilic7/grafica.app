@@ -14,21 +14,21 @@
       success = (response)->
         SettingsService.settings = response.data
         return
-      $http {method: "GET", url: "json/"+type+".json"} 
+      $http {method: "GET", url: "json/"+type+".json"}
         .then success
       return
-    else
-      SettingsService.settings = {}
-      $location.path "/"
+#    else
+#      SettingsService.settings = {}
+#      $location.path "/"
       return
 
   setMatchType = (matchType, ErrorService, sports)->
     matchType = "" + matchType
-    if checkMatchType(matchType, sports)
-      type = matchType
-    else
-      type = null
-      ErrorService.setMessage "WRONG_MATCH_NAME"
+#    if checkMatchType(matchType, sports)
+    type = matchType 
+#    else
+#      type = null
+#      ErrorService.setMessage "WRONG_MATCH_NAME"
     return
 
   checkMatchType = (matchType, sports)->

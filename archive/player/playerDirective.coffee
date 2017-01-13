@@ -3,10 +3,10 @@
         # directive declaration
         directive =
             restrict: 'E'
-            scope: {}
-            bindToController: {player: "="}
-            controller: "PlayerController"
-            controllerAs: "playerCtrl"
+            scope: {player: "="}
+#            bindToController: {player: "="}
+#            controller: "PlayerController"
+#            controllerAs: "playerCtrl"
             templateUrl: 'app/shared/player/playerView.html'
         directive
     angular

@@ -9,8 +9,9 @@
         resolve:
           sports: (SportService)->
             SportService.setSports()
+            return
       }
-  
+
       .when '/match/:matchType', {
         templateUrl: 'app/components/match/matchView.html'
         controller: 'MatchController'
@@ -18,7 +19,8 @@
         resolve:
           settings: ($route, SettingsFactory)->
             SettingsFactory.setMatchType $route.current.params.matchType
-            SettingsFactory.setSettings() 
+            SettingsFactory.setSettings()
+            return
       }
     $locationProvider.html5Mode {enabled: true, requireBase: false}
     return
