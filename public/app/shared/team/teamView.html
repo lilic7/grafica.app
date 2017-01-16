@@ -2,7 +2,5 @@
     <div class="md-title">{{team.name}}</div>
 </div>
 <div layout="row" layout-align="space-around center" layout-wrap>
-    <div ng-repeat="player in team.player_list">
-        <!--<player-card player="player"></player-card>-->
-    </div>
+    <player-card ng-repeat="player in team.player_list"></player-card>
 </div>

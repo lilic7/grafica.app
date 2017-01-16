@@ -201,6 +201,60 @@
 })();
 
 (function() {
+  'use strict';
+  var PlayerController;
+  PlayerController = function(PlayerService, player) {
+    var vm;
+    vm = this;
+    vm.player = "13 moco TEST PLAYER";
+    console.log(player);
+    vm.preparePlayer = PlayerService.preparePlayer(vm.player);
+  };
+  PlayerController.$inject = ['PlayerService', '$mdDialog'];
+  return angular.module("player.controller", ['wordFirstFilter', 'player.actions.controller', 'player.service']).controller("PlayerController", PlayerController);
+})();
+
+(function() {
+  var PlayerDirective;
+  PlayerDirective = function() {
+    var directive;
+    directive = {
+      restrict: 'E',
+      bindToController: {
+        player: "="
+      },
+      transclude: true,
+      controller: "PlayerController",
+      controllerAs: "playerCtrl",
+      templateUrl: 'app/shared/player/playerView.html'
+    };
+    return directive;
+  };
+  return angular.module("player.directive", ['player.controller', 'ucfirstFilter']).directive("playerCard", PlayerDirective);
+})();
+
+(function() {
+  'use strict';
+  var PlayerService, preparePlayer;
+  PlayerService = function() {
+    return {
+      preparePlayer: preparePlayer
+    };
+  };
+  preparePlayer = function(data) {
+    var parts;
+    console.log(data);
+    data = data.replace(/( +)/g, " ");
+    parts = data.split(" ");
+    return {
+      number: parts[0],
+      name: parts[1] + " " + parts[2]
+    };
+  };
+  return angular.module("player.service", []).factory("PlayerService", PlayerService);
+})();
+
+(function() {
   var SettingsController;
   SettingsController = function(SettingsFactory, SettingsService) {
     var vm;
@@ -362,7 +416,7 @@
     };
     return directive;
   };
-  return angular.module("team.directive", []).directive("teamList", TeamDirective);
+  return angular.module("team.directive", ['player.directive']).directive("teamList", TeamDirective);
 })();
 
 (function() {
@@ -606,6 +660,20 @@
   return angular.module("error.toast.service", ['error.toast.controller']).factory("ToastService", ToastService);
 })();
 
+angular.module("player.actions.controller", []).controller("PlayerActionsController", ["$mdDialog", function($mdDialog) {
+  var vm;
+  vm = this;
+  vm.hide = function() {
+    $mdDialog.hide();
+  };
+  vm.cancel = function() {
+    $mdDialog.cancel();
+  };
+  vm.answer = function(answer) {
+    $mdDialog.hide(answer);
+  };
+}]);
+
 (function() {
   var FormDirective;
   FormDirective = function() {
@@ -624,22 +692,6 @@
 })();
 
 (function() {
-  var DepartajariDirective;
-  DepartajariDirective = function() {
-    var directive;
-    directive = {
-      restrict: 'E',
-      scope: {
-        departajari: "="
-      },
-      templateUrl: 'app/shared/settings/components/departajari/departajariView.html'
-    };
-    return directive;
-  };
-  return angular.module("settings.departajari.directive", []).directive("settingsDepartajari", DepartajariDirective);
-})();
-
-(function() {
   var CornerDirective;
   CornerDirective = function() {
     var directive;
@@ -653,6 +705,22 @@
     return directive;
   };
   return angular.module("settings.corner.directive", []).directive("settingsCorner", CornerDirective);
+})();
+
+(function() {
+  var DepartajariDirective;
+  DepartajariDirective = function() {
+    var directive;
+    directive = {
+      restrict: 'E',
+      scope: {
+        departajari: "="
+      },
+      templateUrl: 'app/shared/settings/components/departajari/departajariView.html'
+    };
+    return directive;
+  };
+  return angular.module("settings.departajari.directive", []).directive("settingsDepartajari", DepartajariDirective);
 })();
 
 (function() {
