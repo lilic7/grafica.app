@@ -24,6 +24,11 @@ describe("UNIT: team.service", function() {
         }
       ]);
     });
+    it("poate marca goluri", function() {
+      expect(TeamService.getGoals()).toEqual(0);
+      TeamService.mark();
+      expect(TeamService.getGoals()).toEqual(1);
+    });
     it("TEMP: instance of ?", function() {
       var Player;
       Player = (function() {

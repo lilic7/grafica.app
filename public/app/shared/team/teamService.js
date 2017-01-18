@@ -1,8 +1,11 @@
 (function() {
-  var TeamService, getName, getPlayersTxt, getSubstitutesTxt, name, parse, players_txt, setPlayersTxt, setSubstitutesTxt, substitutes_txt;
+  var Player, TeamService, getGoals, getName, getPlayersTxt, getSubstitutesTxt, goals, mark, name, parse, players_txt, setName, setPlayersTxt, setSubstitutesTxt, substitutes_txt;
   TeamService = function() {
     return {
       getName: getName,
+      setName: function(name) {
+        return setName(name);
+      },
       getPlayers: function() {
         return parse(players_txt);
       },
@@ -16,14 +19,35 @@
       getSubstitutes_txt: getSubstitutesTxt,
       setSubstitutes_txt: function(text) {
         return setSubstitutesTxt(text);
-      }
+      },
+      getGoals: getGoals,
+      mark: mark,
+      player: new Player()
     };
   };
+  Player = (function() {
+    function Player(player_str) {
+      this.player_str = player_str;
+    }
+
+    return Player;
+
+  })();
   name = "";
+  goals = 0;
   players_txt = "";
   substitutes_txt = "";
   getName = function() {
     return name;
+  };
+  setName = function(newName) {
+    return name = newName;
+  };
+  getGoals = function() {
+    return goals;
+  };
+  mark = function() {
+    goals++;
   };
   parse = function(str) {
     var allPlayers, i, len, list, obj, row;
