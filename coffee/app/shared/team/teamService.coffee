@@ -19,13 +19,7 @@
             getGoals: getGoals
 
             mark: mark
-
-            player: new Player()
           }
-
-        class Player
-          constructor: (@player_str)->
-
 
         name = ""
 

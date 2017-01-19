@@ -167,11 +167,11 @@
       });
     };
     team1 = {
-      name: "Dacia",
-      player_txt: "7   SERGIU DONICĂ",
-      reserve_txt: "6   MIHAI MUSTEA (C)",
-      player_list: ["7   SERGIU DONICĂ", "9   ALEX POSTICA"],
-      reserve_list: ["6   MIHAI MUSTEA (C)"],
+      name: "FC UNGHENI",
+      player_txt: "22 OCTAVIAN VĂTAVU\n2   VLADIMIR GHENAITIS\n5   ION ARABADJI\n6   EDUARD AVRAM",
+      reserve_txt: "4   ANDREI CUȘNIR\n9   VADIM ARAMA\n21 IVAN LACUSTA",
+      player_list: ["22 OCTAVIAN VĂTAVU", "2   VLADIMIR GHENAITIS", "5   ION ARABADJI", "6   EDUARD AVRAM"],
+      reserve_list: ["4   ANDREI CUȘNIR", "9   VADIM ARAMA", "21 IVAN LACUSTA"],
       renderPlayer: function() {
         return team1.player_list = prepare(team1.player_txt);
       },
@@ -180,11 +180,11 @@
       }
     };
     team2 = {
-      name: "Zimbru",
-      player_txt: "11  ALEXANDRU OLEINIC",
-      reserve_txt: "8   VITALIE BUCȘAN",
-      player_list: ["11  ALEXANDRU OLEINIC"],
-      reserve_list: ["8   VITALIE BUCȘAN"],
+      name: "FC ACADEMIA",
+      player_txt: "12 CRISTIAN AVRAM\n3   MIHAI ROȘCA\n7   SERGIU ISTRATI\n8   VALENTIN BÎRDAN",
+      reserve_txt: "23 ANDREI VICOL\n14 IVAN BURLACA\n16 MAXIM ANTONIUC",
+      player_list: ["12 CRISTIAN AVRAM", "3   MIHAI ROȘCA", "7   SERGIU ISTRATI", "8   VALENTIN BÎRDAN"],
+      reserve_list: ["23 ANDREI VICOL", "14 IVAN BURLACA", "16 MAXIM ANTONIUC"],
       renderPlayer: function() {
         return team2.player_list = prepare(team2.player_txt);
       },
@@ -203,14 +203,36 @@
 (function() {
   'use strict';
   var PlayerController;
-  PlayerController = function(PlayerService, player) {
-    var vm;
-    vm = this;
-    vm.player = "13 moco TEST PLAYER";
-    console.log(player);
-    vm.preparePlayer = PlayerService.preparePlayer(vm.player);
-  };
-  PlayerController.$inject = ['PlayerService', '$mdDialog'];
+  PlayerController = (function() {
+    PlayerController.$inject = ['PlayerService', '$mdDialog'];
+
+    function PlayerController(PlayerService) {
+      this.PlayerService = PlayerService;
+    }
+
+    PlayerController.prototype.setPlayer = function(player) {
+      if (typeof player === "string") {
+        this.player = this.PlayerService.preparePlayer(player);
+      } else {
+        console.log("player is not a string");
+      }
+      return this.player.number;
+    };
+
+    PlayerController.prototype.showAdvanced = function($mdDialog, ev) {
+      $mdDialog.show({
+        controller: 'PlayerActionsController',
+        controllerAs: 'actionsCtrl',
+        templateUrl: 'app/shared/player/actions/actionsView.html',
+        parent: angular.element(document.body),
+        targetEvent: ev,
+        clickOutsideToClose: true
+      });
+    };
+
+    return PlayerController;
+
+  })();
   return angular.module("player.controller", ['wordFirstFilter', 'player.actions.controller', 'player.service']).controller("PlayerController", PlayerController);
 })();
 
@@ -223,7 +245,6 @@
       bindToController: {
         player: "="
       },
-      transclude: true,
       controller: "PlayerController",
       controllerAs: "playerCtrl",
       templateUrl: 'app/shared/player/playerView.html'
@@ -234,7 +255,6 @@
 })();
 
 (function() {
-  'use strict';
   var PlayerService, preparePlayer;
   PlayerService = function() {
     return {
@@ -242,13 +262,14 @@
     };
   };
   preparePlayer = function(data) {
-    var parts;
-    console.log(data);
+    var name, number, parts;
     data = data.replace(/( +)/g, " ");
     parts = data.split(" ");
+    number = parts.shift();
+    name = parts.join(" ");
     return {
-      number: parts[0],
-      name: parts[1] + " " + parts[2]
+      number: number,
+      name: name
     };
   };
   return angular.module("player.service", []).factory("PlayerService", PlayerService);
@@ -420,7 +441,7 @@
 })();
 
 (function() {
-  var Player, TeamService, getGoals, getName, getPlayersTxt, getSubstitutesTxt, goals, mark, name, parse, players_txt, setName, setPlayersTxt, setSubstitutesTxt, substitutes_txt;
+  var TeamService, getGoals, getName, getPlayersTxt, getSubstitutesTxt, goals, mark, name, parse, players_txt, setName, setPlayersTxt, setSubstitutesTxt, substitutes_txt;
   TeamService = function() {
     return {
       getName: getName,
@@ -442,18 +463,9 @@
         return setSubstitutesTxt(text);
       },
       getGoals: getGoals,
-      mark: mark,
-      player: new Player()
+      mark: mark
     };
   };
-  Player = (function() {
-    function Player(player_str) {
-      this.player_str = player_str;
-    }
-
-    return Player;
-
-  })();
   name = "";
   goals = 0;
   players_txt = "";

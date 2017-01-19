@@ -7,7 +7,6 @@
       bindToController: {
         player: "="
       },
-      transclude: true,
       controller: "PlayerController",
       controllerAs: "playerCtrl",
       templateUrl: 'app/shared/player/playerView.html'

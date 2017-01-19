@@ -1,17 +1,13 @@
 <md-card>
     <md-card-title>
         <md-card-title-text>
-            <div class="md-display-2">{{player.number}}</div>
+            <div class="md-display-1">{{playerCtrl.setPlayer(player)}}</div>
         </md-card-title-text>
     </md-card-title>
     <md-card-content>
-        {{player.name | wordFirst}}
+        {{playerCtrl.player.name | wordFirst}}
     </md-card-content>
     <md-card-actions layout="row" layout-align="end center">
         <md-button ng-click="playerCtrl.showAdvanced($event)">Action 1</md-button>
     </md-card-actions>
 </md-card>
-
-
-{{ player }}
-{{ playerCtrl.player }}

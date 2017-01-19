@@ -66,7 +66,7 @@ team-list player-card md-card {
   height: 170px; }
 
 team-list player-card md-card md-card-title-text {
-  font-size: 50px; }
+  text-align: center; }
 
 team-list.green player-card md-card {
   background: lightgreen; }

@@ -1,5 +1,5 @@
 (function() {
-  var Player, TeamService, getGoals, getName, getPlayersTxt, getSubstitutesTxt, goals, mark, name, parse, players_txt, setName, setPlayersTxt, setSubstitutesTxt, substitutes_txt;
+  var TeamService, getGoals, getName, getPlayersTxt, getSubstitutesTxt, goals, mark, name, parse, players_txt, setName, setPlayersTxt, setSubstitutesTxt, substitutes_txt;
   TeamService = function() {
     return {
       getName: getName,
@@ -21,18 +21,9 @@
         return setSubstitutesTxt(text);
       },
       getGoals: getGoals,
-      mark: mark,
-      player: new Player()
+      mark: mark
     };
   };
-  Player = (function() {
-    function Player(player_str) {
-      this.player_str = player_str;
-    }
-
-    return Player;
-
-  })();
   name = "";
   goals = 0;
   players_txt = "";
