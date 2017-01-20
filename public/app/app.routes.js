@@ -20,6 +20,10 @@
           SettingsFactory.setSettings();
         }
       }
+    }).when('/templates', {
+      templateUrl: 'app/components/templates/templateView.html',
+      controller: 'TemplateController',
+      controllerAs: 'templateCtrl'
     });
     $locationProvider.html5Mode({
       enabled: true,

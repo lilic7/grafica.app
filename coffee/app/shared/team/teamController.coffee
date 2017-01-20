@@ -1,23 +1,25 @@
 (->
-  TeamController = ()->
+  class TeamController
 
-    vm = @
-    vm.team = {}
+    @$inject: ['TeamService']
 
-    vm.setTeam = setTeam
-    vm.render = render
+    @team            : {}
+    @player_list     : []
+    @substitutes_list: []
 
-    setTeam = (team)->
-      vm.team = team
+    setTeam: (team)->
+      @team = team
+      return @
 
-    render = ()->
-      vm.player_list = vm.team.player_list.split "\n"
-      vm.reserve_list = vm.team.reserve_list.split "\n"
+    render: ->
+      @player_list = @team.player_list.split "\n"
+      @substitutes_list = @team.substitutes_list.split "\n"
       return
 
-    return
 
   angular
-    .module "team.controller", []
-    .controller "TeamController", TeamController
-)()
+    .module "team.controller",
+    [
+      'team.service'
+    ]
+    .controller "TeamController", TeamController)()

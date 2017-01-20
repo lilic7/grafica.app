@@ -5,7 +5,7 @@
 
     constructor: (@PlayerService)->
 
-    setPlayer: (player)->
+    setPlayer  : (player)->
       if typeof player is "string"
         @player = @PlayerService.preparePlayer player
       else console.log "player is not a string"
@@ -14,22 +14,21 @@
 
     showAdvanced: ($mdDialog, ev)->
       $mdDialog
-        .show
-          controller: 'PlayerActionsController'
-          controllerAs: 'actionsCtrl'
-          templateUrl: 'app/shared/player/actions/actionsView.html'
-          parent: angular.element document.body
-          targetEvent: ev
+      .show
+          controller         : 'PlayerActionsController'
+          controllerAs       : 'actionsCtrl'
+          templateUrl        : 'app/shared/player/actions/actionsView.html'
+          parent             : angular.element document.body
+          targetEvent        : ev
           clickOutsideToClose: true
       return
 
 
   angular
-    .module "player.controller",
-      [
-        'wordFirstFilter',
-        'player.actions.controller',
-        'player.service'
-      ]
-    .controller "PlayerController", PlayerController
-)()
+  .module "player.controller",
+    [
+      'wordFirstFilter',
+      'player.actions.controller',
+      'player.service'
+    ]
+  .controller "PlayerController", PlayerController)()

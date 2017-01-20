@@ -24,6 +24,10 @@
           SettingsFactory.setSettings();
         }
       }
+    }).when('/templates', {
+      templateUrl: 'app/components/templates/templateView.html',
+      controller: 'TemplateController',
+      controllerAs: 'templateCtrl'
     });
     $locationProvider.html5Mode({
       enabled: true,
@@ -69,29 +73,6 @@
 })();
 
 (function() {
-  var HomeController;
-  HomeController = function(SportService) {
-    var vm;
-    vm = this;
-    vm.matches = SportService.getSelected();
-  };
-  HomeController.$inject = ['SportService'];
-  return angular.module("home.controller", ['sport.service']).controller("HomeController", HomeController);
-})();
-
-(function() {
-  var MatchController;
-  MatchController = function(GameService, SettingsService) {
-    var vm;
-    vm = this;
-    vm.team1 = GameService.team1;
-    vm.team2 = GameService.team2;
-    vm.settings = SettingsService.settings;
-  };
-  return angular.module("match.controller", ['team.form.directive', 'game.directive', 'game.service', 'settings.directive', 'settings.service']).controller('MatchController', MatchController);
-})();
-
-(function() {
   var ErrorService, getMessage, message, messages, setMessage;
   ErrorService = function() {
     return {
@@ -124,80 +105,6 @@
     }
   };
   return angular.module("error.service", []).factory("ErrorService", ErrorService);
-})();
-
-(function() {
-  var GameController;
-  GameController = function(GameService, SettingsService) {
-    var vm;
-    vm = this;
-    vm.team1 = GameService.team1;
-    vm.team2 = GameService.team2;
-    vm.settings = SettingsService.settings;
-  };
-  return angular.module("game.controller", ['game.service', 'team.directive', 'timer.directive']).controller("GameController", GameController);
-})();
-
-(function() {
-  var GameDirective;
-  GameDirective = function() {
-    var directive;
-    directive = {
-      restrict: 'E',
-      controller: "GameController",
-      controllerAs: "gameCtrl",
-      templateUrl: 'app/shared/game/gameView.html'
-    };
-    return directive;
-  };
-  return angular.module("game.directive", ['game.controller', 'timer.directive']).directive("game", GameDirective);
-})();
-
-(function() {
-  var GameService;
-  GameService = function() {
-    var prepare, team1, team2;
-    prepare = function(text) {
-      var text_arr;
-      text_arr = text.split("\n");
-      return text_arr.sort(function(a, b) {
-        a = a.split(" ");
-        b = b.split(" ");
-        return a[0] - b[0];
-      });
-    };
-    team1 = {
-      name: "FC UNGHENI",
-      player_txt: "22 OCTAVIAN VĂTAVU\n2   VLADIMIR GHENAITIS\n5   ION ARABADJI\n6   EDUARD AVRAM",
-      reserve_txt: "4   ANDREI CUȘNIR\n9   VADIM ARAMA\n21 IVAN LACUSTA",
-      player_list: ["22 OCTAVIAN VĂTAVU", "2   VLADIMIR GHENAITIS", "5   ION ARABADJI", "6   EDUARD AVRAM"],
-      reserve_list: ["4   ANDREI CUȘNIR", "9   VADIM ARAMA", "21 IVAN LACUSTA"],
-      renderPlayer: function() {
-        return team1.player_list = prepare(team1.player_txt);
-      },
-      renderReserve: function() {
-        return team1.reserve_list = prepare(team1.reserve_txt);
-      }
-    };
-    team2 = {
-      name: "FC ACADEMIA",
-      player_txt: "12 CRISTIAN AVRAM\n3   MIHAI ROȘCA\n7   SERGIU ISTRATI\n8   VALENTIN BÎRDAN",
-      reserve_txt: "23 ANDREI VICOL\n14 IVAN BURLACA\n16 MAXIM ANTONIUC",
-      player_list: ["12 CRISTIAN AVRAM", "3   MIHAI ROȘCA", "7   SERGIU ISTRATI", "8   VALENTIN BÎRDAN"],
-      reserve_list: ["23 ANDREI VICOL", "14 IVAN BURLACA", "16 MAXIM ANTONIUC"],
-      renderPlayer: function() {
-        return team2.player_list = prepare(team2.player_txt);
-      },
-      renderReserve: function() {
-        return team2.reserve_list = prepare(team2.reserve_txt);
-      }
-    };
-    return {
-      team1: team1,
-      team2: team2
-    };
-  };
-  return angular.module("game.service", []).factory("GameService", GameService);
 })();
 
 (function() {
@@ -407,21 +314,31 @@
 
 (function() {
   var TeamController;
-  TeamController = function() {
-    var render, setTeam, vm;
-    vm = this;
-    vm.team = {};
-    vm.setTeam = setTeam;
-    vm.render = render;
-    setTeam = function(team) {
-      return vm.team = team;
+  TeamController = (function() {
+    function TeamController() {}
+
+    TeamController.$inject = ['TeamService'];
+
+    TeamController.team = {};
+
+    TeamController.player_list = [];
+
+    TeamController.substitutes_list = [];
+
+    TeamController.prototype.setTeam = function(team) {
+      this.team = team;
+      return this;
     };
-    render = function() {
-      vm.player_list = vm.team.player_list.split("\n");
-      vm.reserve_list = vm.team.reserve_list.split("\n");
+
+    TeamController.prototype.render = function() {
+      this.player_list = this.team.player_list.split("\n");
+      this.substitutes_list = this.team.substitutes_list.split("\n");
     };
-  };
-  return angular.module("team.controller", []).controller("TeamController", TeamController);
+
+    return TeamController;
+
+  })();
+  return angular.module("team.controller", ['team.service']).controller("TeamController", TeamController);
 })();
 
 (function() {
@@ -655,6 +572,114 @@
 })();
 
 (function() {
+  var HomeController;
+  HomeController = function(SportService) {
+    var vm;
+    vm = this;
+    vm.matches = SportService.getSelected();
+  };
+  HomeController.$inject = ['SportService'];
+  return angular.module("home.controller", ['sport.service']).controller("HomeController", HomeController);
+})();
+
+(function() {
+  var MatchController;
+  MatchController = function(GameService, SettingsService) {
+    var vm;
+    vm = this;
+    vm.team1 = GameService.team1;
+    vm.team2 = GameService.team2;
+    vm.settings = SettingsService.settings;
+  };
+  return angular.module("match.controller", ['team.form.directive', 'game.directive', 'game.service', 'settings.directive', 'settings.service']).controller('MatchController', MatchController);
+})();
+
+(function() {
+  var GameController;
+  GameController = function(GameService, SettingsService) {
+    var vm;
+    vm = this;
+    vm.team1 = GameService.team1;
+    vm.team2 = GameService.team2;
+    vm.settings = SettingsService.settings;
+  };
+  return angular.module("game.controller", ['game.service', 'team.directive', 'timer.directive']).controller("GameController", GameController);
+})();
+
+(function() {
+  var GameDirective;
+  GameDirective = function() {
+    var directive;
+    directive = {
+      restrict: 'E',
+      controller: "GameController",
+      controllerAs: "gameCtrl",
+      templateUrl: 'app/shared/game/gameView.html'
+    };
+    return directive;
+  };
+  return angular.module("game.directive", ['game.controller', 'timer.directive']).directive("game", GameDirective);
+})();
+
+(function() {
+  var GameService;
+  GameService = function() {
+    var prepare, team1, team2;
+    prepare = function(text) {
+      var text_arr;
+      text_arr = text.split("\n");
+      return text_arr.sort(function(a, b) {
+        a = a.split(" ");
+        b = b.split(" ");
+        return a[0] - b[0];
+      });
+    };
+    team1 = {
+      name: "FC UNGHENI",
+      player_txt: "22 OCTAVIAN VĂTAVU\n2   VLADIMIR GHENAITIS\n5   ION ARABADJI\n6   EDUARD AVRAM",
+      reserve_txt: "4   ANDREI CUȘNIR\n9   VADIM ARAMA\n21 IVAN LACUSTA",
+      player_list: ["22 OCTAVIAN VĂTAVU", "2   VLADIMIR GHENAITIS", "5   ION ARABADJI", "6   EDUARD AVRAM"],
+      reserve_list: ["4   ANDREI CUȘNIR", "9   VADIM ARAMA", "21 IVAN LACUSTA"],
+      renderPlayer: function() {
+        return team1.player_list = prepare(team1.player_txt);
+      },
+      renderReserve: function() {
+        return team1.reserve_list = prepare(team1.reserve_txt);
+      }
+    };
+    team2 = {
+      name: "FC ACADEMIA",
+      player_txt: "12 CRISTIAN AVRAM\n3   MIHAI ROȘCA\n7   SERGIU ISTRATI\n8   VALENTIN BÎRDAN",
+      reserve_txt: "23 ANDREI VICOL\n14 IVAN BURLACA\n16 MAXIM ANTONIUC",
+      player_list: ["12 CRISTIAN AVRAM", "3   MIHAI ROȘCA", "7   SERGIU ISTRATI", "8   VALENTIN BÎRDAN"],
+      reserve_list: ["23 ANDREI VICOL", "14 IVAN BURLACA", "16 MAXIM ANTONIUC"],
+      renderPlayer: function() {
+        return team2.player_list = prepare(team2.player_txt);
+      },
+      renderReserve: function() {
+        return team2.reserve_list = prepare(team2.reserve_txt);
+      }
+    };
+    return {
+      team1: team1,
+      team2: team2
+    };
+  };
+  return angular.module("game.service", []).factory("GameService", GameService);
+})();
+
+(function() {
+  var TemplateController;
+  TemplateController = (function() {
+    function TemplateController() {}
+
+    return TemplateController;
+
+  })();
+  return angular.module("template.controller", []).controller('TemplateController', TemplateController);
+})();
+
+(function() {
   var ToastController;
   ToastController = function(ErrorService) {
     var vm;
@@ -792,22 +817,6 @@ angular.module("player.actions.controller", []).controller("PlayerActionsControl
 })();
 
 (function() {
-  var ReprizaDirective;
-  ReprizaDirective = function() {
-    var directive;
-    directive = {
-      restrict: 'E',
-      scope: {
-        repriza: "="
-      },
-      templateUrl: 'app/shared/settings/components/repriza/reprizaView.html'
-    };
-    return directive;
-  };
-  return angular.module("settings.repriza.directive", []).directive("settingsRepriza", ReprizaDirective);
-})();
-
-(function() {
   var RezerveDirective;
   RezerveDirective = function() {
     var directive;
@@ -837,4 +846,20 @@ angular.module("player.actions.controller", []).controller("PlayerActionsControl
     return directive;
   };
   return angular.module("settings.timer.directive", []).directive("settingsTimer", TimerDirective);
+})();
+
+(function() {
+  var ReprizaDirective;
+  ReprizaDirective = function() {
+    var directive;
+    directive = {
+      restrict: 'E',
+      scope: {
+        repriza: "="
+      },
+      templateUrl: 'app/shared/settings/components/repriza/reprizaView.html'
+    };
+    return directive;
+  };
+  return angular.module("settings.repriza.directive", []).directive("settingsRepriza", ReprizaDirective);
 })();

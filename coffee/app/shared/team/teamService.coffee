@@ -1,70 +1,69 @@
 (->
-        TeamService = ->
-          {
-            getName: getName
-            setName: (name)-> setName name
+  TeamService = ->
+    {
+      getName: getName
+      setName: (name)-> setName name
 
-            getPlayers: -> parse players_txt
+      getPlayers: -> parse players_txt
 
-            getSubstitutes: -> parse substitutes_txt
+      getSubstitutes: -> parse substitutes_txt
 
-            # jucatori
-            getPlayers_txt: getPlayersTxt
-            setPlayers_txt: (text) -> setPlayersTxt text
+# jucatori
+      getPlayers_txt: getPlayersTxt
+      setPlayers_txt: (text) -> setPlayersTxt text
 
-            # rezerve
-            getSubstitutes_txt: getSubstitutesTxt
-            setSubstitutes_txt: (text) -> setSubstitutesTxt text
+# rezerve
+      getSubstitutes_txt: getSubstitutesTxt
+      setSubstitutes_txt: (text) -> setSubstitutesTxt text
 
-            getGoals: getGoals
+      getGoals: getGoals
 
-            mark: mark
-          }
+      mark: mark
+    }
 
-        name = ""
+  name = ""
 
-        goals = 0
+  goals = 0
 
-        players_txt = ""
-        substitutes_txt = ""
+  players_txt = ""
+  substitutes_txt = ""
 
-        getName = ->
-          name
+  getName = ->
+    name
 
-        setName = (newName)->
-          name = newName
+  setName = (newName)->
+    name = newName
 
 
-        getGoals = ->
-          goals
+  getGoals = ->
+    goals
 
-        mark = ->
-          goals++
-          return
+  mark = ->
+    goals++
+    return
 
-        parse = (str)->
-          list = str.split "\n"
-          allPlayers = []
-          for row in list
-            obj = {
-              "all": row.trim().toUpperCase()
-            }
-            allPlayers.push(obj)
-          allPlayers
+  parse = (str)->
+    list = str.split "\n"
+    allPlayers = []
+    for row in list
+      obj = {
+        "all": row.trim().toUpperCase()
+      }
+      allPlayers.push(obj)
+    allPlayers
 
-        getPlayersTxt = ->
-          players_txt
+  getPlayersTxt = ->
+    players_txt
 
-        setPlayersTxt = (text)->
-          players_txt = text
+  setPlayersTxt = (text)->
+    players_txt = text
 
-        getSubstitutesTxt = ->
-          substitutes_txt
+  getSubstitutesTxt = ->
+    substitutes_txt
 
-        setSubstitutesTxt = (text)->
-          substitutes_txt = text
+  setSubstitutesTxt = (text)->
+    substitutes_txt = text
 
-        angular
-          .module "team.service", []
-          .factory "TeamService", TeamService
-)()
+  angular
+  .module "team.service", []
+  .factory "TeamService", TeamService)()

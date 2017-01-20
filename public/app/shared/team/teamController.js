@@ -1,18 +1,28 @@
 (function() {
   var TeamController;
-  TeamController = function() {
-    var render, setTeam, vm;
-    vm = this;
-    vm.team = {};
-    vm.setTeam = setTeam;
-    vm.render = render;
-    setTeam = function(team) {
-      return vm.team = team;
+  TeamController = (function() {
+    function TeamController() {}
+
+    TeamController.$inject = ['TeamService'];
+
+    TeamController.team = {};
+
+    TeamController.player_list = [];
+
+    TeamController.substitutes_list = [];
+
+    TeamController.prototype.setTeam = function(team) {
+      this.team = team;
+      return this;
     };
-    render = function() {
-      vm.player_list = vm.team.player_list.split("\n");
-      vm.reserve_list = vm.team.reserve_list.split("\n");
+
+    TeamController.prototype.render = function() {
+      this.player_list = this.team.player_list.split("\n");
+      this.substitutes_list = this.team.substitutes_list.split("\n");
     };
-  };
-  return angular.module("team.controller", []).controller("TeamController", TeamController);
+
+    return TeamController;
+
+  })();
+  return angular.module("team.controller", ['team.service']).controller("TeamController", TeamController);
 })();
