@@ -13,7 +13,7 @@ describe "UNIT: SportService", ->
   sports_arr = [
     {"name": "fotbal", "show": true}
     {"name": "minifotbal", "show": false}
-    { "name": "handbal", "show": true }
+    {"name": "handbal", "show": true}
   ]
 
   beforeEach module "sport.service"

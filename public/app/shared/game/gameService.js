@@ -42,5 +42,5 @@
       team2: team2
     };
   };
-  return angular.module("game.service", []).factory("GameService", GameService);
+  return angular.module("game.service", ['data.service']).factory("GameService", GameService);
 })();

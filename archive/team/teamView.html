@@ -1,0 +1,11 @@
+<div layout="column" layout-align="center center">
+    <div class="md-title">{{team.name}}</div>
+</div>
+
+<div layout="row" layout-align="space-around center" layout-wrap>
+    <player-card ng-repeat="player in team.player_list" player="player"></player-card>
+</div>
+
+<div layout="row" layout-align="space-around center" layout-wrap>
+    <player-card ng-repeat="player in team.reserve_list" player="player"></player-card>
+</div>

@@ -73,6 +73,125 @@
 })();
 
 (function() {
+  var HomeController;
+  HomeController = function(SportService) {
+    var vm;
+    vm = this;
+    vm.matches = SportService.getSelected();
+  };
+  HomeController.$inject = ['SportService'];
+  return angular.module("home.controller", ['sport.service']).controller("HomeController", HomeController);
+})();
+
+(function() {
+  var MatchController;
+  MatchController = function(GameService, SettingsService) {
+    var vm;
+    vm = this;
+    vm.team1 = GameService.team1;
+    vm.team2 = GameService.team2;
+    vm.settings = SettingsService.settings;
+  };
+  return angular.module("match.controller", ['team.form.directive', 'game.directive', 'game.service', 'settings.directive', 'settings.service']).controller('MatchController', MatchController);
+})();
+
+(function() {
+  var TemplateController;
+  TemplateController = (function() {
+    function TemplateController() {}
+
+    return TemplateController;
+
+  })();
+  return angular.module("template.controller", []).controller('TemplateController', TemplateController);
+})();
+
+(function() {
+  var Componence, Counter, DataService, Name, Team, data, firstTeam, secondTeam;
+  DataService = function() {
+    return {
+      firstTeam: firstTeam,
+      secondTeam: secondTeam
+    };
+  };
+  firstTeam = function() {
+    return data[0];
+  };
+  secondTeam = function() {
+    return data[1];
+  };
+  Team = (function() {
+    function Team() {
+      this.goals = new Counter();
+      this.offsides = new Counter();
+      this.corners = new Counter();
+      this.name = new Name();
+      this.componence = "";
+      this.players = {};
+      this.substitutes = {};
+    }
+
+    Team.prototype.mark = function() {
+      this.goals.add();
+    };
+
+    return Team;
+
+  })();
+  Name = (function() {
+    function Name() {
+      this.name = "";
+    }
+
+    Name.prototype.get = function() {
+      return this.name;
+    };
+
+    Name.prototype.set = function(newName) {
+      this.name = newName.toUpperCase();
+    };
+
+    return Name;
+
+  })();
+  Componence = (function() {
+    function Componence() {
+      this.players = "";
+      this.substitutes = "";
+    }
+
+    Componence.prototype.get = function() {
+      return this.name;
+    };
+
+    Componence.prototype.set = function(newName) {
+      this.name = newName.toUpperCase();
+    };
+
+    return Componence;
+
+  })();
+  Counter = (function() {
+    function Counter() {
+      this.counter = 0;
+    }
+
+    Counter.prototype.get = function() {
+      return this.counter;
+    };
+
+    Counter.prototype.add = function() {
+      this.counter++;
+    };
+
+    return Counter;
+
+  })();
+  data = [new Team(), new Team()];
+  return angular.module("data.service", []).factory("DataService", DataService);
+})();
+
+(function() {
   var ErrorService, getMessage, message, messages, setMessage;
   ErrorService = function() {
     return {
@@ -108,13 +227,93 @@
 })();
 
 (function() {
+  var GameController;
+  GameController = (function() {
+    GameController.prototype.$inject = ["GameService"];
+
+    function GameController(GameService, SettingsService) {
+      this.team1 = GameService.team1;
+      this.team2 = GameService.team2;
+      this.settings = SettingsService.settings;
+    }
+
+    return GameController;
+
+  })();
+  return angular.module("game.controller", ['game.service', 'team.directive', 'timer.directive', 'settings.service']).controller("GameController", GameController);
+})();
+
+(function() {
+  var GameDirective;
+  GameDirective = function() {
+    var directive;
+    directive = {
+      restrict: 'E',
+      controller: "GameController",
+      controllerAs: "gameCtrl",
+      templateUrl: 'app/shared/game/gameView.html'
+    };
+    return directive;
+  };
+  return angular.module("game.directive", ['game.controller', 'timer.directive']).directive("game", GameDirective);
+})();
+
+(function() {
+  var GameService;
+  GameService = function() {
+    var prepare, team1, team2;
+    prepare = function(text) {
+      var text_arr;
+      text_arr = text.split("\n");
+      return text_arr.sort(function(a, b) {
+        a = a.split(" ");
+        b = b.split(" ");
+        return a[0] - b[0];
+      });
+    };
+    team1 = {
+      name: "FC UNGHENI",
+      player_txt: "22 OCTAVIAN VĂTAVU\n2   VLADIMIR GHENAITIS\n5   ION ARABADJI\n6   EDUARD AVRAM",
+      reserve_txt: "4   ANDREI CUȘNIR\n9   VADIM ARAMA\n21 IVAN LACUSTA",
+      player_list: ["22 OCTAVIAN VĂTAVU", "2   VLADIMIR GHENAITIS", "5   ION ARABADJI", "6   EDUARD AVRAM"],
+      reserve_list: ["4   ANDREI CUȘNIR", "9   VADIM ARAMA", "21 IVAN LACUSTA"],
+      renderPlayer: function() {
+        return team1.player_list = prepare(team1.player_txt);
+      },
+      renderReserve: function() {
+        return team1.reserve_list = prepare(team1.reserve_txt);
+      }
+    };
+    team2 = {
+      name: "FC ACADEMIA",
+      player_txt: "12 CRISTIAN AVRAM\n3   MIHAI ROȘCA\n7   SERGIU ISTRATI\n8   VALENTIN BÎRDAN",
+      reserve_txt: "23 ANDREI VICOL\n14 IVAN BURLACA\n16 MAXIM ANTONIUC",
+      player_list: ["12 CRISTIAN AVRAM", "3   MIHAI ROȘCA", "7   SERGIU ISTRATI", "8   VALENTIN BÎRDAN"],
+      reserve_list: ["23 ANDREI VICOL", "14 IVAN BURLACA", "16 MAXIM ANTONIUC"],
+      renderPlayer: function() {
+        return team2.player_list = prepare(team2.player_txt);
+      },
+      renderReserve: function() {
+        return team2.reserve_list = prepare(team2.reserve_txt);
+      }
+    };
+    return {
+      team1: team1,
+      team2: team2
+    };
+  };
+  return angular.module("game.service", ['data.service']).factory("GameService", GameService);
+})();
+
+(function() {
   'use strict';
   var PlayerController;
   PlayerController = (function() {
     PlayerController.$inject = ['PlayerService', '$mdDialog'];
 
-    function PlayerController(PlayerService) {
+    function PlayerController(PlayerService, $mdDialog1) {
       this.PlayerService = PlayerService;
+      this.$mdDialog = $mdDialog1;
     }
 
     PlayerController.prototype.setPlayer = function(player) {
@@ -572,114 +771,6 @@
 })();
 
 (function() {
-  var HomeController;
-  HomeController = function(SportService) {
-    var vm;
-    vm = this;
-    vm.matches = SportService.getSelected();
-  };
-  HomeController.$inject = ['SportService'];
-  return angular.module("home.controller", ['sport.service']).controller("HomeController", HomeController);
-})();
-
-(function() {
-  var MatchController;
-  MatchController = function(GameService, SettingsService) {
-    var vm;
-    vm = this;
-    vm.team1 = GameService.team1;
-    vm.team2 = GameService.team2;
-    vm.settings = SettingsService.settings;
-  };
-  return angular.module("match.controller", ['team.form.directive', 'game.directive', 'game.service', 'settings.directive', 'settings.service']).controller('MatchController', MatchController);
-})();
-
-(function() {
-  var GameController;
-  GameController = function(GameService, SettingsService) {
-    var vm;
-    vm = this;
-    vm.team1 = GameService.team1;
-    vm.team2 = GameService.team2;
-    vm.settings = SettingsService.settings;
-  };
-  return angular.module("game.controller", ['game.service', 'team.directive', 'timer.directive']).controller("GameController", GameController);
-})();
-
-(function() {
-  var GameDirective;
-  GameDirective = function() {
-    var directive;
-    directive = {
-      restrict: 'E',
-      controller: "GameController",
-      controllerAs: "gameCtrl",
-      templateUrl: 'app/shared/game/gameView.html'
-    };
-    return directive;
-  };
-  return angular.module("game.directive", ['game.controller', 'timer.directive']).directive("game", GameDirective);
-})();
-
-(function() {
-  var GameService;
-  GameService = function() {
-    var prepare, team1, team2;
-    prepare = function(text) {
-      var text_arr;
-      text_arr = text.split("\n");
-      return text_arr.sort(function(a, b) {
-        a = a.split(" ");
-        b = b.split(" ");
-        return a[0] - b[0];
-      });
-    };
-    team1 = {
-      name: "FC UNGHENI",
-      player_txt: "22 OCTAVIAN VĂTAVU\n2   VLADIMIR GHENAITIS\n5   ION ARABADJI\n6   EDUARD AVRAM",
-      reserve_txt: "4   ANDREI CUȘNIR\n9   VADIM ARAMA\n21 IVAN LACUSTA",
-      player_list: ["22 OCTAVIAN VĂTAVU", "2   VLADIMIR GHENAITIS", "5   ION ARABADJI", "6   EDUARD AVRAM"],
-      reserve_list: ["4   ANDREI CUȘNIR", "9   VADIM ARAMA", "21 IVAN LACUSTA"],
-      renderPlayer: function() {
-        return team1.player_list = prepare(team1.player_txt);
-      },
-      renderReserve: function() {
-        return team1.reserve_list = prepare(team1.reserve_txt);
-      }
-    };
-    team2 = {
-      name: "FC ACADEMIA",
-      player_txt: "12 CRISTIAN AVRAM\n3   MIHAI ROȘCA\n7   SERGIU ISTRATI\n8   VALENTIN BÎRDAN",
-      reserve_txt: "23 ANDREI VICOL\n14 IVAN BURLACA\n16 MAXIM ANTONIUC",
-      player_list: ["12 CRISTIAN AVRAM", "3   MIHAI ROȘCA", "7   SERGIU ISTRATI", "8   VALENTIN BÎRDAN"],
-      reserve_list: ["23 ANDREI VICOL", "14 IVAN BURLACA", "16 MAXIM ANTONIUC"],
-      renderPlayer: function() {
-        return team2.player_list = prepare(team2.player_txt);
-      },
-      renderReserve: function() {
-        return team2.reserve_list = prepare(team2.reserve_txt);
-      }
-    };
-    return {
-      team1: team1,
-      team2: team2
-    };
-  };
-  return angular.module("game.service", []).factory("GameService", GameService);
-})();
-
-(function() {
-  var TemplateController;
-  TemplateController = (function() {
-    function TemplateController() {}
-
-    return TemplateController;
-
-  })();
-  return angular.module("template.controller", []).controller('TemplateController', TemplateController);
-})();
-
-(function() {
   var ToastController;
   ToastController = function(ErrorService) {
     var vm;
@@ -817,6 +908,22 @@ angular.module("player.actions.controller", []).controller("PlayerActionsControl
 })();
 
 (function() {
+  var ReprizaDirective;
+  ReprizaDirective = function() {
+    var directive;
+    directive = {
+      restrict: 'E',
+      scope: {
+        repriza: "="
+      },
+      templateUrl: 'app/shared/settings/components/repriza/reprizaView.html'
+    };
+    return directive;
+  };
+  return angular.module("settings.repriza.directive", []).directive("settingsRepriza", ReprizaDirective);
+})();
+
+(function() {
   var RezerveDirective;
   RezerveDirective = function() {
     var directive;
@@ -846,20 +953,4 @@ angular.module("player.actions.controller", []).controller("PlayerActionsControl
     return directive;
   };
   return angular.module("settings.timer.directive", []).directive("settingsTimer", TimerDirective);
-})();
-
-(function() {
-  var ReprizaDirective;
-  ReprizaDirective = function() {
-    var directive;
-    directive = {
-      restrict: 'E',
-      scope: {
-        repriza: "="
-      },
-      templateUrl: 'app/shared/settings/components/repriza/reprizaView.html'
-    };
-    return directive;
-  };
-  return angular.module("settings.repriza.directive", []).directive("settingsRepriza", ReprizaDirective);
 })();

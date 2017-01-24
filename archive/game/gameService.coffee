@@ -40,9 +40,6 @@
     }
 
   angular
-    .module "game.service", 
-    [
-      'data.service'
-    ]
+    .module "game.service", []
     .factory "GameService", GameService
 )()

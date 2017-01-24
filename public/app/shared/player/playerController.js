@@ -4,8 +4,9 @@
   PlayerController = (function() {
     PlayerController.$inject = ['PlayerService', '$mdDialog'];
 
-    function PlayerController(PlayerService) {
+    function PlayerController(PlayerService, $mdDialog1) {
       this.PlayerService = PlayerService;
+      this.$mdDialog = $mdDialog1;
     }
 
     PlayerController.prototype.setPlayer = function(player) {

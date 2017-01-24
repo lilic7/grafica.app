@@ -3,7 +3,7 @@
   class PlayerController
     @$inject: ['PlayerService', '$mdDialog']
 
-    constructor: (@PlayerService)->
+    constructor: (@PlayerService, @$mdDialog)->
 
     setPlayer  : (player)->
       if typeof player is "string"
