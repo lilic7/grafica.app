@@ -37,9 +37,41 @@ describe("UNIT: data.service", function() {
       });
     });
     describe("componence property", function() {
+      var players_list, players_text, substitutes_list, substitutes_text;
+      players_text = "22 octavian VĂTAVU";
+      players_list = [
+        {
+          "22 octavian VĂTAVU": "22 octavian VĂTAVU"
+        }
+      ];
+      substitutes_text = "4   ANDREI CUȘNIR\n9   VADIM ARAMA\n21 IVAN LACUSTA\n13 nichifor sarbu";
+      substitutes_list = [
+        {
+          "4   ANDREI CUȘNIR": "4   ANDREI CUȘNIR"
+        }, {
+          "9   VADIM ARAMA": "9   VADIM ARAMA"
+        }, {
+          "21 IVAN LACUSTA": "21 IVAN LACUSTA"
+        }, {
+          "13 NICHIFOR SARBU": "13 NICHIFOR SARBU"
+        }
+      ];
       beforeEach(function() {
-        firstTeam.componence.players.set("22 OCTAVIAN VĂTAVU\n2   VLADIMIR GHENAITIS\n5   ION ARABADJI\n6   EDUARD AVRAM");
-        firstTeam.componence.substitutes.set("4   ANDREI CUȘNIR\n9   VADIM ARAMA\n21 IVAN LACUSTA");
+        firstTeam.players.set(players_text);
+        firstTeam.substitutes.set(substitutes_text);
+      });
+      it("should have set the players", function() {
+        expect(firstTeam.players.getAsText()).toEqual("22 OCTAVIAN VĂTAVU");
+      });
+      it("should fill the list of players", function() {
+        var list;
+        list = firstTeam.players.getAsList();
+        expect(list.length).toEqual(1);
+      });
+      it("should fill the list of substitutes", function() {
+        var list;
+        list = firstTeam.substitutes.getAsList();
+        expect(list.length).toEqual(3);
       });
     });
   });

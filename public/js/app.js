@@ -107,7 +107,7 @@
 })();
 
 (function() {
-  var Componence, Counter, DataService, Name, Team, data, firstTeam, secondTeam;
+  var Componence, Counter, DataService, Name, Player, Team, data, firstTeam, secondTeam;
   DataService = function() {
     return {
       firstTeam: firstTeam,
@@ -126,9 +126,8 @@
       this.offsides = new Counter();
       this.corners = new Counter();
       this.name = new Name();
-      this.componence = "";
-      this.players = {};
-      this.substitutes = {};
+      this.players = new Componence();
+      this.substitutes = new Componence();
     }
 
     Team.prototype.mark = function() {
@@ -154,18 +153,36 @@
     return Name;
 
   })();
-  Componence = (function() {
-    function Componence() {
-      this.players = "";
-      this.substitutes = "";
+  Player = (function() {
+    function Player(player1) {
+      this.player = player1;
     }
 
-    Componence.prototype.get = function() {
-      return this.name;
+    return Player;
+
+  })();
+  Componence = (function() {
+    function Componence() {
+      this.str = "";
+      this.list = [];
+    }
+
+    Componence.prototype.getAsText = function() {
+      return this.str;
     };
 
-    Componence.prototype.set = function(newName) {
-      this.name = newName.toUpperCase();
+    Componence.prototype.getAsList = function() {
+      return this.list;
+    };
+
+    Componence.prototype.set = function(group) {
+      var i, len, player, players;
+      this.str = group.toUpperCase();
+      players = this.str.trim().split("\n");
+      for (i = 0, len = players.length; i < len; i++) {
+        player = players[i];
+        this.list.push(new Player(player));
+      }
     };
 
     return Componence;

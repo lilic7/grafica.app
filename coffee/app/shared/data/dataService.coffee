@@ -18,10 +18,9 @@
       @goals        = new Counter()
       @offsides     = new Counter()
       @corners      = new Counter()
-      @name         = new Name()
-      @componence   = ""
-      @players      = {}
-      @substitutes  = {}
+      @name         = new Name()      
+      @players      = new Componence()
+      @substitutes  = new Componence()
 
     mark: ->
       @goals.add()
@@ -38,19 +37,33 @@
     set: (newName)->
       @name = newName.toUpperCase()
       return
+#======================== PLAYER class ===========================
+  class Player
+    constructor: (@player)->
 
-#======================== NAME class ===========================
+
+
+#======================== COMPONENCE class ===========================
   class Componence
+    
     constructor: ->
-      @players = ""
-      @substitutes = ""
+      @str = ""
+      @list = []
+      
+    getAsText: ->
+      @str
+      
+    getAsList: ->
+      @list
 
-    get: ->
-      @name
-
-    set: (newName)->
-      @name = newName.toUpperCase()
+    set: (group)->
+      @str = group.toUpperCase()
+      players = @str.trim().split "\n"
+      for player in players
+        @list.push new Player(player)
       return
+      
+
 #===============================================================
   class Counter
     constructor: ->

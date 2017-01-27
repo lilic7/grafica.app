@@ -58,10 +58,34 @@ describe "UNIT: data.service", ->
 
     describe "componence property", ->
 
+      players_text = "22 octavian VĂTAVU"
+      players_list = [{"22 octavian VĂTAVU"}]
+
+      substitutes_text = "4   ANDREI CUȘNIR\n9   VADIM ARAMA\n21 IVAN LACUSTA\n13 nichifor sarbu"
+      substitutes_list = [{"4   ANDREI CUȘNIR"}, {"9   VADIM ARAMA"}, {"21 IVAN LACUSTA"}, {"13 NICHIFOR SARBU"}]
+
       beforeEach ->
-        firstTeam.componence.players.set "22 OCTAVIAN VĂTAVU\n2   VLADIMIR GHENAITIS\n5   ION ARABADJI\n6   EDUARD AVRAM"
-        firstTeam.componence.substitutes.set "4   ANDREI CUȘNIR\n9   VADIM ARAMA\n21 IVAN LACUSTA"
+        firstTeam.players.set players_text
+        firstTeam.substitutes.set substitutes_text
         return
+
+      it "should have set the players", ->
+        expect firstTeam.players.getAsText()
+          .toEqual "22 OCTAVIAN VĂTAVU"
+        return
+
+      it "should fill the list of players", ->
+        list = firstTeam.players.getAsList()
+        expect list.length
+          .toEqual 1
+        return
+
+      it "should fill the list of substitutes", ->
+        list = firstTeam.substitutes.getAsList()
+        expect list.length
+          .toEqual 4
+        return
+
 
       return
 
