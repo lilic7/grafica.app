@@ -1,26 +1,27 @@
 (->
-  DataService = ->
+  DataService = ()->
     {
-      firstTeam:  firstTeam
-      secondTeam: secondTeam
+      firstTeam:  new Team()
+      secondTeam: new Team()
     }
-
-#===============================================================
-  firstTeam = ->
-    data[0]
-
-  secondTeam = ->
-    data[1]
 
 #======================== TEAM class ===========================
   class Team
-    constructor: ->
+
+    constructor: ()->
       @goals        = new Counter()
       @offsides     = new Counter()
       @corners      = new Counter()
+<<<<<<< HEAD
       @name         = new Name()      
       @players      = new Componence()
       @substitutes  = new Componence()
+=======
+      @name         = new Name();
+      @componence   = new Componence()
+      @players      = {}
+      @substitutes  = {}
+>>>>>>> a5840609a089393c9b5f1873ef83cea91b115d3a
 
     mark: ->
       @goals.add()
@@ -41,12 +42,16 @@
   class Player
     constructor: (@player)->
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> a5840609a089393c9b5f1873ef83cea91b115d3a
 #======================== COMPONENCE class ===========================
   class Componence
     
     constructor: ->
+<<<<<<< HEAD
       @str = ""
       @list = []
       
@@ -65,6 +70,18 @@
       
 
 #===============================================================
+=======
+      @players = ""
+      @substitutes = ""
+      return
+
+    set: ()->
+      return
+
+
+
+#===================================================================
+>>>>>>> a5840609a089393c9b5f1873ef83cea91b115d3a
   class Counter
     constructor: ->
       @counter = 0
@@ -75,12 +92,6 @@
     add: ->
       @counter++
       return
-#==================================================================
-
-  data = [
-    new Team()
-    new Team()
-  ]
 #===================================================================
   angular
     .module "data.service", []

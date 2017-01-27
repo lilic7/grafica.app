@@ -40,7 +40,7 @@
         break
     exist
 
-  SettingsFactory.$ingect = ['$http', '$location', 'ErrorService', 'SettingsService', 'SportService']
+  SettingsFactory.$inject = ['$http', '$location', 'ErrorService', 'SettingsService', 'SportService']
   angular
     .module "settings.factory",
     [

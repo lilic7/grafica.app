@@ -47,6 +47,6 @@
     }
     return exist;
   };
-  SettingsFactory.$ingect = ['$http', '$location', 'ErrorService', 'SettingsService', 'SportService'];
+  SettingsFactory.$inject = ['$http', '$location', 'ErrorService', 'SettingsService', 'SportService'];
   return angular.module("settings.factory", ['error.service', 'settings.service', 'sport.service']).factory("SettingsFactory", SettingsFactory);
 })();

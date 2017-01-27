@@ -107,18 +107,16 @@
 })();
 
 (function() {
+<<<<<<< HEAD
   var Componence, Counter, DataService, Name, Player, Team, data, firstTeam, secondTeam;
+=======
+  var Componence, Counter, DataService, Name, Team;
+>>>>>>> a5840609a089393c9b5f1873ef83cea91b115d3a
   DataService = function() {
     return {
-      firstTeam: firstTeam,
-      secondTeam: secondTeam
+      firstTeam: new Team(),
+      secondTeam: new Team()
     };
-  };
-  firstTeam = function() {
-    return data[0];
-  };
-  secondTeam = function() {
-    return data[1];
   };
   Team = (function() {
     function Team() {
@@ -204,8 +202,28 @@
     return Counter;
 
   })();
-  data = [new Team(), new Team()];
   return angular.module("data.service", []).factory("DataService", DataService);
+})();
+
+(function() {
+  var Name;
+  Name = (function() {
+    function Name() {
+      this.name = "";
+    }
+
+    Name.prototype.get = function() {
+      return this.name;
+    };
+
+    Name.prototype.set = function(newName) {
+      this.name = newName.toUpperCase();
+    };
+
+    return Name;
+
+  })();
+  return angular.module("data.name.service", []).service("NameService", Name);
 })();
 
 (function() {
@@ -475,7 +493,7 @@
     }
     return exist;
   };
-  SettingsFactory.$ingect = ['$http', '$location', 'ErrorService', 'SettingsService', 'SportService'];
+  SettingsFactory.$inject = ['$http', '$location', 'ErrorService', 'SettingsService', 'SportService'];
   return angular.module("settings.factory", ['error.service', 'settings.service', 'sport.service']).factory("SettingsFactory", SettingsFactory);
 })();
 

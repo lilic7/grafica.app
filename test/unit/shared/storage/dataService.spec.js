@@ -13,8 +13,8 @@ describe("UNIT: data.service", function() {
     firstTeam = null;
     secondTeam = null;
     beforeEach(function() {
-      firstTeam = DataService.firstTeam();
-      secondTeam = DataService.secondTeam();
+      firstTeam = DataService.firstTeam;
+      secondTeam = DataService.secondTeam;
     });
     describe("name property", function() {
       it("should return empty string if name is not set", function() {
@@ -37,6 +37,7 @@ describe("UNIT: data.service", function() {
       });
     });
     describe("componence property", function() {
+<<<<<<< HEAD
       var players_list, players_text, substitutes_list, substitutes_text;
       players_text = "22 octavian VĂTAVU";
       players_list = [
@@ -72,6 +73,16 @@ describe("UNIT: data.service", function() {
         var list;
         list = firstTeam.substitutes.getAsList();
         expect(list.length).toEqual(3);
+=======
+      var players_list, substitutes_list;
+      players_list = "22 OCTAVIAN VĂTAVU\n2   VLADIMIR GHENAITIS\n5   ION ARABADJI\n6   EDUARD AVRAM";
+      substitutes_list = "4   ANDREI CUȘNIR\n9   VADIM ARAMA\n21 IVAN LACUSTA";
+      beforeEach(function() {
+        firstTeam.componence.set(players_list, substitutes_list);
+      });
+      it("should return the text for players", function() {
+        expect(firstTeam.componence.get()).toBe(players_list);
+>>>>>>> a5840609a089393c9b5f1873ef83cea91b115d3a
       });
     });
   });
