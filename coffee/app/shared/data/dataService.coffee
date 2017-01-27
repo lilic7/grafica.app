@@ -1,25 +1,19 @@
 (->
-  DataService = ->
+  DataService = ()->
     {
-      firstTeam:  firstTeam
-      secondTeam: secondTeam
+      firstTeam:  new Team()
+      secondTeam: new Team()
     }
-
-#===============================================================
-  firstTeam = ->
-    data[0]
-
-  secondTeam = ->
-    data[1]
 
 #======================== TEAM class ===========================
   class Team
-    constructor: ->
+
+    constructor: ()->
       @goals        = new Counter()
       @offsides     = new Counter()
       @corners      = new Counter()
-      @name         = new Name()
-      @componence   = ""
+      @name         = new Name();
+      @componence   = new Componence()
       @players      = {}
       @substitutes  = {}
 
@@ -39,19 +33,20 @@
       @name = newName.toUpperCase()
       return
 
-#======================== NAME class ===========================
+#======================== COMPONENCE class ===========================
   class Componence
+    
     constructor: ->
       @players = ""
       @substitutes = ""
-
-    get: ->
-      @name
-
-    set: (newName)->
-      @name = newName.toUpperCase()
       return
-#===============================================================
+
+    set: ()->
+      return
+
+
+
+#===================================================================
   class Counter
     constructor: ->
       @counter = 0
@@ -62,12 +57,6 @@
     add: ->
       @counter++
       return
-#==================================================================
-
-  data = [
-    new Team()
-    new Team()
-  ]
 #===================================================================
   angular
     .module "data.service", []

@@ -18,8 +18,8 @@ describe "UNIT: data.service", ->
     secondTeam = null
 
     beforeEach ->
-      firstTeam = DataService.firstTeam()
-      secondTeam = DataService.secondTeam()
+      firstTeam = DataService.firstTeam
+      secondTeam = DataService.secondTeam
       return
 
     describe "name property", ->
@@ -32,7 +32,7 @@ describe "UNIT: data.service", ->
       it "should return uppercase team name", ->
         firstTeam.name.set "FC Dacia"
         secondTeam.name.set "FC zimbru"
-
+        
         expect firstTeam.name.get()
           .toBe "FC DACIA"
         expect secondTeam.name.get()
@@ -57,10 +57,16 @@ describe "UNIT: data.service", ->
       return
 
     describe "componence property", ->
+      players_list = "22 OCTAVIAN VĂTAVU\n2   VLADIMIR GHENAITIS\n5   ION ARABADJI\n6   EDUARD AVRAM"
+      substitutes_list = "4   ANDREI CUȘNIR\n9   VADIM ARAMA\n21 IVAN LACUSTA"
 
       beforeEach ->
-        firstTeam.componence.players.set "22 OCTAVIAN VĂTAVU\n2   VLADIMIR GHENAITIS\n5   ION ARABADJI\n6   EDUARD AVRAM"
-        firstTeam.componence.substitutes.set "4   ANDREI CUȘNIR\n9   VADIM ARAMA\n21 IVAN LACUSTA"
+        firstTeam.componence.set players_list, substitutes_list
+        return
+
+      it "should return the text for players", ->
+        expect firstTeam.componence.get()
+          .toBe players_list
         return
 
       return
